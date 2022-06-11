@@ -5,6 +5,7 @@ body {
   padding: 0;
   margin: 0;
   font-family: 'Manrope', sans-serif;
+  @apply bg-theme-primary-1 text-theme-white;
 }
 
 a {

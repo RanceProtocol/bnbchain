@@ -3,7 +3,7 @@ import { FC } from "react"
 
 const Header:FC = () => {
   return (
-    <header>App Header</header>
+    <header>App Header 🙅🏾‍♀️</header>
   )
 }
 

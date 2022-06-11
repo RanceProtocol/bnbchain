@@ -26,8 +26,9 @@ class MyDocument extends Document {
                         href="/apple-touch-icon-ipad-retina-152x152.png"
                     />
                     <meta name="theme-color" content="#1C1C1C" />
+                    <meta name="description" content="Rance Protocol Dapp" />
                 </Head>
-                <body className="bg-theme-primary-1 text-theme-white">
+                <body>
                     <Main />
                     <NextScript />
                 </body>
