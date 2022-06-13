@@ -1,7 +1,10 @@
 import { FC } from "react"
 
+interface IProp {
+  
+}
 
-const Header:FC = () => {
+const Header:FC<IProp> = () => {
   return (
     <header>App Header 🙅🏾‍♀️</header>
   )
