@@ -1,0 +1,149 @@
+.root {
+    @apply absolute
+    w-[30rem]
+    max-w-[95%]
+    md:w-[450px]
+    md:max-w-none
+    left-1/2
+    -translate-x-1/2
+    top-1/2 -translate-y-1/2
+    bg-theme-primary-2
+    p-8
+    py-12
+    rounded-xl
+    md:rounded-2xl;
+}
+
+.header {
+    @apply flex
+    justify-between
+    items-center
+    mb-8;
+}
+
+.title {
+    @apply text-3xl
+    font-extrabold;
+}
+
+.close__btn {
+    @apply w-12
+    h-12
+}
+
+.close__icon__wrapper {
+    @apply w-12
+    h-12
+    relative;
+}
+
+.notice {
+    @apply bg-theme-secondary-alpha-2
+    flex
+    gap-10
+    justify-between
+    items-center
+    p-6
+    rounded-xl
+    mb-6
+}
+
+.notice__text {
+    @apply text-sm
+}
+
+.notice__key {
+    @apply block mb-2
+}
+
+.payment__token__icon {
+    @apply w-16
+    h-12
+    relative;
+}
+
+.form {
+
+}
+
+.coins__container {
+    @apply flex justify-between items-center mb-10
+}
+
+.coin__wrapper {
+    @apply border-2
+    border-theme-secondary-1
+    p-3
+    cursor-pointer
+    rounded-2xl
+}
+
+.coin__wrapper__active {
+    @apply bg-theme-secondary-1
+}
+
+.coin__radio__button__input {
+    @apply absolute opacity-0
+    w-0
+    h-0
+}
+
+.coin__radio__button__image {
+    @apply w-10
+    h-10
+    relative;
+}
+
+.input__group {
+    @apply mb-10
+}
+
+.label__and__balance {
+    @apply flex
+    justify-between
+}
+
+.label {
+    @apply font-extrabold
+    text-lg
+}
+
+.balance {
+    @apply text-theme-green
+}
+
+.amount__input {
+    @apply w-full py-4 px-8 mt-6 rounded-full bg-theme-white-alpha-2 border border-theme-gray-4;
+}
+
+.amount__input::placeholder {
+    @apply text-theme-gray-4;
+}
+
+.details {
+    @apply bg-theme-white-alpha-3
+    border-2
+    border-dashed
+    border-theme-gray-alpha-2
+    rounded-xl
+    p-4
+    pb-2
+    mb-10
+}
+
+.key__value {
+    @apply flex
+    justify-between
+    items-center
+    text-lg
+    mb-2
+}
+
+.Purchase__button {
+    @apply w-full
+    bg-theme-secondary-2
+    hover:bg-theme-secondary-1
+    text-theme-black
+    font-bold text-2xl
+    rounded-full p-4
+}

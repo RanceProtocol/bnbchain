@@ -9,7 +9,7 @@ interface IProps {
 const Layout: FC<IProps> = ({ children }) => {
     return (
         <AppProvider>
-            <div className="">
+            <div className="container mx-auto py-4 px-2 sm:px-0">
                 <Header />
                 {children}
             </div>

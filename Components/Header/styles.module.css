@@ -1,0 +1,58 @@
+.root {
+    @apply bg-theme-primary-2
+    flex items-center
+    justify-between
+    px-6
+    rounded-2xl
+    pt-6 pb-4
+}
+
+.logo__wrapper {
+    @apply h-12
+    sm:h-16
+    w-40
+    sm:w-52
+    relative
+}
+
+.navigation {
+    @apply absolute
+    sm:relative
+    top-40
+    sm:top-0
+    left-1/2
+    sm:left-0
+    -translate-x-1/2
+    sm:translate-x-0
+}
+
+.nav__list__container {
+    @apply flex gap-8
+}
+
+.link {
+    @apply text-[1.2rem]
+    px-4
+    pb-6
+    sm:pb-8
+}
+
+.active__link {
+    @apply text-theme-secondary-1
+    border-b-2
+    border-theme-secondary-1
+}
+
+.connect__btn {
+    @apply bg-theme-red-2
+    text-theme-white
+    text-lg
+    sm:text-xl font-[600]
+    py-2
+    sm:py-4
+    px-4
+    sm:px-8
+    rounded-lg
+    sm:rounded-xl
+    whitespace-nowrap
+}
