@@ -4,19 +4,15 @@ import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import styles from "../styles/insurance.module.css";
-import { insurancePageTabs as tabs, insurancePackages,PackageEnum } from "../constants/data";
-import type { IinsurancePackage } from "../constants/data";
-import InsurancePackage from "../Components/InsurancePackage";
-import { Fragment, useState } from "react";
-import PackagePurchaseModal from "../Components/PackagePurchaseModal";
+import { insurancePageTabs as tabs } from "../constants/routes";
+import { Fragment } from "react";
+import InsurancePackagePlans from "../Components/InsurancePackagePlans";
+import MyPackages from "../Components/MyPackages";
 
 const Insurance: NextPage = () => {
 
     const router = useRouter();
     const tab = router.query.tab;
-    
-
-    const [packagePurchaseModal, setPackagePurchaseModal] = useState<{open: boolean, packageType:PackageEnum}>({open: false, packageType: PackageEnum.SILVER})
     
 
     return (
@@ -38,7 +34,7 @@ const Insurance: NextPage = () => {
                         </div>
                         <div className={styles.banner__image__container}>
                             <Image
-                                src="/staking-banner-image.png"
+                                src="/insurance-banner-image.png"
                                 alt="staking page banner"
                                 layout="fill"
                                 className={styles.banner__image}
@@ -81,16 +77,12 @@ const Insurance: NextPage = () => {
                             </li>
                         </ul>
                     </div>
-                    <div className={styles.main__content}>
-                        {insurancePackages.map((insurancePackage:IinsurancePackage) => <InsurancePackage key = {insurancePackage.name} {...insurancePackage} onClickAction = {(data:{open: boolean, packageType:PackageEnum}) => setPackagePurchaseModal(data)}/> )}
-                    </div>
+                    {String(tab).toLowerCase() !== tabs.insurancePackages ? 
+                        <MyPackages /> : 
+                        <InsurancePackagePlans />
+                    }
                 </main>
             </div>
-
-            <PackagePurchaseModal
-                state = {packagePurchaseModal}
-                onClose = {() => setPackagePurchaseModal(prev => ({...prev, open: false}))}
-            />
         </Fragment>
     );
 };

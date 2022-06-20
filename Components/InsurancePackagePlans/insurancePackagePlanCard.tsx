@@ -2,14 +2,14 @@ import Image from "next/image";
 import { FC } from "react";
 import styles from "./styles.module.css";
 import clsx from "clsx";
-import type { IinsurancePackage, PackageEnum } from "../../constants/data";
+import type { IinsurancePackagePlan, PackageEnum } from "../../constants/data";
 import { insurableCoins } from "../../constants/data";
 
-interface IProp extends IinsurancePackage {
+interface IProp extends IinsurancePackagePlan {
     onClickAction: (data: { open: boolean; packageType: PackageEnum }) => void;
 }
 
-const InsurancePackage: FC<IProp> = (props) => {
+const InsurancePackagePlanCard: FC<IProp> = (props) => {
     const {
         name,
         duration,
@@ -21,7 +21,7 @@ const InsurancePackage: FC<IProp> = (props) => {
     } = props;
 
     return (
-        <div className={styles.root}>
+        <div className={styles.insurance__package__card}>
             <h1 className={styles.name}>{name}</h1>
             <div className={styles.insurable__coins__wrapper}>
                 <span className={styles.insurable__coins__key}>
@@ -74,4 +74,4 @@ const InsurancePackage: FC<IProp> = (props) => {
     );
 };
 
-export default InsurancePackage;
+export default InsurancePackagePlanCard;

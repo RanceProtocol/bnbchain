@@ -1,0 +1,125 @@
+.root {
+    @apply absolute
+    w-[30rem]
+    max-w-[95%]
+    md:w-[450px]
+    md:max-w-none
+    left-1/2
+    -translate-x-1/2
+    top-1/2 -translate-y-1/2
+    bg-theme-primary-2
+    p-8
+    py-12
+    rounded-xl
+    md:rounded-2xl;
+}
+
+.header {
+    @apply flex
+    justify-between
+    items-center
+    mb-8;
+}
+
+.title {
+    @apply text-3xl
+    font-extrabold;
+}
+
+.close__btn {
+    @apply w-12
+    h-12
+}
+
+.close__icon__wrapper {
+    @apply w-12
+    h-12
+    relative;
+}
+
+.notice {
+    @apply
+    p-6
+    rounded-xl
+    mb-6
+}
+
+.notice__positive {
+    @apply bg-theme-green-alpha
+}
+
+.notice__negative {
+    @apply bg-theme-red-alpha
+}
+
+.notice__text {
+    @apply text-sm
+}
+
+.notice__key {
+    @apply block mb-2
+}
+
+.second__section {
+    @apply py-8
+    text-center
+}
+
+.second__section span {
+    @apply block
+    my-2
+}
+
+.receive {
+    @apply text-xl
+}
+
+.amount {
+    @apply text-3xl
+    font-extrabold;
+}
+
+.insured__balance__text {
+    @apply text-sm
+    text-theme-white-alpha
+}
+
+.details {
+    @apply bg-theme-white-alpha-3
+    border-2
+    border-dashed
+    border-theme-gray-alpha-2
+    rounded-xl
+    p-4
+    pb-2
+    mb-10
+}
+
+.key__value {
+    @apply flex
+    justify-between
+    items-center
+    text-lg
+    mb-2
+}
+
+/* .key {
+    @apply
+    text-theme-white-alpha
+} */
+
+.action__btn {
+    @apply w-full
+    font-bold text-xl
+    rounded-full p-4
+}
+
+.withdrawal__btn {
+    @apply text-theme-black
+    bg-theme-secondary-2
+    hover:bg-theme-secondary-1
+}
+
+.cancel__btn {
+    @apply text-theme-white
+}

@@ -139,6 +139,11 @@
     mb-2
 }
 
+.key {
+    @apply
+    text-theme-white-alpha
+}
+
 .Purchase__button {
     @apply w-full
     bg-theme-secondary-2

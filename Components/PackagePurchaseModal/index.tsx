@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { ChangeEvent, FC, FormEvent, useCallback, useState } from "react";
 import { PackageEnum } from "../../constants/data";
 import { insurableCoins } from "../../constants/data";
-import { IinsurableCoins, insurancePackages } from "../../constants/data";
+import { IinsurableCoins, insurancePackagePlans } from "../../constants/data";
 import { isValidAmountValue } from "../../utils/helpers";
 import ModalWrapper from "../ModalWrapper";
 import styles from "./styles.module.css";
@@ -17,7 +17,7 @@ const PackagePurchaseModal: FC<IProps> = ({
     state: { open, packageType },
     onClose,
 }) => {
-    const targetPackageData = insurancePackages.find(
+    const targetPackageData = insurancePackagePlans.find(
         (x) => x.packageType === packageType
     );
 

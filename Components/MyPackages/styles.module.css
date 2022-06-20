@@ -1,0 +1,204 @@
+.root {
+    @apply my-10
+    grid grid-cols-1
+    sm:grid-cols-2
+    sm:gap-6
+    xl:grid-cols-3
+    lg:gap-8
+}
+
+/* my package card here */
+.my__package__card {
+    @apply bg-theme-primary-2
+    rounded-[1.5rem]
+    pt-8 px-4 pb-[18px]
+    mb-6 sm:mb-0 w-full max-w-[38rem]
+    sm:w-auto mx-auto sm:mx-0;
+}
+
+.head {
+    @apply bg-theme-primary-1
+    flex
+    justify-between
+    items-center
+    p-6
+    rounded-[1rem]
+}
+
+.amount {
+    @apply text-xl
+    font-bold
+}
+
+.status {
+    @apply whitespace-nowrap
+    px-4
+    py-2
+    rounded-xl
+}
+
+.status__active {
+    @apply bg-theme-green
+}
+
+.status__expired {
+    @apply bg-theme-gray-1
+}
+
+.status__icon {
+    @apply inline
+    align-middle
+    text-xl
+}
+
+.name__section {
+    @apply mt-8
+    flex
+    justify-between
+    items-center
+}
+
+.body {
+    @apply relative
+    left-4
+}
+
+.name {
+    @apply font-extrabold
+    text-2xl
+}
+
+.dot {
+    @apply mr-10
+}
+
+.package__details {
+    @apply flex
+    justify-start
+    items-center
+    gap-12
+    sm:gap-16
+    mt-6
+    border-b-[0.2px]
+    border-theme-gray-1
+    pb-4
+}
+
+.key__value {
+    @apply flex
+    flex-col
+    text-xs
+}
+
+.key {
+    @apply text-theme-gray-1
+}
+
+.section__two {
+    @apply w-full
+    pr-4
+}
+
+.coin__details {
+    @apply bg-theme-primary-1
+    mt-6
+    p-4
+    pb-0
+    rounded-[1rem]
+}
+
+.coin {
+    @apply flex
+    justify-between
+    items-center
+}
+
+.icon__nd__name {
+    @apply flex
+    items-center
+}
+
+.price__change {
+    @apply flex
+    flex-col
+    items-end
+}
+
+.coin_logo__wrapper {
+    @apply w-8 h-8
+    relative
+    mr-2
+}
+
+.increase__value {
+    @apply text-theme-green
+}
+
+.decrease__value {
+    @apply text-theme-red-1
+}
+
+.increase__key {
+    @apply
+    text-xs
+    text-theme-gray-1
+}
+
+.expired__in__text {
+    @apply my-6
+    text-theme-gray-1
+}
+
+.countdown__nd__button {
+    @apply flex
+    justify-between
+    items-end
+}
+
+.countdown__value_container {
+    @apply flex gap-5 
+    text-2xl
+    md:text-3xl
+    font-extrabold
+}
+
+.countdown__value {
+    @apply relative
+}
+
+.countdown__value:not(.countdown__value:last-child)::after {
+    @apply relative
+    content-[':']
+    left-2
+}
+
+.countdown__label__continaer {
+    @apply flex
+    mt-2
+    gap-5
+    md:gap-[2.2rem]
+    text-xs
+    text-theme-gray-1
+}
+
+.cancel__button {
+    @apply bg-theme-red-1
+    text-sm
+    md:text-base
+    px-3
+    md:px-6
+    py-3
+    rounded-xl
+    whitespace-nowrap
+}
+
+.withdraw__button {
+    @apply bg-theme-secondary-1
+    text-sm
+    md:text-base
+    px-3
+    md:px-6
+    py-3
+    rounded-xl
+    whitespace-nowrap
+}

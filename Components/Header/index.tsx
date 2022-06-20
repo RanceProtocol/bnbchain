@@ -4,7 +4,7 @@ import { useRouter } from "next/router"
 import { FC } from "react"
 import styles from "./styles.module.css"
 import clsx from "clsx"
-import {routes} from "../../constants/data"
+import {routes} from "../../constants/routes"
 
 interface IProp {
   

@@ -12,6 +12,7 @@
        flex
        justify-between
        relative
+       overflow-hidden
    }
    
    .banner__container {
@@ -35,13 +36,13 @@
    }
 
    .banner__image__container {
-    @apply w-36
-    h-36
-    sm:w-40
-    sm:h-40
+    @apply w-48
+    h-24
+    sm:h-36
     absolute
-    right-0
-    top-0
+    -right-10
+    sm:right-0
+    bottom-0
     rounded-tr-xl
    }
 
@@ -77,14 +78,5 @@
     @apply text-theme-secondary-1
     border-b-2
     border-theme-secondary-1
-}
-
-.main__content {
-    @apply my-10
-    grid grid-cols-1
-    sm:grid-cols-2
-    sm:gap-6
-    lg:grid-cols-3
-    lg:gap-8
 }
 

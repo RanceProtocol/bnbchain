@@ -1,4 +1,16 @@
 .root {
+    @apply my-10
+    grid grid-cols-1
+    sm:grid-cols-2
+    sm:gap-6
+    lg:grid-cols-3
+    lg:gap-8
+}
+
+
+
+/* package card here */
+.insurance__package__card {
     @apply bg-theme-primary-2
     rounded-[1.5rem]
     pt-8 px-4 pb-[18px]
