@@ -1,0 +1,143 @@
+.root {
+    @apply bg-theme-primary-2
+    rounded-[1.5rem]
+    p-16
+    pb-[18px]
+    mb-6
+    sm:mb-0
+    w-full
+    sm:max-w-[28rem]
+    xl:max-w-[34rem]
+}
+
+.tokens__logos__container {
+    @apply mx-auto
+    flex
+    justify-center
+}
+
+.token__logo {
+    @apply w-16
+    h-16
+    relative;
+}
+
+.token__logo:nth-child(2) {
+    @apply
+    right-3
+}
+
+.token__logo:nth-child(1) {
+    @apply
+    left-3
+}
+
+.pool__tokens {
+    @apply text-3xl
+    font-bold
+    mt-6
+    text-center;
+}
+
+.pool__description {
+    @apply
+    text-xl
+    mt-1
+    text-center
+    text-theme-gray-3
+}
+
+
+.apr {
+    @apply flex
+    justify-center
+    items-center
+    gap-2
+    my-10
+}
+
+.apr__text {
+    @apply text-5xl
+    font-extrabold
+}
+
+.info__icon {
+    @apply text-2xl
+    text-theme-secondary-1
+    opacity-60;
+}
+
+.pool__details {
+    @apply flex
+    justify-between
+    items-center
+    mb-8
+}
+.key__values {
+    @apply flex
+    flex-col
+}
+
+.key {
+    @apply text-xl
+    text-theme-gray-1
+}
+
+.value {
+    @apply text-2xl
+}
+
+.btn {
+    @apply w-full
+    font-bold text-2xl
+    rounded-full p-3
+}
+
+.btn__small {
+    @apply w-full
+    text-base
+    rounded-full p-2
+}
+
+.btn__group {
+    @apply flex
+    gap-4
+    justify-between
+    items-center
+}
+
+.btn__solid {
+    @apply
+    border-theme-secondary-1
+    bg-theme-secondary-2
+    hover:bg-theme-secondary-1
+    text-theme-black
+}
+
+.btn__solid2 {
+    @apply
+    border
+    border-theme-secondary-1
+    bg-theme-secondary-alpha-2
+    hover:bg-theme-secondary-1
+    hover:text-theme-black
+    text-theme-secondary-1
+}
+
+.btn__hollow {
+    @apply border border-theme-secondary-1
+    text-theme-secondary-1
+}
+
+.contract__link {
+    @apply text-center
+    block
+    mt-6
+    text-xl
+    text-theme-gray-1
+    transition
+}
+
+.contract__link:hover {
+    @apply text-theme-white
+}

@@ -2,6 +2,9 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/staking.module.css";
+import StakingCard from "../Components/StakingCard"
+import { stakingPools } from "../constants/data";
+import type { IStakingPool } from "../constants/data";
 
 const Staking: NextPage = () => {
     return (
@@ -23,6 +26,10 @@ const Staking: NextPage = () => {
                             className={styles.banner__image}
                         />
                     </div>
+                </div>
+
+                <div className={styles.staking__card__wrapper}>
+                    {stakingPools.map((pool:IStakingPool) =>  <StakingCard key = {pool.poolId} {...pool} />)}
                 </div>
             </main>
         </div>

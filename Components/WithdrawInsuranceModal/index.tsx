@@ -9,19 +9,18 @@ import ModalWrapper from "../ModalWrapper";
 import styles from "./styles.module.css";
 import { insurancePackages } from '../../constants/data';
 import type {IInsurancePackage} from '../../constants/data'
-import { utils } from "ethers";
+import { BigNumber, utils } from "ethers";
 
 interface IProps {
     state: { open: boolean; id: string | null };
     onClose: () => void;
 }
 
-const onAfterClose = () => {};
-
 const WithdrawInsuranceModal: FC<IProps> = ({
     state: { open, id },
     onClose,
 }) => {
+    
     const [selectedPackage, setSelectedPackage] = useState<IInsurancePackage>()
     useEffect(() => {
         if(!id) return;
@@ -34,7 +33,6 @@ const WithdrawInsuranceModal: FC<IProps> = ({
             open={open}
             label="withdraw insurance Modal"
             onClose={onClose}
-            onAfterClose={onAfterClose}
             contentClassName={styles.root}
         >
             <div className={styles.header}>
@@ -73,7 +71,7 @@ const WithdrawInsuranceModal: FC<IProps> = ({
             <div className={styles.details}>
                 <div className={styles.key__value}>
                     <span className={styles.key}>Initial deposit</span>
-                    <span className={styles.value}>{utils.formatEther(selectedPackage!.initialDeposit)}</span>
+                    <span className={styles.value}>{utils.formatEther(selectedPackage?.initialDeposit as unknown as BigNumber)}</span>
                 </div>
 
                 <div className={styles.key__value}>
