@@ -1,9 +1,10 @@
 import styles from "./styles.module.css";
 import type { IStakingPool } from "../../constants/data";
-import { FC } from "react";
+import { FC, Fragment, useState } from "react";
 import Image from "next/image";
 import {AiOutlineInfoCircle} from "react-icons/ai"
 import clsx from "clsx";
+import StakingModal from "../StakingModal";
 
 interface IProps extends IStakingPool {}
 
@@ -23,8 +24,24 @@ const StakingCard: FC<IProps> = (props) => {
         totalStakedUsd,
         walletUnlockStatus,
     } = props;
+
+    const [modalState, setModalState] = useState<{open: boolean, action: "staking" | "unstaking"}>({open: false, action: "staking"})
+
+    const stakeHandler = () => {
+
+    }
+
+    const unstakeHandler = () => {
+        
+    }
+
+    const tringerActionModal = (action: "staking" | "unstaking") => {
+        setModalState({open: true, action})
+    }
+
     return (
-        <div className={styles.root}>
+        <Fragment>
+             <div className={styles.root}>
             <div className={styles.tokens__logos__container}>
                 <div className={styles.token__logo}>
                     <Image
@@ -67,14 +84,24 @@ const StakingCard: FC<IProps> = (props) => {
             (!staked ? 
                 <button className = {clsx(styles.btn, styles.btn__solid)}>Stake</button>
             : <div className={styles.btn__group}>
-                <button className = {clsx(styles.btn__small, styles.btn__solid)}>Stake</button>
-                <button className = {clsx(styles.btn__small, styles.btn__solid2)}>Unstake</button>
+                <button className = {clsx(styles.btn__small, styles.btn__solid)} onClick={() => tringerActionModal("staking")}>Stake</button>
+                <button className = {clsx(styles.btn__small, styles.btn__solid2)} onClick={() => tringerActionModal("unstaking")}>Unstake</button>
                 <button className = {clsx(styles.btn__small, styles.btn__hollow)}>Harvest</button>
             </div>)
             }
 
             <a className={styles.contract__link} href={contractUrl} target = "_blank">view contract</a>
         </div>
+            <StakingModal 
+                open = {modalState.open}
+                action = {modalState.action}
+                onClose = {() => setModalState(prev => ({...prev, open: false}))}
+                actionHandler = {modalState.action === "staking" ? stakeHandler : unstakeHandler }
+                earnTokenName = {earnToken}
+                stakeTokenName = {stakeToken}
+                poolId = {poolId}
+            />
+        </Fragment>
     );
 };
 
