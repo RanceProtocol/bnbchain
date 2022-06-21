@@ -1,6 +1,7 @@
 import { FC, ReactNode } from "react";
 import AppProvider from "../../AppProvider";
 import Header from "../Header";
+import {DisconnectedModal, ConnectedModal} from "../WalletModals/";
 
 interface IProps {
     children: ReactNode;
@@ -13,6 +14,14 @@ const Layout: FC<IProps> = ({ children }) => {
                 <Header />
                 {children}
             </div>
+            {/* <DisconnectedModal 
+                open = {false}
+                onClose = {() => {}}
+            />
+            <ConnectedModal 
+                open = {false}
+                onClose = {() => {}}
+            /> */}
         </AppProvider>
     );
 };

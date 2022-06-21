@@ -34,6 +34,7 @@ module.exports = {
             'theme-gray-alpha': 'rgba(166, 166, 166, 0.06)',
             'theme-gray-alpha-2': 'rgba(92, 92, 92, 0.7)',
             'theme-black': '#000000',
+            'theme-black-alpha': 'rgba(0, 0, 0, 0.3)'
           },
     },
     plugins: [],
