@@ -1,0 +1,45 @@
+.root {
+    @apply flex
+    gap-6
+    w-full
+    h-full
+}
+
+.type__icon {
+    @apply self-center
+    text-5xl
+}
+
+.transaction__icon {
+    @apply text-theme-secondary-2
+}
+
+.error__icon {
+    @apply text-theme-red-1
+}
+
+.successfull__icon {
+    @apply text-theme-green
+}
+
+.main {
+
+}
+
+.close__icon {
+    @apply absolute
+    top-4
+    right-4
+    text-xl
+    text-theme-red-1
+}
+
+.message {
+    @apply block
+    text-base
+}
+
+.status {
+    @apply block
+    text-sm
+}

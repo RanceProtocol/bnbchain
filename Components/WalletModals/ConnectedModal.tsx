@@ -2,13 +2,25 @@ import React, { FC } from "react";
 import ModalWrapper from "../ModalWrapper";
 import styles from "./styles.module.css";
 import Image from "next/image";
+import {toggleAccountModal} from "../../appState/shared/action"
+import { useDispatch } from "react-redux";
 
 interface IProps {
     open: boolean;
     onClose: () => void;
+    disconnectWallet: () => void
 }
 
-export const ConnectedModal: FC<IProps> = ({ onClose, open }) => {
+
+export const ConnectedModal: FC<IProps> = ({ onClose, open, disconnectWallet }) => {
+
+    const dispatch = useDispatch()
+
+    const disconnectWalletHandler = () => {
+        disconnectWallet()
+        toggleAccountModal(dispatch)
+    }
+
     return (
         <ModalWrapper
             open={open}
@@ -29,8 +41,8 @@ export const ConnectedModal: FC<IProps> = ({ onClose, open }) => {
                         layout="fill"
                     />
                 </div>
-                <span className={styles.wallet__name}>MetaMask connected</span>
-                <span className={styles.wallet__address}>0x5TD6...4567</span>
+                <span className={styles.connected__wallet__name}>MetaMask connected</span>
+                <span className={styles.connected__wallet__address}>0x5TD6...4567</span>
             </div>
 
             <div className={styles.wallet__balance}>
@@ -40,7 +52,7 @@ export const ConnectedModal: FC<IProps> = ({ onClose, open }) => {
             </div>
 
             <div className={styles.btn__group}>
-                <button className = {styles.disconect__btn}>Disconnect</button>
+                <button className = {styles.disconect__btn} onClick = {disconnectWalletHandler}>Disconnect</button>
                 <button className = {styles.buy__btn}>Buy Rance</button>
             </div>
 

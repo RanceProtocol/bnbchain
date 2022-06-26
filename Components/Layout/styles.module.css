@@ -1,0 +1,12 @@
+.root {
+    @apply
+    container
+    mx-auto
+    py-4
+    px-2
+    sm:px-0
+}
+
+.toast:global(.Toastify__toast) {
+    @apply bg-theme-primary-2
+  }

@@ -8,8 +8,8 @@
 }
 
 .logo__wrapper {
-    @apply h-12
-    sm:h-16
+    @apply h-14
+    sm:h-20
     w-40
     sm:w-52
     relative
@@ -55,4 +55,37 @@
     rounded-lg
     sm:rounded-xl
     whitespace-nowrap
+}
+
+.connected {
+    @apply flex
+    flex-col
+    items-start
+}
+
+.connected__btn {
+    @apply flex
+    text-base
+    font-bold
+    gap-6
+    items-start
+}
+
+.connected__btn__dropdown__icon {
+    @apply
+    text-2xl
+}
+
+.connected__wallet {
+    @apply flex
+    items-end
+    gap-2
+    text-sm
+    cursor-default
+}
+
+.connected__wallet__icon {
+    @apply h-6
+    w-6
+    relative
 }

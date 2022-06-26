@@ -3,13 +3,22 @@ import ModalWrapper from "../ModalWrapper";
 import styles from "./styles.module.css";
 import { BsExclamationTriangle } from "react-icons/bs";
 import Image from "next/image";
+import { Metamask, SafePal, TrustWallet, WalletConnect } from "../svgIcons";
+import {toggleWalletModal} from "../../appState/shared/action"
+import { useDispatch } from "react-redux";
 
 interface IProps {
     open: boolean;
     onClose: () => void;
+    connectWallet: (name: string) => void
 }
 
-export const DisconnectedModal: FC<IProps> = ({ open, onClose }) => {
+export const DisconnectedModal: FC<IProps> = ({ open, onClose, connectWallet }) => {
+    const dispatch = useDispatch()
+    const connectWalletHandler = async (name: string) => {
+        await connectWallet(name)
+        toggleWalletModal(dispatch)
+    }
     return (
         <ModalWrapper
             open={open}
@@ -23,7 +32,24 @@ export const DisconnectedModal: FC<IProps> = ({ open, onClose }) => {
                 protocol
             </p>
 
-            <div className={styles.wallet__wrapper}></div>
+            <div className={styles.wallet__wrapper}>
+                <button className = {styles.wallet__btn} onClick = {() => connectWalletHandler("metamask")}>
+                    <Metamask className = {styles.wallet__icon} width = "60" />
+                    <span className={styles.wallet__name}>Metamask</span>
+                </button>
+                <button className = {styles.wallet__btn} onClick = {() => connectWalletHandler("trustwallet")}>
+                    <TrustWallet className = {styles.wallet__icon} width = "60" />
+                    <span className={styles.wallet__name}>Trustwallet</span>
+                </button>
+                <button className = {styles.wallet__btn} onClick = {() => connectWalletHandler("safepal")}>
+                    <SafePal className = {styles.wallet__icon} width = "60" />
+                    <span className={styles.wallet__name}>Safepal</span>
+                </button>
+                <button className = {styles.wallet__btn} onClick = {() => connectWalletHandler("walletconnect")}>
+                    <WalletConnect className = {styles.wallet__icon} width = "60" />
+                    <span className={styles.wallet__name}>WalletConnect</span>
+                </button>
+            </div>
 
             <div className={styles.notice}>
                 <BsExclamationTriangle className={styles.notice__icon} />
