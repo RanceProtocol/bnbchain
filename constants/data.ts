@@ -58,7 +58,7 @@ export const insurancePackagePlans: IinsurancePackagePlan[] = [
         timeUnit: "MTH",
         timeUnitFull: "months",
         insuranceFeePercentage: 100,
-        unInsureFeeInRance: 1,
+        unInsureFeeInRance: 10,
     },
     {
         packageType: PackageEnum.GOLD,
@@ -67,7 +67,7 @@ export const insurancePackagePlans: IinsurancePackagePlan[] = [
         timeUnit: "YR",
         timeUnitFull: "year",
         insuranceFeePercentage: 50,
-        unInsureFeeInRance: 10,
+        unInsureFeeInRance: 100,
     },
     {
         packageType: PackageEnum.PLATINUM,
@@ -76,7 +76,7 @@ export const insurancePackagePlans: IinsurancePackagePlan[] = [
         timeUnit: "YRS",
         timeUnitFull: "years",
         insuranceFeePercentage: 25,
-        unInsureFeeInRance: 100,
+        unInsureFeeInRance: 1000,
     },
 ];
 

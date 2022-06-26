@@ -1,669 +1,1084 @@
 [
     {
-        "anonymous": false,
-        "inputs": [
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "previousAdmin",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "newAdmin",
+          "type": "address"
+        }
+      ],
+      "name": "AdminChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "beacon",
+          "type": "address"
+        }
+      ],
+      "name": "BeaconUpgraded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint8",
+          "name": "version",
+          "type": "uint8"
+        }
+      ],
+      "name": "Initialized",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "_packageId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_user",
+          "type": "address"
+        }
+      ],
+      "name": "InsuranceActivated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "_packageId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_user",
+          "type": "address"
+        }
+      ],
+      "name": "InsuranceCancelled",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "_packageId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_user",
+          "type": "address"
+        }
+      ],
+      "name": "InsuranceWithdrawn",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "insureCoinName",
+          "type": "string"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "insureCoin",
+          "type": "address"
+        }
+      ],
+      "name": "InsureCoinAdded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "insureCoin",
+          "type": "address"
+        }
+      ],
+      "name": "InsureCoinRemoved",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "_id",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "_uninsureFee",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint8",
+          "name": "_insuranceFee",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint32",
+          "name": "_periodInSeconds",
+          "type": "uint32"
+        }
+      ],
+      "name": "PackagePlanAdded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "_id",
+          "type": "bytes32"
+        }
+      ],
+      "name": "PackagePlanDeactivated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "paymentTokenName",
+          "type": "string"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "paymentToken",
+          "type": "address"
+        }
+      ],
+      "name": "PaymentTokenAdded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "paymentToken",
+          "type": "address"
+        }
+      ],
+      "name": "PaymentTokenRemoved",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_address",
+          "type": "address"
+        }
+      ],
+      "name": "TreasuryAddressSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "implementation",
+          "type": "address"
+        }
+      ],
+      "name": "Upgraded",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "RANCE",
+      "outputs": [
+        {
+          "internalType": "contract IERC20Upgradeable",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string[]",
+          "name": "_tokenNames",
+          "type": "string[]"
+        },
+        {
+          "internalType": "address[]",
+          "name": "_tokens",
+          "type": "address[]"
+        }
+      ],
+      "name": "addInsureCoins",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "_periodInSeconds",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint8",
+          "name": "_insuranceFee",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_uninsureFee",
+          "type": "uint256"
+        }
+      ],
+      "name": "addPackagePlan",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_tokenName",
+          "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "_token",
+          "type": "address"
+        }
+      ],
+      "name": "addPaymentToken",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_packageId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "cancel",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_planId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "deactivatePackagePlan",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getAllPackagePlans",
+      "outputs": [
+        {
+          "components": [
             {
-                "indexed": false,
-                "internalType": "address",
-                "name": "previousAdmin",
-                "type": "address"
+              "internalType": "bytes32",
+              "name": "planId",
+              "type": "bytes32"
             },
             {
-                "indexed": false,
-                "internalType": "address",
-                "name": "newAdmin",
-                "type": "address"
-            }
-        ],
-        "name": "AdminChanged",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "beacon",
-                "type": "address"
-            }
-        ],
-        "name": "BeaconUpgraded",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "internalType": "uint8",
-                "name": "version",
-                "type": "uint8"
-            }
-        ],
-        "name": "Initialized",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "internalType": "bytes32",
-                "name": "_planId",
-                "type": "bytes32"
+              "internalType": "uint32",
+              "name": "periodInSeconds",
+              "type": "uint32"
             },
             {
-                "indexed": false,
-                "internalType": "address",
-                "name": "_insureCoin",
-                "type": "address"
+              "internalType": "uint8",
+              "name": "insuranceFee",
+              "type": "uint8"
             },
             {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "_amount",
-                "type": "uint256"
+              "internalType": "uint256",
+              "name": "uninsureFee",
+              "type": "uint256"
             },
             {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "_startTimestamp",
-                "type": "uint256"
+              "internalType": "bool",
+              "name": "isActivated",
+              "type": "bool"
+            }
+          ],
+          "internalType": "struct RanceProtocol.PackagePlan[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_user",
+          "type": "address"
+        }
+      ],
+      "name": "getAllUserPackages",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "user",
+              "type": "address"
             },
             {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "_endTimestamp",
-                "type": "uint256"
-            }
-        ],
-        "name": "InsuranceActivated",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "_amount",
-                "type": "uint256"
+              "internalType": "bytes32",
+              "name": "planId",
+              "type": "bytes32"
             },
             {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "_penalty",
-                "type": "uint256"
-            }
-        ],
-        "name": "InsuranceCancelled",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "_amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "InsuranceWithdrawn",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "previousOwner",
-                "type": "address"
+              "internalType": "bytes32",
+              "name": "packageId",
+              "type": "bytes32"
             },
             {
-                "indexed": true,
-                "internalType": "address",
-                "name": "newOwner",
-                "type": "address"
-            }
-        ],
-        "name": "OwnershipTransferred",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "internalType": "bytes32",
-                "name": "_id",
-                "type": "bytes32"
+              "internalType": "uint256",
+              "name": "initialDeposit",
+              "type": "uint256"
             },
             {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "_uninsureFee",
-                "type": "uint256"
+              "internalType": "uint256",
+              "name": "insureOutput",
+              "type": "uint256"
             },
             {
-                "indexed": false,
-                "internalType": "uint8",
-                "name": "_insuranceFee",
-                "type": "uint8"
+              "internalType": "uint256",
+              "name": "startTimestamp",
+              "type": "uint256"
             },
             {
-                "indexed": false,
-                "internalType": "uint8",
-                "name": "_periodInMonths",
-                "type": "uint8"
-            }
-        ],
-        "name": "PackagePlanAdded",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "internalType": "bytes32",
-                "name": "_id",
-                "type": "bytes32"
+              "internalType": "uint256",
+              "name": "endTimestamp",
+              "type": "uint256"
             },
             {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "_uninsureFee",
-                "type": "uint256"
+              "internalType": "bool",
+              "name": "isCancelled",
+              "type": "bool"
             },
             {
-                "indexed": false,
-                "internalType": "uint8",
-                "name": "_insuranceFee",
-                "type": "uint8"
+              "internalType": "bool",
+              "name": "isWithdrawn",
+              "type": "bool"
             },
             {
-                "indexed": false,
-                "internalType": "uint8",
-                "name": "_periodInMonths",
-                "type": "uint8"
-            }
-        ],
-        "name": "PackagePlanUpdated",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "internalType": "address",
-                "name": "_address",
-                "type": "address"
-            }
-        ],
-        "name": "TreasuryAddressSet",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "implementation",
-                "type": "address"
-            }
-        ],
-        "name": "Upgraded",
-        "type": "event"
-    },
-    {
-        "inputs": [],
-        "name": "RANCE",
-        "outputs": [
-            {
-                "internalType": "contract IERC20Upgradeable",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint8",
-                "name": "_periodInMonths",
-                "type": "uint8"
+              "internalType": "address",
+              "name": "insureCoin",
+              "type": "address"
             },
             {
-                "internalType": "uint8",
-                "name": "_insuranceFee",
-                "type": "uint8"
+              "internalType": "address",
+              "name": "paymentToken",
+              "type": "address"
+            }
+          ],
+          "internalType": "struct RanceProtocol.Package[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_planId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "getInsureAmount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_token",
+          "type": "address"
+        }
+      ],
+      "name": "getTotalInsuranceLocked",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_treasuryAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_uniswapRouter",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_rance",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_paymentToken",
+          "type": "address"
+        }
+      ],
+      "name": "initialize",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_planId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address[]",
+          "name": "path",
+          "type": "address[]"
+        },
+        {
+          "internalType": "string",
+          "name": "_insureCoin",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_paymentToken",
+          "type": "string"
+        }
+      ],
+      "name": "insure",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "insureCoinAdded",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "name": "insureCoinNameToAddress",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "user",
+              "type": "address"
             },
             {
-                "internalType": "uint256",
-                "name": "_uninsureFee",
-                "type": "uint256"
-            }
-        ],
-        "name": "addPackagePlan",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "bytes32",
-                "name": "packageId",
-                "type": "bytes32"
-            }
-        ],
-        "name": "cancel",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "getAllPackagePlans",
-        "outputs": [
-            {
-                "components": [
-                    {
-                        "internalType": "bytes32",
-                        "name": "planId",
-                        "type": "bytes32"
-                    },
-                    {
-                        "internalType": "uint8",
-                        "name": "periodInMonths",
-                        "type": "uint8"
-                    },
-                    {
-                        "internalType": "uint8",
-                        "name": "insuranceFee",
-                        "type": "uint8"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "uninsureFee",
-                        "type": "uint256"
-                    }
-                ],
-                "internalType": "struct RanceProtocol.PackagePlan[]",
-                "name": "",
-                "type": "tuple[]"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "bytes32",
-                "name": "_planId",
-                "type": "bytes32"
+              "internalType": "bytes32",
+              "name": "planId",
+              "type": "bytes32"
             },
             {
-                "internalType": "uint256",
-                "name": "_amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "getInsureAmount",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "_user",
-                "type": "address"
-            }
-        ],
-        "name": "getUserPackages",
-        "outputs": [
-            {
-                "components": [
-                    {
-                        "internalType": "bytes32",
-                        "name": "packageId",
-                        "type": "bytes32"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "initialDeposit",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "insureOutput",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "startTimestamp",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "endTimestamp",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "bool",
-                        "name": "active",
-                        "type": "bool"
-                    },
-                    {
-                        "internalType": "bool",
-                        "name": "isCancelled",
-                        "type": "bool"
-                    },
-                    {
-                        "internalType": "bool",
-                        "name": "isWithdrawn",
-                        "type": "bool"
-                    },
-                    {
-                        "internalType": "address",
-                        "name": "insureCoin",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "address",
-                        "name": "paymentToken",
-                        "type": "address"
-                    },
-                    {
-                        "components": [
-                            {
-                                "internalType": "bytes32",
-                                "name": "planId",
-                                "type": "bytes32"
-                            },
-                            {
-                                "internalType": "uint8",
-                                "name": "periodInMonths",
-                                "type": "uint8"
-                            },
-                            {
-                                "internalType": "uint8",
-                                "name": "insuranceFee",
-                                "type": "uint8"
-                            },
-                            {
-                                "internalType": "uint256",
-                                "name": "uninsureFee",
-                                "type": "uint256"
-                            }
-                        ],
-                        "internalType": "struct RanceProtocol.PackagePlan",
-                        "name": "packagePlan",
-                        "type": "tuple"
-                    }
-                ],
-                "internalType": "struct RanceProtocol.Package[]",
-                "name": "",
-                "type": "tuple[]"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "_treasuryAddress",
-                "type": "address"
+              "internalType": "bytes32",
+              "name": "packageId",
+              "type": "bytes32"
             },
             {
-                "internalType": "address",
-                "name": "_uniswapRouter",
-                "type": "address"
+              "internalType": "uint256",
+              "name": "initialDeposit",
+              "type": "uint256"
             },
             {
-                "internalType": "address",
-                "name": "_rance",
-                "type": "address"
-            }
-        ],
-        "name": "initialize",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "bytes32",
-                "name": "_planId",
-                "type": "bytes32"
+              "internalType": "uint256",
+              "name": "insureOutput",
+              "type": "uint256"
             },
             {
-                "internalType": "uint256",
-                "name": "_amount",
-                "type": "uint256"
+              "internalType": "uint256",
+              "name": "startTimestamp",
+              "type": "uint256"
             },
             {
-                "internalType": "address",
-                "name": "_insureCoin",
-                "type": "address"
+              "internalType": "uint256",
+              "name": "endTimestamp",
+              "type": "uint256"
             },
             {
-                "internalType": "address",
-                "name": "_paymentToken",
-                "type": "address"
-            }
-        ],
-        "name": "insure",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "owner",
-        "outputs": [
-            {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "bytes32",
-                "name": "_planId",
-                "type": "bytes32"
-            }
-        ],
-        "name": "planExists",
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "proxiableUUID",
-        "outputs": [
-            {
-                "internalType": "bytes32",
-                "name": "",
-                "type": "bytes32"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "renounceOwnership",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "_treasuryAddress",
-                "type": "address"
-            }
-        ],
-        "name": "setTreasuryAddress",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "totalInsuranceLocked",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "newOwner",
-                "type": "address"
-            }
-        ],
-        "name": "transferOwnership",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "treasury",
-        "outputs": [
-            {
-                "internalType": "contract IRanceTreasury",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "uniswapRouter",
-        "outputs": [
-            {
-                "internalType": "contract IUniswapV2Router02",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "bytes32",
-                "name": "_planId",
-                "type": "bytes32"
+              "internalType": "bool",
+              "name": "isCancelled",
+              "type": "bool"
             },
             {
-                "internalType": "uint8",
-                "name": "_periodInMonths",
-                "type": "uint8"
+              "internalType": "bool",
+              "name": "isWithdrawn",
+              "type": "bool"
             },
             {
-                "internalType": "uint8",
-                "name": "_insuranceFee",
-                "type": "uint8"
+              "internalType": "address",
+              "name": "insureCoin",
+              "type": "address"
             },
             {
-                "internalType": "uint256",
-                "name": "_uninsureFee",
-                "type": "uint256"
+              "internalType": "address",
+              "name": "paymentToken",
+              "type": "address"
             }
-        ],
-        "name": "updatePackagePlan",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
+          ],
+          "internalType": "struct RanceProtocol.Package",
+          "name": "package",
+          "type": "tuple"
+        }
+      ],
+      "name": "isPackageActive",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
     },
     {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "newImplementation",
-                "type": "address"
-            }
-        ],
-        "name": "upgradeTo",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
+      "inputs": [],
+      "name": "noInsureCoins",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
     },
     {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "newImplementation",
-                "type": "address"
-            },
-            {
-                "internalType": "bytes",
-                "name": "data",
-                "type": "bytes"
-            }
-        ],
-        "name": "upgradeToAndCall",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
+      "inputs": [],
+      "name": "noPaymentTokens",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
     },
     {
-        "inputs": [
-            {
-                "internalType": "bytes32",
-                "name": "packageId",
-                "type": "bytes32"
-            }
-        ],
-        "name": "withdraw",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "packageIdToPackage",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "planId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "packageId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "initialDeposit",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "insureOutput",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "startTimestamp",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "endTimestamp",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "isCancelled",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
+          "name": "isWithdrawn",
+          "type": "bool"
+        },
+        {
+          "internalType": "address",
+          "name": "insureCoin",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "paymentToken",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "packagePlanIds",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "paymentTokenAdded",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "name": "paymentTokenNameToAddress",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "planIdToPackagePlan",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "planId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint32",
+          "name": "periodInSeconds",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint8",
+          "name": "insuranceFee",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint256",
+          "name": "uninsureFee",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "isActivated",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "proxiableUUID",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "_tokens",
+          "type": "address[]"
+        }
+      ],
+      "name": "removeInsureCoins",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_token",
+          "type": "address"
+        }
+      ],
+      "name": "removePaymentToken",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_treasuryAddress",
+          "type": "address"
+        }
+      ],
+      "name": "setTreasuryAddress",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "totalInsuranceLocked",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "treasury",
+      "outputs": [
+        {
+          "internalType": "contract IRanceTreasury",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "uniswapRouter",
+      "outputs": [
+        {
+          "internalType": "contract IUniswapV2Router02",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newImplementation",
+          "type": "address"
+        }
+      ],
+      "name": "upgradeTo",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newImplementation",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes",
+          "name": "data",
+          "type": "bytes"
+        }
+      ],
+      "name": "upgradeToAndCall",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "userToPackageIds",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_packageId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "withdraw",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
     }
-]
+  ]
