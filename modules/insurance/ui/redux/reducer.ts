@@ -6,6 +6,8 @@ const initialState: IInsuranceStore = {
     loadingUserPackages: false,
     packagePlans: [],
     userPackages: [],
+    insurableCoins: {},
+    paymentTokens: {},
 };
 
 export const insuranceReducer = (
@@ -30,6 +32,8 @@ export const insuranceReducer = (
             return {
                 ...state,
                 userPackages: payload.userPackages,
+                insurableCoins: payload.insurableCoins,
+                paymentTokens: payload.paymentTokens,
                 loadingUserPackages: false,
             };
         case actionTypes.GET__USER__PACKAGES__FAILED:

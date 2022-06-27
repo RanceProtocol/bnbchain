@@ -2,10 +2,12 @@ import Image from "next/image";
 import { FC } from "react";
 import styles from "./styles.module.css";
 import clsx from "clsx";
-import type { IinsurancePackagePlan, PackageEnum } from "../../constants/data";
+import type { PackageEnum,  } from "../../constants/data";
 import { insurableCoins } from "../../constants/data";
+import { utils } from "ethers";
+import type { IInsurancePackagePlan } from "../../modules/insurance/domain/entities";
 
-interface IProp extends IinsurancePackagePlan {
+interface IProp extends IInsurancePackagePlan {
     onClickAction: (data: { open: boolean; packageType: PackageEnum }) => void;
 }
 
@@ -13,9 +15,9 @@ const InsurancePackagePlanCard: FC<IProp> = (props) => {
     const {
         name,
         duration,
-        insuranceFeePercentage,
+        insuranceFee,
         timeUnit,
-        unInsureFeeInRance,
+        uninsureFee,
         packageType,
         onClickAction,
     } = props;
@@ -52,13 +54,13 @@ const InsurancePackagePlanCard: FC<IProp> = (props) => {
                 </div>
                 <div className={styles.key__value}>
                     <span className={styles.value}>
-                        {insuranceFeePercentage} <span>&#37;</span>
+                        {insuranceFee} <span>&#37;</span>
                     </span>
                     <span className={styles.key}>Insurance Fee</span>
                 </div>
                 <div className={styles.key__value}>
                     <span className={styles.value}>
-                        {unInsureFeeInRance}{" "}
+                        {Number(utils.formatEther(uninsureFee))}{" "}
                         <span className={styles.value__unit}>RANCE</span>
                     </span>
                     <span className={styles.key}>Unsurance Fee</span>

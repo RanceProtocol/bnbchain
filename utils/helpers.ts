@@ -25,3 +25,7 @@ export const shortenAddress = (address: string): string => {
     address = addressArr.join("");
     return address;
 }
+
+export const structOutputToObject = (structOutput: any[] & {[key:string]: any}):any  => {
+    return Object.fromEntries(Object.entries(structOutput).filter(([key]) => isNaN(Number(key))));
+}

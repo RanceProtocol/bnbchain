@@ -1,10 +1,21 @@
 import { configureStore } from "@reduxjs/toolkit";
+import IInsuranceStore from "../modules/insurance/domain/insuranceStore";
 import { insuranceReducer } from "../modules/insurance/ui/redux/reducer";
-import { sharedReducer } from "./shared/reducer";
+import { ISharedState, sharedReducer } from "./shared/reducer";
 
 export const store = configureStore({
     reducer: {
         sharedState: sharedReducer,
         insurance: insuranceReducer
-    }
+    },
+    middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+      immutableCheck:false
+    })
 })
+
+export interface IAppState {
+    sharedState: ISharedState
+    insurance: IInsuranceStore
+}

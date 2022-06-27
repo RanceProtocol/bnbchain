@@ -3,8 +3,8 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/staking.module.css";
 import StakingCard from "../Components/StakingCard"
-import { stakingPools } from "../constants/data";
-import type { IStakingPool } from "../constants/data";
+import { stakingPools } from "../constants/dummyData";
+import type { IStakingPool } from "../constants/dummyData";
 
 const Staking: NextPage = () => {
     return (

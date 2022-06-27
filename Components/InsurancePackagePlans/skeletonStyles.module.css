@@ -1,0 +1,66 @@
+.root {
+    @apply bg-theme-primary-2
+    rounded-[1.5rem]
+    pt-8 px-4 pb-[18px]
+    mb-6 sm:mb-0 w-full max-w-[32rem]
+    sm:w-auto mx-auto sm:mx-0
+    animate-pulse;
+}
+
+.bg__color {
+    @apply bg-theme-gray-alpha
+}
+
+.name {
+    @apply h-9
+    w-[50%]
+    rounded-lg
+}
+
+.insurable__coins__wrapper {
+    @apply flex
+    justify-between
+    items-center my-6;
+}
+
+.insurable__coins__key {
+    @apply h-5
+    w-[35%]
+    rounded-md
+}
+
+.insurable__coins__container {
+    @apply flex
+    relative
+    left-9;
+}
+
+.coin_logo__wrapper {
+    @apply w-9 h-9
+    relative
+    rounded-full
+}
+
+.coin_logo__wrapper:nth-child(2) {
+    @apply right-3;
+}
+.coin_logo__wrapper:nth-child(3) {
+    @apply right-6;
+}
+.coin_logo__wrapper:nth-child(4) {
+    @apply right-9;
+}
+
+.package__details {
+    @apply
+    w-full
+    h-24
+    rounded-md
+    mb-12;
+}
+
+.button {
+    @apply w-full
+    h-16
+    rounded-full p-4
+}

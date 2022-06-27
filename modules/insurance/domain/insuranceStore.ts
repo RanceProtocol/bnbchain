@@ -5,6 +5,8 @@ interface IInsuranceStore {
     loadingUserPackages: boolean,
     packagePlans: IInsurancePackagePlan[],
     userPackages: IInsurancePackage[],
+    insurableCoins: {[key:string]: string},
+    paymentTokens: {[key:string]: string}
 }
 
 

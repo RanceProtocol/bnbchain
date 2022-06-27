@@ -5,7 +5,7 @@ import styles from "./styles.module.css";
 import { Sparklines, SparklinesLine } from 'react-sparklines';
 import { getCoinChartData, getPriceChangeSinceInsured } from "../../utils/price";
 import clsx from "clsx";
-import {addressToCoinDetails, IInsurancePackage} from "../../constants/data"
+import {addressToCoinDetails, IInsurancePackage} from "../../constants/dummyData"
 import { getDateStringFromTimstamp } from "../../utils/time";
 import { utils } from "ethers";
 import { useCountdown } from "../../hooks/useCountdown";

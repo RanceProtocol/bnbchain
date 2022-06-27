@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import Image from "next/image";
 import React, { ChangeEvent, FC, FormEvent, useCallback, useState } from "react";
-import { PackageEnum } from "../../constants/data";
-import { insurableCoins } from "../../constants/data";
-import { IinsurableCoins, insurancePackagePlans } from "../../constants/data";
+import { PackageEnum } from "../../constants/dummyData";
+import { insurableCoins } from "../../constants/dummyData";
+import { IinsurableCoins, insurancePackagePlans } from "../../constants/dummyData";
 import { isValidAmountValue } from "../../utils/helpers";
 import ModalWrapper from "../ModalWrapper";
 import styles from "./styles.module.css";
@@ -42,7 +42,7 @@ const PackagePurchaseModal: FC<IProps> = ({
 
         const calculatedInsuranceFee =
             Number(event.target.value) *
-            (Number(targetPackageData?.insuranceFeePercentage) / 100);
+            (Number(targetPackageData?.insuranceFee) / 100);
 
         setFormDetails((prev) => ({
             ...prev,
@@ -52,7 +52,7 @@ const PackagePurchaseModal: FC<IProps> = ({
                 Number(event.target.value) + calculatedInsuranceFee
             ).toString(),
         }));
-    },[targetPackageData?.insuranceFeePercentage]);
+    },[targetPackageData?.insuranceFee]);
 
     //reset mmodal state after close
     const onAfterClose = () => {

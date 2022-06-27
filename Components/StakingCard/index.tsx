@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import type { IStakingPool } from "../../constants/data";
+import type { IStakingPool } from "../../constants/dummyData";
 import { FC, Fragment, useState } from "react";
 import Image from "next/image";
 import {AiOutlineInfoCircle} from "react-icons/ai"

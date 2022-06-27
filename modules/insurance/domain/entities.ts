@@ -8,8 +8,7 @@ export enum PackageEnum {
 
 export interface IInsurancePackagePlan {
     planId: string
-    periodInSeconds: Number
-    insuranceFee: BigNumber
+    insuranceFee: number
     uninsureFee: BigNumber
     isActivated: true
     packageType: PackageEnum,

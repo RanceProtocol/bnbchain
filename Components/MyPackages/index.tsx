@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import MyPackageCard from "./MyPackageCard";
 import styles from "./styles.module.css";
-import { insurancePackages } from "../../constants/data";
+import { insurancePackages } from "../../constants/dummyData";
 import WithdrawInsuranceModal from "../WithdrawInsuranceModal";
 import SuccessModal from "../SuccessModal";
 import { useWeb3React } from "@web3-react/core";

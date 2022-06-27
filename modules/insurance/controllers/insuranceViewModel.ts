@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { ranceProtocol } from "../../../constants/addresses";
 import { RanceProtocol__factory } from "../../../typechain";
 import { getDefaultProvider } from "../../../wallet/utils";
+import IInsuranceStore from "../domain/insuranceStore";
 import {
     initializePackagePlans as initializePackagePlansAction,
     intializeUserPackages as intializeUserPackagesAction,

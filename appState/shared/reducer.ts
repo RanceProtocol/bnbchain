@@ -1,11 +1,16 @@
 import * as actionTypes from "./actionTypes"
 
-const initialState = {
+export interface ISharedState {
+    walletModalOpened: boolean
+    accountModalOpened: boolean
+}
+
+const initialState:ISharedState = {
     walletModalOpened: false,
     accountModalOpened: false
 }
 
-export const sharedReducer = (state = initialState, action:{type: string, payload?:any}):any => {
+export const sharedReducer = (state = initialState, action:{type: string, payload?:any}):ISharedState => {
     const {type, payload} = action
     switch (type) {
         case actionTypes.TOGGLE_WALLET_MODAL:

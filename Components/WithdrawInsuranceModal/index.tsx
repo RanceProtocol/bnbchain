@@ -7,8 +7,8 @@ import React, {
 } from "react";
 import ModalWrapper from "../ModalWrapper";
 import styles from "./styles.module.css";
-import { insurancePackages } from '../../constants/data';
-import type {IInsurancePackage} from '../../constants/data'
+import { insurancePackages } from '../../constants/dummyData';
+import type {IInsurancePackage} from '../../constants/dummyData'
 import { BigNumber, utils } from "ethers";
 
 interface IProps {
