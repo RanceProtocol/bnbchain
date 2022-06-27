@@ -1,6 +1,6 @@
 export const supportedChainIds = {
     Mainnet: 25,
-    Testnet: 338,
+    // Testnet: 338,
   }
 
   export const getSupportedChainsName = (chainId: number):string => {

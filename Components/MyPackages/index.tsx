@@ -1,9 +1,11 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import MyPackageCard from "./MyPackageCard";
 import styles from "./styles.module.css";
 import { insurancePackages } from "../../constants/data";
 import WithdrawInsuranceModal from "../WithdrawInsuranceModal";
 import SuccessModal from "../SuccessModal";
+import { useWeb3React } from "@web3-react/core";
+import { useInsuranceViewModel } from "../../modules/insurance/controllers/insuranceViewModel";
 
 const MyPackages = () => {
     const [withdrawModalState, setWithdrawModalState] = useState<{
@@ -23,6 +25,14 @@ const MyPackages = () => {
 
       setShowWithdrawSuccess(true)
     }
+
+    const {active, account, library} = useWeb3React()
+    // const {intializeUserPackages} = useInsuranceViewModel({active, address: account, provider: library})
+
+    // useEffect(() => {
+    //     intializeUserPackages()
+    // }, [])
+    
     
 
     return (

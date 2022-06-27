@@ -1,37 +1,49 @@
 import { Dispatch } from "react";
 import { RanceProtocol } from "../../../../typechain";
-import {
-    IInsurancePackage,
-    IInsurancePackagePlan,
-} from "../../domain/entities";
+import { getPackagePlans } from "../../usecases/getPackagePlans";
+import { getUserPackages } from "../../usecases/getUserPackages";
 import * as actionTypes from "./actionTypes";
 
 export const initializePackagePlans =
     (contract: RanceProtocol) =>
-    (
-        dispatch: Dispatch<{ type: string; payload?: IInsurancePackagePlan[] }>
-    ): void => {
+    async (
+        dispatch: Dispatch<{ type: string; payload?: any }>
+    ): Promise<void> => {
         dispatch({
             type: actionTypes.GET__PACKAGE__PLANS,
         });
 
         try {
-            // get packages plans here
-            //dispatch the packages here with success
+            const plans = await getPackagePlans(contract);
+            dispatch({
+                type: actionTypes.GET__PACKAGE__PLANS__SUCCESS,
+                payload: { packagePlans: plans },
+            });
         } catch (error) {
-            // dispactch failled here
+            dispatch({
+                type: actionTypes.GET__PACKAGE__PLANS__FAILED,
+            });
         }
     };
 
 export const intializeUserPackages =
     (contract: RanceProtocol, userAddress: string) =>
-    (
-        dispatch: Dispatch<{ type: string; payload?: IInsurancePackage[] }>
-    ): void => {
+    async (
+        dispatch: Dispatch<{ type: string; payload?: any }>
+    ): Promise<void> => {
         dispatch({
             type: actionTypes.GET__USER__PACKAGES,
         });
 
         try {
-        } catch (error) {}
+            const packages = await getUserPackages(contract, userAddress);
+            dispatch({
+                type: actionTypes.GET__USER__PACKAGES__SUCCESS,
+                payload: { userPackages: packages },
+            });
+        } catch (error) {
+            dispatch({
+                type: actionTypes.GET__USER__PACKAGES__FAILED,
+            });
+        }
     };

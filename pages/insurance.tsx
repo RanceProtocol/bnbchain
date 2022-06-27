@@ -13,7 +13,6 @@ const Insurance: NextPage = () => {
 
     const router = useRouter();
     const tab = router.query.tab;
-    
 
     return (
         <Fragment>

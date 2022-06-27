@@ -15,7 +15,7 @@ export const setIntervalImmediately = (callback: () => void, interval: number) =
 }
 
 export const getChainId = () => {
-    return process.env.REACT_APP_ENVIRONMENT === "mainnet" || process.env.REACT_APP_ENVIRONMENT === "staging" ? 25 : 338
+    return process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT === "mainnet" || process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT === "staging" ? 25 : 338
 }
 
 export const shortenAddress = (address: string): string => {

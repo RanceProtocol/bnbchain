@@ -6,19 +6,24 @@ import {
     supportedChainIds,
 } from "../../constants/chainIds";
 import { addNetwork } from "../utils";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import CustomToast, { STATUS, TYPE } from "../../Components/CustomToast";
 import { toast } from "react-toastify";
 import { getChainId } from "../../utils/helpers";
 
 const useWallet = () => {
-    const { activate, deactivate } = useWeb3React();
+    const { activate, deactivate, active } = useWeb3React();
+
     useEffect(() => {
-        const wallet = localStorage.getItem("wallet");
-        if (wallet !== null && ["metamask", "trustwallet", "safepal"].includes(wallet)) {
-            connectWallet(wallet);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        injected.isAuthorized().then((isAuthorized: boolean) => {
+            if (
+                isAuthorized &&
+                ["metamask", "trustwallet", "safepal"].includes(
+                    window.localStorage.getItem("wallet") as string
+                )
+            )
+                activate(injected, undefined, true);
+        });
     }, []);
 
     const connectWallet = useCallback(
@@ -42,6 +47,7 @@ const useWallet = () => {
                 await activate(connector);
                 const chainId = await connector.getChainId();
                 const provider = await connector.getProvider();
+
                 if (
                     !Object.values(supportedChainIds).includes(
                         Number(chainId)
