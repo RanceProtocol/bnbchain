@@ -22,6 +22,8 @@ export const insuranceReducer = (
             return {
                 ...state,
                 packagePlans: payload.packagePlans,
+                insurableCoins: payload.insurableCoins,
+                paymentTokens: payload.paymentTokens,
                 loadingPackagePlans: false,
             };
         case actionTypes.GET__PACKAGE__PLANS__FAILED:

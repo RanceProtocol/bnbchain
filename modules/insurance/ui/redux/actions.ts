@@ -1,4 +1,6 @@
 import { Dispatch } from "react";
+import { toast } from "react-toastify";
+import CustomToast, { STATUS, TYPE } from "../../../../Components/CustomToast";
 import { RanceProtocol } from "../../../../typechain";
 import { getPackagePlans } from "../../usecases/getPackagePlans";
 import { getUserPackages } from "../../usecases/getUserPackages";
@@ -14,15 +16,22 @@ export const initializePackagePlans =
         });
 
         try {
-            const plans = await getPackagePlans(contract);
+            const data = await getPackagePlans(contract);
             dispatch({
                 type: actionTypes.GET__PACKAGE__PLANS__SUCCESS,
-                payload: { packagePlans: plans },
+                payload: data
             });
         } catch (error) {
             dispatch({
                 type: actionTypes.GET__PACKAGE__PLANS__FAILED,
             });
+            const toastBody = CustomToast({
+                message:
+                    "Error getting package plans! Please reload the page",
+                status: STATUS.ERROR,
+                type: TYPE.ERROR,
+            });
+            toast(toastBody);
         }
     };
 

@@ -2,14 +2,13 @@
     @apply absolute
     w-[30rem]
     max-w-[95%]
-    md:w-[450px]
+    md:w-[400px]
     md:max-w-none
     left-1/2
     -translate-x-1/2
     top-1/2 -translate-y-1/2
     bg-theme-primary-2
-    p-8
-    py-12
+    p-6
     rounded-xl
     md:rounded-2xl;
 }
@@ -18,7 +17,7 @@
     @apply flex
     justify-between
     items-center
-    mb-8;
+    mb-4;
 }
 
 .title {
@@ -27,13 +26,13 @@
 }
 
 .close__btn {
-    @apply w-12
-    h-12
+    @apply w-8
+    h-8
 }
 
 .close__icon__wrapper {
-    @apply w-12
-    h-12
+    @apply w-8
+    h-8
     relative;
 }
 
@@ -43,9 +42,9 @@
     gap-10
     justify-between
     items-center
-    p-6
+    p-4
     rounded-xl
-    mb-6
+    mb-4
 }
 
 .notice__text {
@@ -63,13 +62,13 @@
 }
 
 .coins__container {
-    @apply flex justify-between items-center mb-10
+    @apply flex justify-between items-center mb-6
 }
 
 .coin__wrapper {
     @apply border-2
     border-theme-secondary-1
-    p-3
+    p-2
     cursor-pointer
     rounded-2xl
 }
@@ -85,13 +84,29 @@
 }
 
 .coin__radio__button__image {
-    @apply w-10
-    h-10
+    @apply w-8
+    h-8
     relative;
 }
 
 .input__group {
-    @apply mb-10
+    @apply mb-6
+}
+
+.token__custom__label {
+    @apply flex
+    gap-2
+    items-center
+}
+
+.payment__token__dropdown__icon {
+    @apply w-8
+    h-8
+    relative;
+}
+
+.payment__token__icon__label {
+    @apply text-theme-white
 }
 
 .label__and__balance {
@@ -108,8 +123,12 @@
     @apply text-theme-green
 }
 
+.payment__token__select__container {
+    @apply w-full py-1 px-4 mt-4 rounded-full bg-theme-white-alpha-2 border border-theme-gray-4;
+}
+
 .amount__input {
-    @apply w-full py-4 px-8 mt-6 rounded-full bg-theme-white-alpha-2 border border-theme-gray-4;
+    @apply w-full py-4 px-8 mt-4 rounded-full bg-theme-white-alpha-2 border border-theme-gray-4;
 }
 
 .amount__input::placeholder {
@@ -124,7 +143,7 @@
     rounded-xl
     p-4
     pb-2
-    mb-10
+    mb-6
 }
 
 .key__value {

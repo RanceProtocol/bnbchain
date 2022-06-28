@@ -1,5 +1,5 @@
 export const ranceProtocol = {
-    staging: "0x26f536ec63639c03c69aFC18FDCeeA99A47Dc0D0",
+    staging: "0xb0747FA282884C281fE48cbe1A7CD459c10947F3",
     mainnet: ""
 }
 

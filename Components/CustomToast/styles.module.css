@@ -37,6 +37,7 @@
 .message {
     @apply block
     text-base
+    pt-4
 }
 
 .status {

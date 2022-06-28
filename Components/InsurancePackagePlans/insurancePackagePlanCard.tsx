@@ -1,26 +1,26 @@
 import Image from "next/image";
 import { FC } from "react";
 import styles from "./styles.module.css";
-import clsx from "clsx";
-import type { PackageEnum,  } from "../../constants/data";
-import { insurableCoins } from "../../constants/data";
 import { utils } from "ethers";
 import type { IInsurancePackagePlan } from "../../modules/insurance/domain/entities";
 
 interface IProp extends IInsurancePackagePlan {
-    onClickAction: (data: { open: boolean; packageType: PackageEnum }) => void;
+    insurableCoins: string[]
+    onClickAction: (data: { open: boolean; planId: string }) => void;
 }
 
 const InsurancePackagePlanCard: FC<IProp> = (props) => {
     const {
+        planId,
         name,
         duration,
         insuranceFee,
         timeUnit,
         uninsureFee,
-        packageType,
         onClickAction,
+        insurableCoins
     } = props;
+    
 
     return (
         <div className={styles.insurance__package__card}>
@@ -68,7 +68,7 @@ const InsurancePackagePlanCard: FC<IProp> = (props) => {
             </div>
             <button
                 className={styles.button}
-                onClick={() => onClickAction({ open: true, packageType })}
+                onClick={() => onClickAction({ open: true, planId })}
             >
                 Buy package
             </button>

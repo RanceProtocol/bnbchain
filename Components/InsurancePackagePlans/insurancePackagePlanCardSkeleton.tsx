@@ -16,7 +16,7 @@ const InsurancePackagePlanCardSkeleton = () => {
             </div>
             <div className={clsx(styles.package__details, styles.bg__color)}>
             </div>
-            <button className={clsx(styles.button, styles.bg__color)}></button>
+            <div className={clsx(styles.button, styles.bg__color)}></div>
         </div>
   )
 }

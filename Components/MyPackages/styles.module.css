@@ -158,7 +158,7 @@
 .countdown__value_container {
     @apply flex gap-5 
     text-2xl
-    md:text-3xl
+    md:text-2xl
     font-extrabold
 }
 
@@ -176,7 +176,7 @@
     @apply flex
     mt-2
     gap-5
-    md:gap-[2.2rem]
+    md:gap-[1.5rem]
     text-xs
     text-theme-gray-1
 }

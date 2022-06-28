@@ -1,76 +1,128 @@
 import clsx from "clsx";
 import Image from "next/image";
-import React, { ChangeEvent, FC, FormEvent, useCallback, useState } from "react";
-import { PackageEnum } from "../../constants/dummyData";
-import { insurableCoins } from "../../constants/dummyData";
-import { IinsurableCoins, insurancePackagePlans } from "../../constants/dummyData";
+import React, {
+    ChangeEvent,
+    FC,
+    FormEvent,
+    useCallback,
+    useEffect,
+    useState,
+} from "react";
 import { isValidAmountValue } from "../../utils/helpers";
 import ModalWrapper from "../ModalWrapper";
 import styles from "./styles.module.css";
+import Select, { GroupBase, OptionsOrGroups, SingleValue } from "react-select";
+import { insuranceState } from "../../modules/insurance/ui/redux/state";
 
 interface IProps {
-    state: { open: boolean; packageType: PackageEnum };
+    state: { open: boolean; planId: string };
     onClose: () => void;
 }
 
 const PackagePurchaseModal: FC<IProps> = ({
-    state: { open, packageType },
+    state: { open, planId },
     onClose,
 }) => {
-    const targetPackageData = insurancePackagePlans.find(
-        (x) => x.packageType === packageType
+    const state = insuranceState();
+    const {packagePlans, insurableCoins, paymentTokens} = state;
+    const targetPackageData = packagePlans.find(
+        (x) => x.planId === planId
     );
 
     const [formDetails, setFormDetails] = useState<{
-        coin: IinsurableCoins;
+        coin: string | undefined;
         amount: string;
         insuranceFee: string;
         total: string;
-    }>({ coin: insurableCoins[0], amount: "", insuranceFee: "0", total: "0" });
-    const { amount, coin, insuranceFee, total } = formDetails;
+        paymentToken:  { value: string, label: string } | null
+    }>({ coin: undefined, amount: "", insuranceFee: "0", total: "0", paymentToken: null });
 
-    const handleCoinChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-        setFormDetails((prev) => ({
-            ...prev,
-            coin: event.target.value as IinsurableCoins,
-        }));
-    },[setFormDetails]);
+    const [paymentTokenOptions, setPaymentTokenOptions] = useState<OptionsOrGroups<{ value: string; label: string; }, GroupBase<{ value: string; label: string; }>> | undefined>()
+    const { amount, insuranceFee, total, paymentToken } = formDetails;
 
-    const handleAmountChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-        if (!isValidAmountValue(event.target.value))
-            return event.preventDefault();
+    useEffect(() => {
+      if(!insurableCoins || formDetails.coin) return
+      setFormDetails((prev) => ({
+        ...prev,
+        coin: Object.keys(insurableCoins)[0],
+    }));
+    }, [JSON.stringify(insurableCoins)])
 
-        const calculatedInsuranceFee =
-            Number(event.target.value) *
-            (Number(targetPackageData?.insuranceFee) / 100);
+    useEffect(() => {
+        if(!paymentTokens) return
+        const entries = Object.entries(paymentTokens)
+        const paymentTokenOptionsObject = entries.map((entry: string[]) => ({value: entry[1], label: entry[0]}))
+        setPaymentTokenOptions(paymentTokenOptionsObject)
+      }, [JSON.stringify(paymentTokens)])
+      
+      
+    const handleCoinChange = useCallback(
+        (event: ChangeEvent<HTMLInputElement>) => {
+            setFormDetails((prev) => ({
+                ...prev,
+                coin: event.target.value,
+            }));
+        },
+        [setFormDetails]
+    );
 
-        setFormDetails((prev) => ({
-            ...prev,
-            amount: event.target.value,
-            insuranceFee: calculatedInsuranceFee.toString(),
-            total: (
-                Number(event.target.value) + calculatedInsuranceFee
-            ).toString(),
-        }));
-    },[targetPackageData?.insuranceFee]);
+    const handlePaymentTokenChange = useCallback((selectedOpt: SingleValue<{ value: string, label: string }>) => {
+       setFormDetails(prev => ({...prev, paymentToken: selectedOpt}))
+    },[setFormDetails])
+
+    const handleAmountChange = useCallback(
+        (event: ChangeEvent<HTMLInputElement>) => {
+            if (!isValidAmountValue(event.target.value))
+                return event.preventDefault();
+
+            const calculatedInsuranceFee =
+                Number(event.target.value) *
+                (Number(targetPackageData?.insuranceFee) / 100);
+
+            setFormDetails((prev) => ({
+                ...prev,
+                amount: event.target.value,
+                insuranceFee: calculatedInsuranceFee.toString(),
+                total: (
+                    Number(event.target.value) + calculatedInsuranceFee
+                ).toString(),
+            }));
+        },
+        [targetPackageData?.insuranceFee]
+    );
 
     //reset mmodal state after close
     const onAfterClose = () => {
         setFormDetails({
-            coin: insurableCoins[0],
+            coin: Object.keys(insurableCoins)[0],
             amount: "",
             insuranceFee: "0",
             total: "0",
+            paymentToken: null
         });
     };
 
     const onSubmit = (event: FormEvent<HTMLElement>) => {
-        event.preventDefault()
-        if(amount || !!isValidAmountValue(amount) ) return console.log("Please enter an amount");
-
+        event.preventDefault();
+        if (amount || !!isValidAmountValue(amount))
+            return console.log("Please enter an amount");
 
         console.log("submitting....");
-        
+    };
+
+    const CustomTokenOption:FC<{value: string, label: string}> = ({label}) => {
+        return (
+            <div className={styles.token__custom__label}>
+                <div className={styles.payment__token__dropdown__icon}>
+                    <Image
+                        src={`/token icons/${label}.png`}
+                        alt="mad usd token icon"
+                        layout="fill"
+                    />
+                </div>
+                <span className={styles.payment__token__icon__label}>{label}</span>
+            </div>
+        )
     }
 
     return (
@@ -78,11 +130,11 @@ const PackagePurchaseModal: FC<IProps> = ({
             open={open}
             label="Insurance Package Purchase Modal"
             onClose={onClose}
-            onAfterClose = {onAfterClose}
+            onAfterClose={onAfterClose}
             contentClassName={styles.root}
         >
             <div className={styles.header}>
-                <h1 className={styles.title}>{`${packageType} Package`}</h1>
+                <h1 className={styles.title}>{`${targetPackageData?.packageType} Package`}</h1>
                 <button className={styles.close__btn} onClick={onClose}>
                     <div className={styles.close__icon__wrapper}>
                         <Image
@@ -111,9 +163,9 @@ const PackagePurchaseModal: FC<IProps> = ({
                 </div>
             </div>
 
-            <form className={styles.form} onSubmit = {onSubmit}>
+            <form className={styles.form} onSubmit={onSubmit}>
                 <div className={styles.coins__container}>
-                    {insurableCoins.map((coin: string) => (
+                    {Object.keys(insurableCoins).map((coin: string) => (
                         <label
                             htmlFor={coin}
                             key={coin}
@@ -141,7 +193,19 @@ const PackagePurchaseModal: FC<IProps> = ({
                         </label>
                     ))}
                 </div>
-
+                <div className={styles.input__group}>
+                    <label htmlFor="payment__token__dropdown" className = {styles.label}>Payment token</label>
+                    <Select
+                        onChange={handlePaymentTokenChange}
+                        placeholder = "Select payment token"
+                        options={paymentTokenOptions}
+                        value = {paymentToken}
+                        name = "payment__token__dropdown"
+                        className={styles.payment__token__select__container}
+                        classNamePrefix = "payment__token__select"
+                        formatOptionLabel={CustomTokenOption}
+                    />
+                </div>
                 <div className={styles.input__group}>
                     <div className={styles.label__and__balance}>
                         <label className={styles.label} htmlFor="amount__input">
@@ -182,7 +246,9 @@ const PackagePurchaseModal: FC<IProps> = ({
                     </div>
                 </div>
 
-                <button type = "submit" className={styles.Purchase__button}>Buy package</button>
+                <button type="submit" className={styles.Purchase__button}>
+                    Buy package
+                </button>
             </form>
         </ModalWrapper>
     );

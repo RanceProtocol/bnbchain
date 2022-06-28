@@ -1,0 +1,91 @@
+.root {
+    @apply bg-theme-primary-2
+    rounded-[1.5rem]
+    pt-8 px-4 pb-[18px]
+    mb-6 sm:mb-0 w-full max-w-[38rem]
+    sm:w-auto mx-auto sm:mx-0
+    animate-pulse;
+}
+
+.bg__color {
+    @apply bg-theme-gray-alpha
+}
+
+.head {
+    @apply w-full
+    h-20
+    rounded-[1rem]
+}
+
+.name__section {
+    @apply h-9
+    w-[50%]
+    rounded-lg
+    mt-8
+}
+
+.package__details {
+    @apply flex
+    justify-start
+    items-center
+    gap-12
+    sm:gap-16
+    mt-6
+    border-b-[0.2px]
+    border-theme-gray-1
+    pb-4
+}
+
+.key__value {
+    @apply flex
+    flex-col
+    text-xs
+}
+
+.key {
+    @apply w-24
+    h-2
+    mt-3
+    rounded-sm
+}
+
+.value {
+    @apply w-16
+    h-3
+    rounded-sm
+}
+
+.coin__details {
+    @apply w-full
+    h-[8rem]
+    rounded-[1rem]
+    mt-6
+}
+
+.expired__in__text {
+    @apply h-5
+    w-[45%]
+    rounded
+    mt-8
+    block
+}
+
+.countdown__nd__button {
+    @apply flex
+    justify-between
+    items-end
+    gap-4
+    mt-8
+}
+
+.countdown__container {
+    @apply w-[60%]
+    h-12
+    rounded-[.5rem] 
+}
+
+.button {
+    @apply w-[40%]
+    h-10
+    rounded-[1rem]
+}

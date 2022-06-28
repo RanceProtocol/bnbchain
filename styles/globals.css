@@ -21,6 +21,32 @@ a {
   padding: 0;
 }
 
+/* custome styles for react select of payyment token dropdown */
+.payment__token__select__control {
+  @apply bg-[transparent] !important;
+  @apply border-[transparent] !important;
+  @apply outline-0 !important;
+  @apply shadow-none !important;
+}
+
+.payment__token__select__menu {
+  @apply bg-theme-primary-1 !important;
+  @apply right-0 !important
+}
+
+.payment__token__select__menu-list {
+ 
+}
+
+.payment__token__select__option--is-selected {
+  @apply bg-theme-primary-2 !important;
+}
+
+.payment__token__select__option--is-focused {
+  @apply bg-theme-primary-2 !important;
+  @apply cursor-pointer !important;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

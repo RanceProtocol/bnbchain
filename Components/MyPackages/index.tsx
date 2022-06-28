@@ -1,11 +1,12 @@
 import React, { Fragment, useEffect, useState } from "react";
-import MyPackageCard from "./MyPackageCard";
+import MyPackageCard from "./myPackageCard";
 import styles from "./styles.module.css";
 import { insurancePackages } from "../../constants/dummyData";
 import WithdrawInsuranceModal from "../WithdrawInsuranceModal";
 import SuccessModal from "../SuccessModal";
 import { useWeb3React } from "@web3-react/core";
 import { useInsuranceViewModel } from "../../modules/insurance/controllers/insuranceViewModel";
+import MyPackageCardSkeleton from "./myPackageCardSkeleton";
 
 const MyPackages = () => {
     const [withdrawModalState, setWithdrawModalState] = useState<{
@@ -45,6 +46,7 @@ const MyPackages = () => {
                         clickAction={clickAction}
                     />
                 ))}
+                <MyPackageCardSkeleton />
             </div>
             {/* <WithdrawInsuranceModal
                 state={withdrawModalState}
