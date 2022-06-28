@@ -34,10 +34,6 @@ a {
   @apply right-0 !important
 }
 
-.payment__token__select__menu-list {
- 
-}
-
 .payment__token__select__option--is-selected {
   @apply bg-theme-primary-2 !important;
 }
