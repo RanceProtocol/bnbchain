@@ -41,3 +41,8 @@ export const periodInMonthsToPlanData: {
         timeUnitFull: "years",
     },
 };
+
+export const getDurationData = (periodInSeconds: number) => {
+    const months = Math.round(periodInSeconds / (60 * 60 * 24 * 30));
+    return periodInMonthsToPlanData[months];
+};

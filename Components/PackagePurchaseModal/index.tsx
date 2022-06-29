@@ -326,7 +326,7 @@ const PackagePurchaseModal: FC<IProps> = ({
         const insureCoinName = coin as string;
         const paymentTokenName = paymentToken.label;
         
-        await insure({planId, amount, path, insureCoin: insureCoinName, paymentToken: "gd", callbacks})
+        await insure({planId, amount, path, insureCoin: insureCoinName, paymentToken: paymentTokenName, callbacks})
 
     };
 

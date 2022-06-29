@@ -34,7 +34,6 @@ export const useInsuranceViewModel = (props: IProps) => {
     }, [insuranceContract]);
 
     const intializeUserPackages = useCallback(async (): Promise<void> => {
-        if (!address) return;
         await intializeUserPackagesAction(insuranceContract, address)(dispatch);
     }, [insuranceContract, address]);
 

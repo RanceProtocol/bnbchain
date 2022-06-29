@@ -1,4 +1,4 @@
-import { periodInMonthsToPlanData } from "../../../constants/data";
+import { getDurationData } from "../../../constants/data";
 import { RanceProtocol } from "../../../typechain";
 import type { RanceProtocol as IRanceProtocol } from "../../../typechain/RanceProtocol";
 import { structOutputToObject } from "../../../utils/helpers";
@@ -10,9 +10,9 @@ export const getPackagePlans = async (
     Pick<IInsuranceStore, "packagePlans" | "insurableCoins" | "paymentTokens">
 > => {
     try {
-        const packages: IRanceProtocol.PackagePlanStructOutput[] =
+        const plans: IRanceProtocol.PackagePlanStructOutput[] =
             await contract.getAllPackagePlans();
-        const formatedObject = packages.map(
+        const formatedObject = plans.map(
             (item: IRanceProtocol.PackagePlanStructOutput) =>
                 structOutputToObject(item)
         );
@@ -38,7 +38,6 @@ export const getPackagePlans = async (
         );
 
         const paymentTokensObject = Object.fromEntries(paymentTokensEntries);
-        // paymentTokensObject["USDC"] = "0xc21223249CA28397B4B6541dfFaEcC539BfF0c59"
 
         return {
             insurableCoins: insurableCoinsObject,
@@ -50,7 +49,3 @@ export const getPackagePlans = async (
     }
 };
 
-const getDurationData = (periodInSeconds: number) => {
-    const months = Math.round(periodInSeconds / (60 * 60 * 24 * 30));
-    return periodInMonthsToPlanData[months];
-};

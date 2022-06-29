@@ -30,4 +30,6 @@ export interface IInsurancePackage {
     isWithdrawn: boolean
     insureCoin: string
     paymentToken: string
+    uninsureFee: BigNumber
+    packagePlanName: string
 }

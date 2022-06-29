@@ -27,12 +27,13 @@ const MyPackages = () => {
       setShowWithdrawSuccess(true)
     }
 
-    const {active, account, library} = useWeb3React()
-    // const {intializeUserPackages} = useInsuranceViewModel({active, address: account, provider: library})
+    const {account, library} = useWeb3React()
 
-    // useEffect(() => {
-    //     intializeUserPackages()
-    // }, [])
+    const {intializeUserPackages} = useInsuranceViewModel({address: account, provider: library})
+
+    useEffect(() => {
+        intializeUserPackages()
+    }, [account])
     
     
 

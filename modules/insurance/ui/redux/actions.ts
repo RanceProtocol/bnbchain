@@ -36,7 +36,7 @@ export const initializePackagePlans =
     };
 
 export const intializeUserPackages =
-    (contract: RanceProtocol, userAddress: string) =>
+    (contract: RanceProtocol, userAddress: string | null | undefined) =>
     async (
         dispatch: Dispatch<{ type: string; payload?: any }>
     ): Promise<void> => {
@@ -45,10 +45,10 @@ export const intializeUserPackages =
         });
 
         try {
-            const packages = await getUserPackages(contract, userAddress);
+            const data = await getUserPackages(contract, userAddress);
             dispatch({
                 type: actionTypes.GET__USER__PACKAGES__SUCCESS,
-                payload: { userPackages: packages },
+                payload: data ,
             });
         } catch (error) {
             dispatch({
