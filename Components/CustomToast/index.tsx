@@ -1,8 +1,8 @@
 import styles from "./styles.module.css";
-import { BsLightningCharge } from "react-icons/bs";
 import { BiError } from "react-icons/bi";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { IoCloseOutline } from "react-icons/io5";
+import {RiExchangeLine} from "react-icons/ri"
 import clsx from "clsx";
 import { ReactNode } from "react";
 import { ToastContentProps } from "react-toastify";
@@ -26,7 +26,7 @@ interface IProps {
 }
 
 const icons = {
-    transaction: <BsLightningCharge />,
+    transaction: <RiExchangeLine />,
     error: <BiError />,
     successfull: <IoMdCheckmarkCircleOutline />,
 };
@@ -51,7 +51,7 @@ const CustomToast =
                         onClick={closeToast}
                     />
                     <span className={styles.message}>{message}</span>
-                    <span className={styles.status}>Status - {status}</span>
+                    <span className={styles.status}>Status - <span className={clsx({[styles.status__error]: status === STATUS.ERROR, [styles.status__pending]: status === STATUS.PENDING, [styles.status__successfull]: status === STATUS.SUCCESSFULL})}>{status}</span></span>
                 </div>
             </div>
         );

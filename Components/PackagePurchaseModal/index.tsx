@@ -8,11 +8,21 @@ import React, {
     useEffect,
     useState,
 } from "react";
-import { isValidAmountValue } from "../../utils/helpers";
+import { isValidAmountValue, truncateString } from "../../utils/helpers";
 import ModalWrapper from "../ModalWrapper";
 import styles from "./styles.module.css";
 import Select, { GroupBase, OptionsOrGroups, SingleValue } from "react-select";
 import { insuranceState } from "../../modules/insurance/ui/redux/state";
+import useLazyToken from "../../hooks/useLazyToken";
+import { ranceProtocol, tokens } from "../../constants/addresses";
+import { BigNumber, utils } from "ethers";
+import CustomToast, { STATUS, TYPE } from "../CustomToast";
+import { toast } from "react-toastify";
+import { useInsuranceViewModel } from "../../modules/insurance/controllers/insuranceViewModel";
+import { useWeb3React } from "@web3-react/core";
+import { pathObj } from "../../constants/path";
+
+type addressType = keyof typeof ranceProtocol;
 
 interface IProps {
     state: { open: boolean; planId: string };
@@ -24,38 +34,125 @@ const PackagePurchaseModal: FC<IProps> = ({
     onClose,
 }) => {
     const state = insuranceState();
-    const {packagePlans, insurableCoins, paymentTokens} = state;
-    const targetPackageData = packagePlans.find(
-        (x) => x.planId === planId
-    );
+    const { packagePlans, insurableCoins, paymentTokens } = state;
+    const targetPackageData = packagePlans.find((x) => x.planId === planId);
+
+    const { approve, getAllowance, getBalance, getDecimal, getSymbol } =
+        useLazyToken();
+        const { account, library } = useWeb3React();
+        const {insure} = useInsuranceViewModel({
+            address: account,
+            provider: library
+        })
 
     const [formDetails, setFormDetails] = useState<{
         coin: string | undefined;
         amount: string;
         insuranceFee: string;
         total: string;
-        paymentToken:  { value: string, label: string } | null
-    }>({ coin: undefined, amount: "", insuranceFee: "0", total: "0", paymentToken: null });
+        paymentToken: { value: string; label: string } | null;
+    }>({
+        coin: undefined,
+        amount: "",
+        insuranceFee: "0",
+        total: "0",
+        paymentToken: null,
+    });
 
-    const [paymentTokenOptions, setPaymentTokenOptions] = useState<OptionsOrGroups<{ value: string; label: string; }, GroupBase<{ value: string; label: string; }>> | undefined>()
-    const { amount, insuranceFee, total, paymentToken } = formDetails;
+    const [paymentTokenOptions, setPaymentTokenOptions] = useState<
+        | OptionsOrGroups<
+              { value: string; label: string },
+              GroupBase<{ value: string; label: string }>
+          >
+        | undefined
+    >();
+    const { amount, insuranceFee, total, paymentToken, coin } = formDetails;
+    const [
+        userSelectedPaymentTokenDetails,
+        setUserSelectedPaymentTokenDetails,
+    ] = useState<{
+        symbol: string;
+        balance: BigNumber | null;
+        decimal: number | null;
+        allowance: BigNumber | null;
+    }>({
+        symbol: "",
+        balance: null,
+        decimal: null,
+        allowance: null,
+    });
+    const [sendingTx, setSendingTx] = useState(false);
+
+    const handleCloseModal = () => {
+        // disallow clossing modal when transaction is ongoing
+        !sendingTx && onClose();
+    };
 
     useEffect(() => {
-      if(!insurableCoins || formDetails.coin) return
-      setFormDetails((prev) => ({
-        ...prev,
-        coin: Object.keys(insurableCoins)[0],
-    }));
-    }, [JSON.stringify(insurableCoins)])
+        if (!insurableCoins || formDetails.coin) return;
+        setFormDetails((prev) => ({
+            ...prev,
+            coin: Object.keys(insurableCoins)[0],
+        }));
+    }, [JSON.stringify(insurableCoins)]);
 
     useEffect(() => {
-        if(!paymentTokens) return
-        const entries = Object.entries(paymentTokens)
-        const paymentTokenOptionsObject = entries.map((entry: string[]) => ({value: entry[1], label: entry[0]}))
-        setPaymentTokenOptions(paymentTokenOptionsObject)
-      }, [JSON.stringify(paymentTokens)])
-      
-      
+        if (!paymentTokens) return;
+        const entries = Object.entries(paymentTokens);
+        const paymentTokenOptionsObject = entries.map((entry: string[]) => ({
+            value: entry[1],
+            label: entry[0],
+        }));
+        setPaymentTokenOptions(paymentTokenOptionsObject);
+        setFormDetails((prev) => ({
+            ...prev,
+            paymentToken: paymentTokenOptionsObject[0],
+        }));
+    }, [JSON.stringify(paymentTokens)]);
+
+    useEffect(() => {
+        if (!paymentToken?.value) return;
+        // before fetching data for the new tokens, clear the state
+        setUserSelectedPaymentTokenDetails({
+            symbol: "",
+            balance: null,
+            decimal: null,
+            allowance: null,
+        });
+        (async () => {
+            try {
+                const response = await Promise.all([
+                    getSymbol(paymentToken.value),
+                    getBalance(paymentToken.value),
+                    getDecimal(paymentToken.value),
+                    getAllowance(
+                        paymentToken.value,
+                        ranceProtocol[
+                            process.env
+                                .NEXT_PUBLIC_DAPP_ENVIRONMENT as addressType
+                        ]
+                    ),
+                ]);
+
+                setUserSelectedPaymentTokenDetails({
+                    symbol: response[0],
+                    balance: response[1],
+                    decimal: response[2],
+                    allowance: response[3],
+                });
+            } catch (error) {
+                console.error(error);
+                const toastBody = CustomToast({
+                    message:
+                        "Error getting payment token information! please reload",
+                    status: STATUS.ERROR,
+                    type: TYPE.ERROR,
+                });
+                toast(toastBody);
+            }
+        })();
+    }, [JSON.stringify(paymentToken)]);
+
     const handleCoinChange = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
             setFormDetails((prev) => ({
@@ -66,9 +163,12 @@ const PackagePurchaseModal: FC<IProps> = ({
         [setFormDetails]
     );
 
-    const handlePaymentTokenChange = useCallback((selectedOpt: SingleValue<{ value: string, label: string }>) => {
-       setFormDetails(prev => ({...prev, paymentToken: selectedOpt}))
-    },[setFormDetails])
+    const handlePaymentTokenChange = useCallback(
+        (selectedOpt: SingleValue<{ value: string; label: string }>) => {
+            setFormDetails((prev) => ({ ...prev, paymentToken: selectedOpt }));
+        },
+        [setFormDetails]
+    );
 
     const handleAmountChange = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
@@ -93,24 +193,146 @@ const PackagePurchaseModal: FC<IProps> = ({
 
     //reset mmodal state after close
     const onAfterClose = () => {
-        setFormDetails({
-            coin: Object.keys(insurableCoins)[0],
-            amount: "",
-            insuranceFee: "0",
-            total: "0",
-            paymentToken: null
-        });
+        setFormDetails((prev) => ({
+            ...prev,
+            ...{
+                coin: Object.keys(insurableCoins)[0],
+                amount: "",
+                insuranceFee: "0",
+                total: "0",
+            },
+        }));
     };
 
-    const onSubmit = (event: FormEvent<HTMLElement>) => {
-        event.preventDefault();
-        if (amount || !!isValidAmountValue(amount))
-            return console.log("Please enter an amount");
-
-        console.log("submitting....");
+    const handleApprove = async () => {
+        if (formDetails.total === "0" || !paymentToken) return;
+        let pendingToastId: number | string = "";
+        const callbacks = {
+            sent: () => {
+                const toastBody = CustomToast({
+                    message: `Approving ${userSelectedPaymentTokenDetails.symbol} for insurance`,
+                    status: STATUS.PENDING,
+                    type: TYPE.TRANSACTION,
+                });
+                pendingToastId = toast(toastBody, { autoClose: false });
+                setSendingTx(true);
+            },
+            successfull: async () => {
+                try {
+                    const newAllowance = await getAllowance(
+                        paymentToken.value,
+                        ranceProtocol[
+                            process.env
+                                .NEXT_PUBLIC_DAPP_ENVIRONMENT as addressType
+                        ]
+                    );
+                    setUserSelectedPaymentTokenDetails((prev) => ({
+                        ...prev,
+                        allowance: newAllowance,
+                    }));
+                } catch (error) {
+                    console.error(error);
+                } finally {
+                    toast.dismiss(pendingToastId);
+                    const toastBody = CustomToast({
+                        message: `${userSelectedPaymentTokenDetails.symbol} approval successfull`,
+                        status: STATUS.SUCCESSFULL,
+                        type: TYPE.TRANSACTION,
+                    });
+                    toast(toastBody);
+                    setSendingTx(false);
+                }
+            },
+            failed: (errorMessage?: string) => {
+                const toastBody = CustomToast({
+                    message: errorMessage ? truncateString(errorMessage, 100) : `${userSelectedPaymentTokenDetails.symbol} approval failed`,
+                    status: STATUS.ERROR,
+                    type: TYPE.TRANSACTION,
+                });
+                toast(toastBody);
+                setSendingTx(false);
+            },
+        };
+        try {
+            await approve(
+                paymentToken?.value,
+                ranceProtocol[
+                    process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as addressType
+                ],
+                utils.parseUnits(
+                    formDetails.total,
+                    userSelectedPaymentTokenDetails.decimal as number
+                ),
+                callbacks
+            );
+        } catch (error: any) {
+            console.error(error);
+        }
     };
 
-    const CustomTokenOption:FC<{value: string, label: string}> = ({label}) => {
+    const handleInsure = async () => {
+        if (formDetails.total === "0" || !paymentToken) return;
+
+        let pendingToastId: number | string = "";
+        const callbacks = {
+            sent: () => {
+                const toastBody = CustomToast({
+                    message: `Buying a ${targetPackageData?.duration} ${targetPackageData?.timeUnitFull} insurance package for ${coin}`,
+                    status: STATUS.PENDING,
+                    type: TYPE.TRANSACTION,
+                });
+                pendingToastId = toast(toastBody, { autoClose: false });
+                setSendingTx(true);
+            },
+            successfull: async () => {
+                try {
+                    const newBalance = await getBalance(
+                        ranceProtocol[
+                            process.env
+                                .NEXT_PUBLIC_DAPP_ENVIRONMENT as addressType
+                        ]
+                    );
+                    setUserSelectedPaymentTokenDetails((prev) => ({
+                        ...prev,
+                        balance: newBalance,
+                    }));
+                } catch (error) {
+                    console.error(error);
+                }finally {
+                    const toastBody = CustomToast({
+                        message: `Successfully bought a ${targetPackageData?.duration} ${targetPackageData?.timeUnitFull} insurance package for ${coin}`,
+                        status: STATUS.SUCCESSFULL,
+                        type: TYPE.TRANSACTION,
+                    });
+                    toast.dismiss(pendingToastId);
+                    toast(toastBody);
+                    setSendingTx(false);
+                }
+            },
+            failed: (errorMessage?: string) => {
+                const toastBody = CustomToast({
+                    message: errorMessage ? truncateString(errorMessage, 100) : "Insurance package purchase failed",
+                    status: STATUS.ERROR,
+                    type: TYPE.TRANSACTION,
+                });
+                toast.dismiss(pendingToastId);
+                toast(toastBody);
+                setSendingTx(false);
+            },
+        };
+
+        const path = Object.values(pathObj[`${paymentToken.label}-${coin}` as keyof typeof pathObj])
+        const amount = utils.parseUnits(total, userSelectedPaymentTokenDetails.decimal as number)
+        const insureCoinName = coin as string;
+        const paymentTokenName = paymentToken.label;
+        
+        await insure({planId, amount, path, insureCoin: insureCoinName, paymentToken: "gd", callbacks})
+
+    };
+
+    const CustomTokenOption: FC<{ value: string; label: string }> = ({
+        label,
+    }) => {
         return (
             <div className={styles.token__custom__label}>
                 <div className={styles.payment__token__dropdown__icon}>
@@ -120,22 +342,29 @@ const PackagePurchaseModal: FC<IProps> = ({
                         layout="fill"
                     />
                 </div>
-                <span className={styles.payment__token__icon__label}>{label}</span>
+                <span className={styles.payment__token__icon__label}>
+                    {label}
+                </span>
             </div>
-        )
-    }
+        );
+    };
 
     return (
         <ModalWrapper
             open={open}
             label="Insurance Package Purchase Modal"
-            onClose={onClose}
+            onClose={handleCloseModal}
             onAfterClose={onAfterClose}
             contentClassName={styles.root}
         >
             <div className={styles.header}>
-                <h1 className={styles.title}>{`${targetPackageData?.packageType} Package`}</h1>
-                <button className={styles.close__btn} onClick={onClose}>
+                <h1
+                    className={styles.title}
+                >{`${targetPackageData?.packageType} Package`}</h1>
+                <button
+                    className={styles.close__btn}
+                    onClick={handleCloseModal}
+                >
                     <div className={styles.close__icon__wrapper}>
                         <Image
                             src={`/icons/close.svg`}
@@ -163,7 +392,7 @@ const PackagePurchaseModal: FC<IProps> = ({
                 </div>
             </div>
 
-            <form className={styles.form} onSubmit={onSubmit}>
+            <form className={styles.form}>
                 <div className={styles.coins__container}>
                     {Object.keys(insurableCoins).map((coin: string) => (
                         <label
@@ -194,15 +423,20 @@ const PackagePurchaseModal: FC<IProps> = ({
                     ))}
                 </div>
                 <div className={styles.input__group}>
-                    <label htmlFor="payment__token__dropdown" className = {styles.label}>Payment token</label>
+                    <label
+                        htmlFor="payment__token__dropdown"
+                        className={styles.label}
+                    >
+                        Payment token
+                    </label>
                     <Select
                         onChange={handlePaymentTokenChange}
-                        placeholder = "Select payment token"
+                        placeholder="Select payment token"
                         options={paymentTokenOptions}
-                        value = {paymentToken}
-                        name = "payment__token__dropdown"
+                        value={paymentToken}
+                        name="payment__token__dropdown"
                         className={styles.payment__token__select__container}
-                        classNamePrefix = "payment__token__select"
+                        classNamePrefix="payment__token__select"
                         formatOptionLabel={CustomTokenOption}
                     />
                 </div>
@@ -211,9 +445,20 @@ const PackagePurchaseModal: FC<IProps> = ({
                         <label className={styles.label} htmlFor="amount__input">
                             Amount to insure
                         </label>
-                        <span className={styles.balance}>
-                            Available: 1000 MUSD
-                        </span>
+                        {userSelectedPaymentTokenDetails.balance ? (
+                            <span className={styles.balance}>
+                                {`Available: ${Number(
+                                    utils.formatUnits(
+                                        userSelectedPaymentTokenDetails.balance,
+                                        userSelectedPaymentTokenDetails.decimal as number
+                                    )
+                                )} ${userSelectedPaymentTokenDetails.symbol}`}
+                            </span>
+                        ) : (
+                            <span className={styles.balance}>
+                                Available: loading...
+                            </span>
+                        )}
                     </div>
                     <input
                         type="text"
@@ -246,9 +491,75 @@ const PackagePurchaseModal: FC<IProps> = ({
                     </div>
                 </div>
 
-                <button type="submit" className={styles.Purchase__button}>
-                    Buy package
-                </button>
+                {total !== "0" &&
+                    userSelectedPaymentTokenDetails.balance &&
+                    userSelectedPaymentTokenDetails.decimal &&
+                    userSelectedPaymentTokenDetails.balance?.lt(
+                        utils.parseUnits(
+                            total,
+                            userSelectedPaymentTokenDetails.decimal
+                        )
+                    ) && (
+                        <span className={styles.message}>
+                            Insufficient balance
+                        </span>
+                    )}
+
+                {total !== "0" &&
+                    userSelectedPaymentTokenDetails.balance &&
+                    userSelectedPaymentTokenDetails.decimal &&
+                    userSelectedPaymentTokenDetails.allowance &&
+                    userSelectedPaymentTokenDetails.balance.gte(
+                        utils.parseUnits(
+                            total,
+                            userSelectedPaymentTokenDetails.decimal
+                        )
+                    ) &&
+                    userSelectedPaymentTokenDetails.allowance.lt(
+                        utils.parseUnits(
+                            total,
+                            userSelectedPaymentTokenDetails.decimal
+                        )
+                    ) && (
+                        <button
+                            type="button"
+                            onClick={handleApprove}
+                            className={styles.Purchase__button}
+                            disabled={sendingTx}
+                        >
+                            {sendingTx ? "Approving..." : "Approve"}
+                        </button>
+                    )}
+
+                {total !== "0" &&
+                    userSelectedPaymentTokenDetails.balance &&
+                    userSelectedPaymentTokenDetails.decimal &&
+                    userSelectedPaymentTokenDetails.allowance &&
+                    userSelectedPaymentTokenDetails.balance.gte(
+                        utils.parseUnits(
+                            total,
+                            userSelectedPaymentTokenDetails.decimal
+                        )
+                    ) &&
+                    userSelectedPaymentTokenDetails.allowance.gte(
+                        utils.parseUnits(
+                            total,
+                            userSelectedPaymentTokenDetails.decimal
+                        )
+                    ) && (
+                        <button
+                            type="button"
+                            className={styles.Purchase__button}
+                            disabled={sendingTx}
+                            onClick={handleInsure}
+                        >
+                            {sendingTx ? "Buying package..." : "Buy package"}
+                        </button>
+                    )}
+
+                {total === "0" && (
+                    <span className={styles.message}>Input amount</span>
+                )}
             </form>
         </ModalWrapper>
     );

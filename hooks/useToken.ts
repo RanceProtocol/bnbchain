@@ -15,7 +15,7 @@ const useToken = (address: string) => {
 
     const contract = Erc20__factory.connect(
         address,
-        library?.getSigner || getDefaultProvider()
+        library?.getSigner() || getDefaultProvider()
     );
     const { send } = useTransaction();
 
@@ -24,14 +24,14 @@ const useToken = (address: string) => {
         const result = await contract.symbol();
         setSymbol(result);
         return result;
-    };
+    }
 
     const getDecimals = async () => {
         if (decimals !== 0) return decimals;
         const result = await contract.decimals();
         setDecimals(result);
         return result;
-    };
+    }
 
     const getBalance = async () => {
         if (!active || !account) {
@@ -40,17 +40,20 @@ const useToken = (address: string) => {
         const result = await contract.balanceOf(account);
         setBalance(result);
         return result;
-    };
+    }
 
     const approve = async (
         spender: string,
         amount: string | BigNumber,
         callbacks?: { [key: string]: () => void }
     ): Promise<void> => {
+        if (!active || !account) {
+            throw new Error("Please connect your wallet");
+        }
         const method = contract.approve;
         const methodParams = [spender, amount];
         await send({ method, methodParams, callbacks });
-    };
+    }
 
     const getAllowance = async (spender: string) => {
         if (!active || !account) {
@@ -60,9 +63,10 @@ const useToken = (address: string) => {
         setAllowance((allowances) => ({ ...allowances, [spender]: result }));
         return result;
     };
+    
 
     useEffect(() => {
-        if (active) {
+        if (!active || !contract) return
             (async () => {
                 await getDecimals();
                 getBalance();
@@ -93,9 +97,9 @@ const useToken = (address: string) => {
                     getBalance();
                 }
             );
-        }
 
         return () => {
+            if (!active || !contract) return
             contract.removeAllListeners();
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -107,10 +111,9 @@ const useToken = (address: string) => {
         decimals,
         getAllowance,
         allowances,
-        send,
         approve,
         balance,
-        contract,
+        symbol
     };
 };
 

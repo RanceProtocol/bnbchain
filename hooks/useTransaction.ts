@@ -1,9 +1,11 @@
 import { ethers } from "ethers";
+import { toast } from "react-toastify";
+import CustomToast, { STATUS, TYPE } from "../Components/CustomToast";
 
 export interface SendParams {
     method: ethers.ContractFunction;
     methodParams?: any[];
-    callbacks?: { [key: string]: () => void };
+    callbacks?: { [key: string]: (message?:string) => void };
 }
 
 const useTransaction = () => {
@@ -12,8 +14,7 @@ const useTransaction = () => {
 
         try {
             const txResponse = await method(
-                ...(methodParams ? methodParams : [])
-            );
+                ...(methodParams ? methodParams : []));
             callbacks && callbacks["sent"] && callbacks["sent"]();
 
             const txReceipt = await txResponse.wait();
@@ -26,7 +27,9 @@ const useTransaction = () => {
                 callbacks && callbacks["failed"] && callbacks["failed"]();
             }
         } catch (error: any) {
-            console.error(error);
+            if(error.message) {
+                return callbacks && callbacks["failed"] && callbacks["failed"](error.message);
+            }
             callbacks && callbacks["failed"] && callbacks["failed"]();
         }
     };

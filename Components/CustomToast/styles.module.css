@@ -7,7 +7,7 @@
 
 .type__icon {
     @apply self-center
-    text-5xl
+    text-[2rem]
 }
 
 .transaction__icon {
@@ -20,10 +20,6 @@
 
 .successfull__icon {
     @apply text-theme-green
-}
-
-.main {
-
 }
 
 .close__icon {
@@ -43,4 +39,16 @@
 .status {
     @apply block
     text-sm
+}
+
+.status__error {
+@apply font-bold text-theme-red-1
+}
+
+.status__pending {
+    @apply font-bold text-theme-secondary-1
+}
+
+.status__successfull {
+    @apply font-bold text-theme-green
 }

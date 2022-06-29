@@ -38,6 +38,7 @@ export const getPackagePlans = async (
         );
 
         const paymentTokensObject = Object.fromEntries(paymentTokensEntries);
+        // paymentTokensObject["USDC"] = "0xc21223249CA28397B4B6541dfFaEcC539BfF0c59"
 
         return {
             insurableCoins: insurableCoinsObject,

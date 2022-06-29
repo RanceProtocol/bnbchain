@@ -56,7 +56,7 @@ const InsurancePackagePlans: FC<IProp> = () => {
                           )
                       )}
             </div>
-            <PackagePurchaseModal
+            {account && <PackagePurchaseModal
                 state={packagePurchaseModal}
                 onClose={() =>
                     setPackagePurchaseModal((prev) => ({
@@ -64,7 +64,7 @@ const InsurancePackagePlans: FC<IProp> = () => {
                         open: false,
                     }))
                 }
-            />
+            />}
         </Fragment>
     );
 };

@@ -167,3 +167,17 @@
     font-bold text-2xl
     rounded-full p-4
 }
+
+.Purchase__button:disabled {
+    @apply bg-theme-secondary-alpha-2
+    text-theme-white-alpha
+    cursor-not-allowed
+}
+
+.message {
+    @apply block
+    text-xl
+    py-2
+    text-center
+    text-theme-gray-6
+}

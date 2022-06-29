@@ -29,3 +29,10 @@ export const shortenAddress = (address: string): string => {
 export const structOutputToObject = (structOutput: any[] & {[key:string]: any}):any  => {
     return Object.fromEntries(Object.entries(structOutput).filter(([key]) => isNaN(Number(key))));
 }
+
+export const truncateString = (str:string, num:number): string => {
+    if (str.length <= num) {
+      return str
+    }
+    return str.slice(0, num) + '...'
+  }

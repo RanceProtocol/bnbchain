@@ -3,9 +3,12 @@ import { FC } from "react";
 import styles from "./styles.module.css";
 import { utils } from "ethers";
 import type { IInsurancePackagePlan } from "../../modules/insurance/domain/entities";
+import { useWeb3React } from "@web3-react/core";
+import { toggleWalletModal } from "../../appState/shared/action";
+import { useDispatch } from "react-redux";
 
 interface IProp extends IInsurancePackagePlan {
-    insurableCoins: string[]
+    insurableCoins: string[];
     onClickAction: (data: { open: boolean; planId: string }) => void;
 }
 
@@ -18,9 +21,11 @@ const InsurancePackagePlanCard: FC<IProp> = (props) => {
         timeUnit,
         uninsureFee,
         onClickAction,
-        insurableCoins
+        insurableCoins,
     } = props;
-    
+    const { account } = useWeb3React();
+
+    const dispatch = useDispatch();
 
     return (
         <div className={styles.insurance__package__card}>
@@ -66,12 +71,22 @@ const InsurancePackagePlanCard: FC<IProp> = (props) => {
                     <span className={styles.key}>Unsurance Fee</span>
                 </div>
             </div>
-            <button
-                className={styles.button}
-                onClick={() => onClickAction({ open: true, planId })}
-            >
-                Buy package
-            </button>
+
+            {account ? (
+                <button
+                    className={styles.button}
+                    onClick={() => onClickAction({ open: true, planId })}
+                >
+                    Buy package
+                </button>
+            ) : (
+                <button
+                    className={styles.button}
+                    onClick={() => toggleWalletModal(dispatch)}
+                >
+                    Connect wallet
+                </button>
+            )}
         </div>
     );
 };
