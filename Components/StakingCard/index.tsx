@@ -90,7 +90,7 @@ const StakingCard: FC<IProps> = (props) => {
             </div>)
             }
 
-            <a className={styles.contract__link} href={contractUrl} target = "_blank">view contract</a>
+            <a className={styles.contract__link} href={contractUrl} target = "_blank" rel="noreferrer">view contract</a>
         </div>
             <StakingModal 
                 open = {modalState.open}

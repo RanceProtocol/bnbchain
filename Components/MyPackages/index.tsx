@@ -37,6 +37,7 @@ const MyPackages = () => {
 
     useEffect(() => {
         intializeUserPackages();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [account]);
 
     const state = insuranceState();

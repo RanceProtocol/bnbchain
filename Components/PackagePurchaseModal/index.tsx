@@ -94,7 +94,7 @@ const PackagePurchaseModal: FC<IProps> = ({
             ...prev,
             coin: Object.keys(insurableCoins)[0],
         }));
-    }, [JSON.stringify(insurableCoins)]);
+    }, [insurableCoins, formDetails.coin]);
 
     useEffect(() => {
         if (!paymentTokens) return;
@@ -103,12 +103,14 @@ const PackagePurchaseModal: FC<IProps> = ({
             value: entry[1],
             label: entry[0],
         }));
+        
         setPaymentTokenOptions(paymentTokenOptionsObject);
+        if (!paymentTokenOptionsObject.length) return;
         setFormDetails((prev) => ({
             ...prev,
             paymentToken: paymentTokenOptionsObject[0],
         }));
-    }, [JSON.stringify(paymentTokens)]);
+    }, [paymentTokens]);
 
     useEffect(() => {
         if (!paymentToken?.value) return;
@@ -150,8 +152,8 @@ const PackagePurchaseModal: FC<IProps> = ({
                 });
                 toast(toastBody);
             }
-        })();
-    }, [JSON.stringify(paymentToken)]);
+        })();// eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [paymentToken?.value]);
 
     const handleCoinChange = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {

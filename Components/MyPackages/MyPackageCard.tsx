@@ -49,21 +49,20 @@ const MyPackageCard: FC<IProp> = (props) => {
         })();
     }, []);
 
-    const init = async () => {
-        const chartData = await getCoinChartData(
-            addressToCoinDetails[insureCoin].id,
-            startTimestamp
-        );
-        setChartData(chartData);
-        const priceChange = await getPriceChangeSinceInsured(
-            addressToCoinDetails[insureCoin].id,
-            startTimestamp
-        );
-        setPriceChange(priceChange);
-    };
-
     useEffect(() => {
-        init();
+        (async () => {
+            const chartData = await getCoinChartData(
+                addressToCoinDetails[insureCoin].id,
+                startTimestamp
+            );
+            setChartData(chartData);
+            const priceChange = await getPriceChangeSinceInsured(
+                addressToCoinDetails[insureCoin].id,
+                startTimestamp
+            );
+            setPriceChange(priceChange);
+        })()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const { countdown } = useCountdown(endTimestamp);

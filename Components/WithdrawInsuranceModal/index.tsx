@@ -56,7 +56,7 @@ const WithdrawInsuranceModal: FC<IProps> = ({
         if (!id) return;
         const target = userPackages.find((item) => item.packageId === id);
         setSelectedPackage(target);
-    }, [id]);
+    }, [id, userPackages]);
 
     const HandleCancel = async () => {
         let pendingToastId: number | string = "";

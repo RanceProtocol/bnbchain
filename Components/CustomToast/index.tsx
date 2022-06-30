@@ -2,7 +2,7 @@ import styles from "./styles.module.css";
 import { BiError } from "react-icons/bi";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { IoCloseOutline } from "react-icons/io5";
-import {RiExchangeLine} from "react-icons/ri"
+import { RiExchangeLine } from "react-icons/ri";
 import clsx from "clsx";
 import { ReactNode } from "react";
 import { ToastContentProps } from "react-toastify";
@@ -32,7 +32,8 @@ const icons = {
 };
 const CustomToast =
     ({ message, status, type }: IProps) =>
-    ({ closeToast }: ToastContentProps<unknown>):ReactNode =>
+    // eslint-disable-next-line react/display-name
+    ({ closeToast }: ToastContentProps<unknown>): ReactNode =>
         (
             <div className={styles.root}>
                 <div
@@ -51,7 +52,20 @@ const CustomToast =
                         onClick={closeToast}
                     />
                     <span className={styles.message}>{message}</span>
-                    <span className={styles.status}>Status - <span className={clsx({[styles.status__error]: status === STATUS.ERROR, [styles.status__pending]: status === STATUS.PENDING, [styles.status__successfull]: status === STATUS.SUCCESSFULL})}>{status}</span></span>
+                    <span className={styles.status}>
+                        Status -{" "}
+                        <span
+                            className={clsx({
+                                [styles.status__error]: status === STATUS.ERROR,
+                                [styles.status__pending]:
+                                    status === STATUS.PENDING,
+                                [styles.status__successfull]:
+                                    status === STATUS.SUCCESSFULL,
+                            })}
+                        >
+                            {status}
+                        </span>
+                    </span>
                 </div>
             </div>
         );

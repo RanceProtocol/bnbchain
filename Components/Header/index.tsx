@@ -63,7 +63,9 @@ const Header: FC<IProp> = () => {
             </nav>
             {active ? (
                 <div className={styles.connected}>
-                    <div className={styles.connected__wallet}>
+                    {window.localStorage.getItem(
+                            "wallet"
+                        )&& <div className={styles.connected__wallet}>
                         <div className={styles.connected__wallet__icon}>
                             <Image
                                 src={`/icons/${window.localStorage.getItem(
@@ -76,7 +78,7 @@ const Header: FC<IProp> = () => {
                         <span>{`${window.localStorage.getItem(
                             "wallet"
                         )} connected`}</span>
-                    </div>
+                    </div>}
                     <button className={styles.connected__btn} onClick = {() => toggleAccountModal(dispatch)}>
                         <span>{shortenAddress(account as string)}</span>
                         <RiArrowDropDownLine

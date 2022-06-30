@@ -30,6 +30,7 @@ const InsurancePackagePlans: FC<IProp> = () => {
 
     useEffect(() => {
         initializePackagePlans();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     let insurableCoinsSymbols = Object.keys(insurableCoins)

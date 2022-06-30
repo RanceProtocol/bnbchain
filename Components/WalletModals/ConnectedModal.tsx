@@ -1,25 +1,43 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import ModalWrapper from "../ModalWrapper";
 import styles from "./styles.module.css";
 import Image from "next/image";
-import {toggleAccountModal} from "../../appState/shared/action"
+import { toggleAccountModal } from "../../appState/shared/action";
 import { useDispatch } from "react-redux";
+import useToken from "../../hooks/useToken";
+import { tokens } from "../../constants/addresses";
+import { utils } from "ethers";
+import { shortenAddress } from "../../utils/helpers";
+import { useWeb3React } from "@web3-react/core";
 
 interface IProps {
     open: boolean;
     onClose: () => void;
-    disconnectWallet: () => void
+    disconnectWallet: () => void;
 }
 
-
-export const ConnectedModal: FC<IProps> = ({ onClose, open, disconnectWallet }) => {
-
-    const dispatch = useDispatch()
+export const ConnectedModal: FC<IProps> = ({
+    onClose,
+    open,
+    disconnectWallet,
+}) => {
+    const dispatch = useDispatch();
 
     const disconnectWalletHandler = () => {
-        disconnectWallet()
-        toggleAccountModal(dispatch)
-    }
+        disconnectWallet();
+        toggleAccountModal(dispatch);
+    };
+    const { account } = useWeb3React();
+    const MUSD = useToken(tokens.MUSD);
+    const RANCE = useToken(tokens.RANCE);
+
+    const [connectedWallet, setConnectedWallet] = useState<string | null>();
+
+    useEffect(() => {
+        if (!account) return;
+        const wallet = window.localStorage.getItem("wallet");
+        setConnectedWallet(wallet);
+    }, [account, open]);
 
     return (
         <ModalWrapper
@@ -34,26 +52,41 @@ export const ConnectedModal: FC<IProps> = ({ onClose, open, disconnectWallet }) 
                 protocol
             </p>
             <div className={styles.connected__wallet__details}>
-                <div className={styles.connected__wallet__icon__wrapper}>
-                    <Image
-                        src={`/icons/metamask.png`}
-                        alt="connected wallet icon"
-                        layout="fill"
-                    />
-                </div>
-                <span className={styles.connected__wallet__name}>MetaMask connected</span>
-                <span className={styles.connected__wallet__address}>0x5TD6...4567</span>
+                {connectedWallet && (
+                    <div className={styles.connected__wallet__icon__wrapper}>
+                        <Image
+                            src={`/icons/${connectedWallet}.png`}
+                            alt="connected wallet icon"
+                            layout="fill"
+                        />
+                    </div>
+                )}
+                <span className={styles.connected__wallet__name}>
+                    MetaMask connected
+                </span>
+                <span className={styles.connected__wallet__address}>
+                    {shortenAddress(account as string)}
+                </span>
             </div>
 
             <div className={styles.wallet__balance}>
-                <span className = {styles.balance__value}>45 MUSD</span>
-                <span className = {styles.balance__value}>45 RANCE</span>
-                <span className = {styles.balance__key}>Wallet balance</span>
+                <span className={styles.balance__value}>{`${Number(
+                    utils.formatUnits(MUSD.balance, MUSD.decimals)
+                )} MUSD`}</span>
+                <span className={styles.balance__value}>{`${Number(
+                    utils.formatUnits(RANCE.balance, MUSD.decimals)
+                )} RANCE`}</span>
+                <span className={styles.balance__key}>Wallet balance</span>
             </div>
 
             <div className={styles.btn__group}>
-                <button className = {styles.disconect__btn} onClick = {disconnectWalletHandler}>Disconnect</button>
-                <button className = {styles.buy__btn}>Buy Rance</button>
+                <button
+                    className={styles.disconect__btn}
+                    onClick={disconnectWalletHandler}
+                >
+                    Disconnect
+                </button>
+                <button className={styles.buy__btn}>Buy Rance</button>
             </div>
 
             <button className={styles.close__btn} onClick={onClose}>
