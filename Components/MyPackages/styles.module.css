@@ -185,7 +185,8 @@
     @apply bg-theme-red-1
     text-sm
     md:text-base
-    px-3
+    px-2
+    sm:px-3
     md:px-6
     py-3
     rounded-xl
@@ -196,9 +197,19 @@
     @apply bg-theme-secondary-1
     text-sm
     md:text-base
-    px-3
+    px-2
+    sm:px-3
     md:px-6
     py-3
     rounded-xl
     whitespace-nowrap
+}
+
+.message {
+    @apply text-center
+    sm:col-span-2
+    xl:col-span-3
+    mt-8
+    text-theme-white-alpha
+    text-xl
 }

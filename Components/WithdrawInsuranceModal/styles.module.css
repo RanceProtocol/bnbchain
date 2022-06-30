@@ -122,4 +122,6 @@
 
 .cancel__btn {
     @apply text-theme-white
+    bg-theme-red-1
+    hover:bg-theme-red-2
 }

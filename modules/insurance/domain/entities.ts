@@ -32,4 +32,6 @@ export interface IInsurancePackage {
     paymentToken: string
     uninsureFee: BigNumber
     packagePlanName: string
+    duration: string
+    timeUnitFull: string
 }

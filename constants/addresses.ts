@@ -12,3 +12,6 @@ export const tokens = {
     MUSD: "0x95aEaF383E2e86A47c11CffdE1F7944eCB2C38C2",
     USCD: "0xc21223249CA28397B4B6541dfFaEcC539BfF0c59"
 }
+
+
+export const tokenAddressToName = Object.fromEntries(Object.entries(tokens).map((entries: string[]) => [entries[1], entries[0]]))

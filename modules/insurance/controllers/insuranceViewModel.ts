@@ -10,6 +10,8 @@ import {
     intializeUserPackages as intializeUserPackagesAction,
 } from "../ui/redux/actions";
 import { insure as insureUseCase } from "../usecases/insure";
+import { cancelInsurance as cancelInsuranceUseCase } from "../usecases/cancelInsurance";
+import { withdrawInsurance as withdrawInsuranceUseCase } from "../usecases/withdrawInsurance";
 
 interface IProps {
     address: string | null | undefined;
@@ -43,7 +45,7 @@ export const useInsuranceViewModel = (props: IProps) => {
         path: string[];
         insureCoin: string;
         paymentToken: string;
-        callbacks: { [key: string]: () => void };
+        callbacks: { [key: string]: (errorMessage?:string) => void };
     }
 
     const insure = useCallback(
@@ -68,5 +70,43 @@ export const useInsuranceViewModel = (props: IProps) => {
         [insuranceContract, address]
     );
 
-    return { initializePackagePlans, intializeUserPackages, insure };
+    interface ICancelParams {
+        packageId: string;
+        callbacks: { [key: string]: (errorMessage?:string) => void };
+    }
+
+    const cancelInsurance = useCallback(
+        async ({ packageId, callbacks }: ICancelParams): Promise<void> => {
+            await cancelInsuranceUseCase({
+                contract: insuranceContract,
+                packageId,
+                callbacks,
+            });
+        },
+        [insuranceContract, address]
+    );
+
+    interface IWithdrawParams {
+        packageId: string;
+        callbacks: { [key: string]: (errorMessage?:string) => void };
+    }
+
+    const withdrawInsurance = useCallback(
+        async ({ packageId, callbacks }: IWithdrawParams): Promise<void> => {
+            await withdrawInsuranceUseCase({
+                contract: insuranceContract,
+                packageId,
+                callbacks,
+            });
+        },
+        [insuranceContract, address]
+    )
+
+    return {
+        initializePackagePlans,
+        intializeUserPackages,
+        insure,
+        cancelInsurance,
+        withdrawInsurance,
+    };
 };
