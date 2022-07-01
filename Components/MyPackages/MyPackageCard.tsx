@@ -29,8 +29,6 @@ const MyPackageCard: FC<IProp> = (props) => {
         endTimestamp,
         initialDeposit,
         insureCoin,
-        isCancelled,
-        isWithdrawn,
         packageId,
         packagePlanName,
         startTimestamp,
