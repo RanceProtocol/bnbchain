@@ -41,7 +41,7 @@ const InsurancePackagePlanCard: FC<IProp> = (props) => {
                             key={coninSymbol}
                         >
                             <Image
-                                src={`/token icons/${coninSymbol}.png`}
+                                src={`/token-icons/${coninSymbol}.png`}
                                 alt={`${coninSymbol} logo`}
                                 layout="fill"
                             />

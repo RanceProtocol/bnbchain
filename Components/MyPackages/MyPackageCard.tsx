@@ -123,7 +123,7 @@ const MyPackageCard: FC<IProp> = (props) => {
                             <div className={styles.icon__nd__name}>
                                 <div className={styles.coin_logo__wrapper}>
                                     <Image
-                                        src={`/token icons/${addressToCoinDetails[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof addressToCoinDetails][
+                                        src={`/token-icons/${addressToCoinDetails[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof addressToCoinDetails][
                                             insureCoin
                                         ].symbol.toUpperCase()}.png`}
                                         alt={`${addressToCoinDetails[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof addressToCoinDetails][insureCoin].id} logo`}

@@ -45,14 +45,14 @@ const StakingCard: FC<IProps> = (props) => {
             <div className={styles.tokens__logos__container}>
                 <div className={styles.token__logo}>
                     <Image
-                        src={`/token icons/${stakeToken}.png`}
+                        src={`/token-icons/${stakeToken}.png`}
                         alt={`${stakeToken} logo`}
                         layout="fill"
                     />
                 </div>
                 <div className={styles.token__logo}>
                     <Image
-                        src={`/token icons/${earnToken}.png`}
+                        src={`/token-icons/${earnToken}.png`}
                         alt={`${earnToken} logo`}
                         layout="fill"
                     />

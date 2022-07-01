@@ -50,14 +50,14 @@ const StakingModal: FC<IProps> = ({
             <div className={styles.tokens__logos__container}>
                 <div className={styles.token__logo}>
                     <Image
-                        src={`/token icons/${stakeTokenName}.png`}
+                        src={`/token-icons/${stakeTokenName}.png`}
                         alt={`${stakeTokenName} logo`}
                         layout="fill"
                     />
                 </div>
                 <div className={styles.token__logo}>
                     <Image
-                        src={`/token icons/${earnTokenName}.png`}
+                        src={`/token-icons/${earnTokenName}.png`}
                         alt={`${earnTokenName} logo`}
                         layout="fill"
                     />

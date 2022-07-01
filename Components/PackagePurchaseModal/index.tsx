@@ -343,7 +343,7 @@ const PackagePurchaseModal: FC<IProps> = ({
             <div className={styles.token__custom__label}>
                 <div className={styles.payment__token__dropdown__icon}>
                     <Image
-                        src={`/token icons/${label}.png`}
+                        src={`/token-icons/${label}.png`}
                         alt="mad usd token icon"
                         layout="fill"
                     />
@@ -391,7 +391,7 @@ const PackagePurchaseModal: FC<IProps> = ({
                 </div>
                 <div className={styles.payment__token__icon}>
                     <Image
-                        src={`/token icons/MUSD.png`}
+                        src={`/token-icons/MUSD.png`}
                         alt="mad usd token icon"
                         layout="fill"
                     />
@@ -420,7 +420,7 @@ const PackagePurchaseModal: FC<IProps> = ({
                             />
                             <div className={styles.coin__radio__button__image}>
                                 <Image
-                                    src={`/token icons/${coin}.png`}
+                                    src={`/token-icons/${coin}.png`}
                                     alt="modal close icon"
                                     layout="fill"
                                 />
