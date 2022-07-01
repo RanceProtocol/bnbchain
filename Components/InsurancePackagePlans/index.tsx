@@ -8,6 +8,9 @@ import { useWeb3React } from "@web3-react/core";
 import { useInsuranceViewModel } from "../../modules/insurance/controllers/insuranceViewModel";
 import { insuranceState } from "../../modules/insurance/ui/redux/state";
 import { IInsurancePackagePlan } from "../../modules/insurance/domain/entities";
+import SuccessModal from "../SuccessModal";
+import { useRouter } from "next/router";
+import { insurancePageTabs } from "../../constants/routes";
 
 interface IProp {}
 
@@ -16,6 +19,8 @@ const InsurancePackagePlans: FC<IProp> = () => {
         open: boolean;
         planId: string;
     }>({ open: false, planId: "" });
+
+    const router = useRouter();
 
     const { account, library } = useWeb3React();
 
@@ -34,6 +39,22 @@ const InsurancePackagePlans: FC<IProp> = () => {
     }, []);
 
     let insurableCoinsSymbols = Object.keys(insurableCoins)
+
+    const [successModalOpen, setSuccessModalOpen] = useState(false)
+
+    const [purchaseSuccessfull, setPurchaseSuccessfull] = useState(false)
+
+    useEffect(() => {
+        purchaseSuccessfull && setSuccessModalOpen(true)
+    }, [purchaseSuccessfull])
+
+    const handleSuccessModalAction = () => {
+        setSuccessModalOpen(() => false)
+        router.push(
+            `${router.pathname}?tab=${insurancePageTabs.myPackages}`)
+
+    }
+    
     
 
     return (
@@ -65,7 +86,19 @@ const InsurancePackagePlans: FC<IProp> = () => {
                         open: false,
                     }))
                 }
+                onSuccessfull = {() => setPurchaseSuccessfull(true)}
             />}
+
+            <SuccessModal
+                state={{
+                    open: successModalOpen,
+                    heading: "Success",
+                    text: "Your insurance package is now active, check “My Packages” to monitor progress",
+                    buttonText: "Go to “My Packages”",
+                }}
+                action={handleSuccessModalAction}
+                onClose={() => setSuccessModalOpen(false)}
+            />
         </Fragment>
     );
 };

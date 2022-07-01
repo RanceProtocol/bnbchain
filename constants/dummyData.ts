@@ -193,7 +193,7 @@ export const addressToCoinDetails: {
             symbol: "eth",
             name: "Ethereum",
         },
-        "0x2c1ca1839893b21d9ead72c0bc1d1e05841bfd82": {
+        "0x2c1cA1839893B21d9eAd72c0bc1d1e05841bfD82": {
             id: "crypto-com-chain",
             symbol: "cro",
             name: "Cronos",

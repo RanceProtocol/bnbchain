@@ -40,7 +40,7 @@ const SuccessModal: FC<IProps> = ({ state: {open, heading, text, buttonText}, ac
             </div>
             <h1 className={styles.heading}>{heading}</h1>
             <p className={styles.text}>{text}</p>
-            <button className={styles.btn} onClick={() => action()}>{buttonText}</button>
+            <button className={styles.btn} onClick={action}>{buttonText}</button>
         </ModalWrapper>
     );
 };

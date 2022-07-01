@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import MyPackageCard from "./myPackageCard";
 import styles from "./styles.module.css";
-import { insurancePackages } from "../../constants/dummyData";
 import WithdrawInsuranceModal from "../WithdrawInsuranceModal";
 import SuccessModal from "../SuccessModal";
 import { useWeb3React } from "@web3-react/core";
@@ -22,12 +21,6 @@ const MyPackages = () => {
         setWithdrawModalState({ open: true, id });
     };
 
-    const showOutcomeModal = (type: "withdrawal" | "cancelation") => {
-        if (type === "cancelation") return setShowCancelSuccess(true);
-
-        setShowWithdrawSuccess(true);
-    };
-
     const { account, library } = useWeb3React();
 
     const { intializeUserPackages, cancelInsurance, withdrawInsurance } = useInsuranceViewModel({
@@ -43,6 +36,20 @@ const MyPackages = () => {
     const state = insuranceState();
 
     const { loadingUserPackages, userPackages } = state;
+
+    const handleSetSucessModal = (type: "cancelation" | "withdrawal") => {
+        setActionSuccessFull({state: true, type})
+    }
+    const [actionSuccessFull, setActionSuccessFull] = useState<{state:boolean, type: "cancelation" | "withdrawal" | undefined}>({state: false, type: undefined})
+
+    useEffect(() => {
+        if(actionSuccessFull.state && actionSuccessFull.type === "cancelation") {
+            setShowCancelSuccess(true)
+        }else if(actionSuccessFull.state && actionSuccessFull.type === "withdrawal") {
+            setShowWithdrawSuccess(true)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [actionSuccessFull.state])
 
     return (
         <Fragment>
@@ -76,6 +83,7 @@ const MyPackages = () => {
                 cancelInsurance = {cancelInsurance}
                 withdrawInsurance = {withdrawInsurance}
                 onClose={() => setWithdrawModalState({ open: false, id: null })}
+                onSuccessFull = {handleSetSucessModal}
             />}
 
             <SuccessModal

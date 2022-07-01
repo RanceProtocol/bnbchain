@@ -19,18 +19,20 @@ import CustomToast, { STATUS, TYPE } from "../CustomToast";
 import { toast } from "react-toastify";
 import { useInsuranceViewModel } from "../../modules/insurance/controllers/insuranceViewModel";
 import { useWeb3React } from "@web3-react/core";
-import { pathObj, pathSymbols } from "../../constants/path";
+import { pathObj } from "../../constants/path";
 
 type addressType = keyof typeof ranceProtocol;
 
 interface IProps {
     state: { open: boolean; planId: string };
     onClose: () => void;
+    onSuccessfull: () => void;
 }
 
 const PackagePurchaseModal: FC<IProps> = ({
     state: { open, planId },
     onClose,
+    onSuccessfull
 }) => {
     const state = insuranceState();
     const { packagePlans, insurableCoins, paymentTokens } = state;
@@ -308,6 +310,8 @@ const PackagePurchaseModal: FC<IProps> = ({
                     toast.dismiss(pendingToastId);
                     toast(toastBody);
                     setSendingTx(false);
+                    onSuccessfull()
+                    onClose()
                 }
             },
             failed: (errorMessage?: string) => {

@@ -30,6 +30,7 @@ interface IProps {
         callbacks: { [key: string]: (errorMessage?: string) => void };
     }) => Promise<void>;
     onClose: () => void;
+    onSuccessFull: (type: "cancelation" | "withdrawal") => void;
 }
 
 const WithdrawInsuranceModal: FC<IProps> = ({
@@ -37,6 +38,7 @@ const WithdrawInsuranceModal: FC<IProps> = ({
     onClose,
     cancelInsurance,
     withdrawInsurance,
+    onSuccessFull,
 }) => {
     const state = insuranceState();
     const { userPackages } = state;
@@ -131,6 +133,8 @@ const WithdrawInsuranceModal: FC<IProps> = ({
                 toast.dismiss(pendingToastId);
                 toast(toastBody);
                 setSendingTx(false);
+                onSuccessFull("cancelation");
+                onClose();
             },
             failed: (errorMessage?: string) => {
                 const toastBody = CustomToast({
@@ -169,6 +173,8 @@ const WithdrawInsuranceModal: FC<IProps> = ({
                 toast.dismiss(pendingToastId);
                 toast(toastBody);
                 setSendingTx(false);
+                onSuccessFull("withdrawal");
+                onClose();
             },
             failed: (errorMessage?: string) => {
                 const toastBody = CustomToast({
@@ -389,10 +395,15 @@ const WithdrawInsuranceModal: FC<IProps> = ({
                 <div className={styles.key__value}>
                     <span className={styles.key}>Penalty fee</span>
                     <span className={styles.value}>
-                        {selectedPackage?.uninsureFee &&
-                            `${Number(
-                                utils.formatEther(selectedPackage?.uninsureFee)
-                            )} RANCE`}
+                        {currentTimeStamp >
+                        (selectedPackage?.endTimestamp as number)
+                            ? "0"
+                            : selectedPackage?.uninsureFee &&
+                              `${Number(
+                                  utils.formatEther(
+                                      selectedPackage?.uninsureFee
+                                  )
+                              )} RANCE`}
                     </span>
                 </div>
             </div>
