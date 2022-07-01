@@ -1,6 +1,4 @@
 import { ethers } from "ethers";
-import { toast } from "react-toastify";
-import CustomToast, { STATUS, TYPE } from "../Components/CustomToast";
 
 export interface SendParams {
     method: ethers.ContractFunction;

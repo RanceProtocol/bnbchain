@@ -5,7 +5,7 @@ import {
     getSupportedChainsName,
     supportedChainIds,
 } from "../../constants/chainIds";
-import { addNetwork } from "../utils";
+import { addNetwork, getConnectionError } from "../utils";
 import { useCallback, useEffect, useState } from "react";
 import CustomToast, { STATUS, TYPE } from "../../Components/CustomToast";
 import { toast } from "react-toastify";
@@ -15,14 +15,24 @@ const useWallet = () => {
     const { activate, deactivate, active } = useWeb3React();
 
     useEffect(() => {
-        injected.isAuthorized().then((isAuthorized: boolean) => {
+        injected.isAuthorized().then(async (isAuthorized: boolean) => {
             if (
                 isAuthorized &&
                 ["metamask", "trustwallet", "safepal"].includes(
                     window.localStorage.getItem("wallet") as string
                 )
             )
-                activate(injected, undefined, true);
+                try {
+                    await activate(injected, undefined, true);
+                } catch (error) {
+                    const errorMessage = getConnectionError(error);
+                    const body = CustomToast({
+                        message: errorMessage,
+                        status: STATUS.ERROR,
+                        type: TYPE.ERROR,
+                    });
+                    toast(body);
+                }
         });
     }, []);
 
@@ -54,7 +64,16 @@ const useWallet = () => {
                     ) &&
                     name === "injected"
                 ) {
-                    await addNetwork(provider);
+                    try {
+                        await addNetwork(provider);
+                    } catch (error: any) {
+                        const body = CustomToast({
+                            message: error?.message,
+                            status: STATUS.ERROR,
+                            type: TYPE.ERROR,
+                        });
+                        toast(body);
+                    }
                 } else if (
                     !Object.values(supportedChainIds).includes(Number(chainId))
                 ) {

@@ -3,7 +3,6 @@ import Image from "next/image";
 import React, {
     ChangeEvent,
     FC,
-    FormEvent,
     useCallback,
     useEffect,
     useState,
@@ -14,13 +13,13 @@ import styles from "./styles.module.css";
 import Select, { GroupBase, OptionsOrGroups, SingleValue } from "react-select";
 import { insuranceState } from "../../modules/insurance/ui/redux/state";
 import useLazyToken from "../../hooks/useLazyToken";
-import { ranceProtocol, tokens } from "../../constants/addresses";
+import { ranceProtocol } from "../../constants/addresses";
 import { BigNumber, utils } from "ethers";
 import CustomToast, { STATUS, TYPE } from "../CustomToast";
 import { toast } from "react-toastify";
 import { useInsuranceViewModel } from "../../modules/insurance/controllers/insuranceViewModel";
 import { useWeb3React } from "@web3-react/core";
-import { pathObj } from "../../constants/path";
+import { pathObj, pathSymbols } from "../../constants/path";
 
 type addressType = keyof typeof ranceProtocol;
 
@@ -322,8 +321,9 @@ const PackagePurchaseModal: FC<IProps> = ({
                 setSendingTx(false);
             },
         };
-
-        const path = Object.values(pathObj[`${paymentToken.label}-${coin}` as keyof typeof pathObj])
+        const paths = pathObj[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof pathObj];
+        const path = Object.values(paths[`${paymentToken.label}-${coin}` as keyof typeof paths])
+        
         const amount = utils.parseUnits(total, userSelectedPaymentTokenDetails.decimal as number)
         const insureCoinName = coin as string;
         const paymentTokenName = paymentToken.label;

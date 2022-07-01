@@ -12,6 +12,7 @@ export const getPackagePlans = async (
     try {
         const plans: IRanceProtocol.PackagePlanStructOutput[] =
             await contract.getAllPackagePlans();
+            
         const formatedObject = plans.map(
             (item: IRanceProtocol.PackagePlanStructOutput) =>
                 structOutputToObject(item)
@@ -38,6 +39,10 @@ export const getPackagePlans = async (
         );
 
         const paymentTokensObject = Object.fromEntries(paymentTokensEntries);
+
+        // console.log("insureCoin object: ", insurableCoinsObject);
+        // console.log("paymentToken object: ", paymentTokensObject);
+        
 
         return {
             insurableCoins: insurableCoinsObject,

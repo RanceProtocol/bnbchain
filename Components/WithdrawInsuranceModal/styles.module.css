@@ -120,8 +120,21 @@
     hover:bg-theme-secondary-1
 }
 
+.withdrawal__btn:disabled {
+    @apply bg-theme-secondary-alpha-2
+    text-theme-white-alpha
+    cursor-not-allowed
+}
+
 .cancel__btn {
     @apply text-theme-white
     bg-theme-red-1
     hover:bg-theme-red-2
+}
+
+.cancel__btn:disabled {
+    @apply bg-theme-red-2
+    opacity-5
+    text-theme-white-alpha
+    cursor-not-allowed
 }

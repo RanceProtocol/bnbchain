@@ -9,11 +9,6 @@ export const padZero = (num: number) => {
     return `0${num}`
 }
 
-export const setIntervalImmediately = (callback: () => void, interval: number) => {
-    callback();
-    return setInterval(callback, interval);
-}
-
 export const getChainId = () => {
     return process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT === "mainnet" || process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT === "staging" ? 25 : 338
 }

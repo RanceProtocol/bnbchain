@@ -28,8 +28,10 @@ export const ConnectedModal: FC<IProps> = ({
         toggleAccountModal(dispatch);
     };
     const { account } = useWeb3React();
-    const MUSD = useToken(tokens.MUSD);
-    const RANCE = useToken(tokens.RANCE);
+    const MUSD = useToken(tokens[process.env
+        .NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof tokens].MUSD);
+    const RANCE = useToken(tokens[process.env
+        .NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof tokens].RANCE);
 
     const [connectedWallet, setConnectedWallet] = useState<string | null>();
 

@@ -1,8 +1,14 @@
 import { Web3Provider } from "@ethersproject/providers";
+import { UnsupportedChainIdError } from "@web3-react/core";
 import { ethers } from "ethers";
 import { explorers } from "../constants/explorers";
 import { RPC_URLS } from "../constants/rpcUrls";
 import { getChainId } from "../utils/helpers";
+import {
+    NoEthereumProviderError,
+    UserRejectedRequestError as UserRejectedRequestErrorInjected,
+} from "@web3-react/injected-connector";
+import { UserRejectedRequestError as UserRejectedRequestErrorWalletConnect } from "@web3-react/walletconnect-connector";
 
 export const addNetwork = async (
     provider: ethers.providers.ExternalProvider
@@ -36,15 +42,13 @@ export const addNetwork = async (
                 });
             } catch (addError: any) {
                 if (addError?.code === 4001) {
-                    // const body = ToastBody("User rejected the request to add network", STATUS.ERROR, TYPE.ERROR);
-                    // toast(body);
+                    throw new Error("User rejected the request to add network");
                 }
                 console.error(addError);
             }
         }
         if (switchError?.code === 4001) {
-            // const body = ToastBody("User rejected the request to switch network", STATUS.ERROR, TYPE.ERROR);
-            // toast(body);
+            throw new Error("User rejected the request to switch network");
         }
         console.error(switchError);
     }
@@ -63,4 +67,18 @@ export const getDefaultProvider = () => {
             ? RPC_URLS[25]
             : RPC_URLS[338]
     );
+};
+
+export const getConnectionError = (err: any): string => {
+    if (err instanceof NoEthereumProviderError)
+        return "Non-Ethereum enabled browser detected, install MetaMask extension on desktop, or connect with walletConnect or visit from a DApp browser on mobile wallet";
+    else if (err instanceof UnsupportedChainIdError)
+        return "You're connected to an unsupported network. switch to Cronos mainnet";
+    else if (
+        err instanceof UserRejectedRequestErrorInjected ||
+        err instanceof UserRejectedRequestErrorWalletConnect
+    )
+        return "Please authorize your wallet connection to this DApp";
+    else console.error("wallet connection error", err);
+    return "An unknown error occured";
 };

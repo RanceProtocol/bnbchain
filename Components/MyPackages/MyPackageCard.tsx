@@ -52,12 +52,12 @@ const MyPackageCard: FC<IProp> = (props) => {
     useEffect(() => {
         (async () => {
             const chartData = await getCoinChartData(
-                addressToCoinDetails[insureCoin].id,
+                addressToCoinDetails[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof addressToCoinDetails][insureCoin].id,
                 startTimestamp
             );
             setChartData(chartData);
             const priceChange = await getPriceChangeSinceInsured(
-                addressToCoinDetails[insureCoin].id,
+                addressToCoinDetails[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof addressToCoinDetails][insureCoin].id,
                 startTimestamp
             );
             setPriceChange(priceChange);
@@ -65,7 +65,7 @@ const MyPackageCard: FC<IProp> = (props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const { countdown } = useCountdown(endTimestamp);
+    const { formatedTimeLeft: countdown } = useCountdown(endTimestamp);
 
     return (
         <div className={styles.my__package__card}>
@@ -125,16 +125,16 @@ const MyPackageCard: FC<IProp> = (props) => {
                             <div className={styles.icon__nd__name}>
                                 <div className={styles.coin_logo__wrapper}>
                                     <Image
-                                        src={`/token icons/${addressToCoinDetails[
+                                        src={`/token icons/${addressToCoinDetails[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof addressToCoinDetails][
                                             insureCoin
                                         ].symbol.toUpperCase()}.png`}
-                                        alt={`${addressToCoinDetails[insureCoin].id} logo`}
+                                        alt={`${addressToCoinDetails[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof addressToCoinDetails][insureCoin].id} logo`}
                                         layout="fill"
                                     />
                                 </div>
                                 <span
                                     className={styles.coin__name}
-                                >{`${addressToCoinDetails[
+                                >{`${addressToCoinDetails[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof addressToCoinDetails][
                                     insureCoin
                                 ].symbol.toUpperCase()}`}</span>
                             </div>

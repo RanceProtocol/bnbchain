@@ -158,26 +158,50 @@ export const stakingPools:IStakingPool[] = [
 ];
 
 export const addressToCoinDetails: {
-    [key: string]: { id: string; symbol: string; name: string };
+    [key: string]: any;
 } = {
-    "0x062E66477Faf219F25D27dCED647BF57C3107d52": {
-        id: "bitcoin",
-        symbol: "btc",
-        name: "Bitcoin",
+    mainnet: {
+        "0x062E66477Faf219F25D27dCED647BF57C3107d52": {
+            id: "bitcoin",
+            symbol: "btc",
+            name: "Bitcoin",
+        },
+        "0xe44Fd7fCb2b1581822D0c862B68222998a0c299a": {
+            id: "ethereum",
+            symbol: "eth",
+            name: "Ethereum",
+        },
+        "0x5C7F8A570d578ED84E63fdFA7b1eE72dEae1AE23": {
+            id: "crypto-com-chain",
+            symbol: "cro",
+            name: "Cronos",
+        },
+        "0x97749c9B61F878a880DfE312d2594AE07AEd7656": {
+            id: "mmfinance",
+            symbol: "mmf",
+            name: "MMFinance",
+        },
     },
-    "0xe44Fd7fCb2b1581822D0c862B68222998a0c299a": {
-        id: "ethereum",
-        symbol: "eth",
-        name: "Ethereum",
-    },
-    "0x5C7F8A570d578ED84E63fdFA7b1eE72dEae1AE23": {
-        id: "crypto-com-chain",
-        symbol: "cro",
-        name: "Cronos",
-    },
-    "0x97749c9B61F878a880DfE312d2594AE07AEd7656": {
-        id: "mmfinance",
-        symbol: "mmf",
-        name: "MMFinance",
-    },
+    staging: {
+        "0x378520d445d3379497f991f7fef7E613014c20b2": {
+            id: "bitcoin",
+            symbol: "btc",
+            name: "Bitcoin",
+        },
+        "0x66963e06Bf63a08E7B23B31406dB4B6F529fcf82": {
+            id: "ethereum",
+            symbol: "eth",
+            name: "Ethereum",
+        },
+        "0x2c1ca1839893b21d9ead72c0bc1d1e05841bfd82": {
+            id: "crypto-com-chain",
+            symbol: "cro",
+            name: "Cronos",
+        },
+        // "0x97749c9B61F878a880DfE312d2594AE07AEd7656": {
+        //     id: "mmfinance",
+        //     symbol: "mmf",
+        //     name: "MMFinance",
+        // },
+    }
 };

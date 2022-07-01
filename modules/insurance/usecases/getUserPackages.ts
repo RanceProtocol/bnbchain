@@ -2,6 +2,7 @@ import { getDurationData } from "../../../constants/data";
 import { RanceProtocol } from "../../../typechain";
 import type {RanceProtocol as IRanceProtocol} from "../../../typechain/RanceProtocol"
 import { structOutputToObject } from "../../../utils/helpers";
+import { getCurrentTimestamp } from "../../../utils/time";
 import { IInsurancePackage } from "../domain/entities";
 import IInsuranceStore from "../domain/insuranceStore";
 
@@ -24,11 +25,15 @@ export const getUserPackages = async (contract: RanceProtocol, userAddress: stri
                 structOutputToObject(item)
         );
 
+        const currentTimestamp = await getCurrentTimestamp()
+        if(!currentTimestamp) {
+            // if for some reason we can't get the current timeStamp (which is rare) theres no way to filter out packages that are still valid
+            throw new Error("something went wrong whlle getting pack")
+        }
+
         const userPackages = formatedObject.map((item:any, index:number):IInsurancePackage => {
             return {
                 ...item,
-                // startTimestamp: item.startTimestamp - 63072000,
-                // endTimestamp: item.endTimestamp - 1656650809,
                 packagePlanName: getDurationData(packagesPlansData[index].periodInSeconds).name,
                 duration: getDurationData(packagesPlansData[index].periodInSeconds).duration,
                 timeUnitFull: getDurationData(packagesPlansData[index].periodInSeconds).timeUnitFull,
@@ -36,7 +41,12 @@ export const getUserPackages = async (contract: RanceProtocol, userAddress: stri
             }
         })
 
-        return {userPackages}
+        const validUserPackages = userPackages.filter((item) =>  {
+            const validUntil = item.endTimestamp +  (60 * 60 * 24 * 30) //additional 30 days
+            return (validUntil > currentTimestamp && item.isCancelled === false)
+        })
+        
+        return {userPackages: validUserPackages}
 
     } catch (error:any) {
         throw new Error(error);
