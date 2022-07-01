@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import MyPackageCard from "./myPackageCard";
+import MyPackageCard from "./MyPackageCard";
 import styles from "./styles.module.css";
 import WithdrawInsuranceModal from "../WithdrawInsuranceModal";
 import SuccessModal from "../SuccessModal";
