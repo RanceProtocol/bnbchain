@@ -35,4 +35,4 @@ yarn-error.log*
 *.tsbuildinfo
 
 # typechain
-/typechain
+# /typechain
