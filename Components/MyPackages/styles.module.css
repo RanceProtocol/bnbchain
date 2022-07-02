@@ -155,28 +155,46 @@
     items-end
 }
 
-.countdown__value_container {
-    @apply flex gap-5 
-    text-2xl
+.countdown__container {
+    @apply flex
+    gap-4
+}
+
+.countdown__group {
+    @apply flex
+    flex-col
+    items-center
+    relative
+}
+
+.countdown__group:not(.countdown__group:last-of-type):after {
+    @apply absolute
+    left-[100%]
+    content-[':']
+    text-xl
+    sm:text-2xl
+    md:text-2xl
+    font-extrabold
+    top-0
+}
+
+.countdown__value {
+    @apply
+    text-xl
+    sm:text-2xl
     md:text-2xl
     font-extrabold
 }
 
-.countdown__value {
-    @apply relative
-}
-
-.countdown__value:not(.countdown__value:last-child)::after {
+/* .countdown__value:not(.countdown__value:nth-of-type(4)):after {
     @apply relative
     content-[':']
     left-2
-}
+} */
 
-.countdown__label__continaer {
-    @apply flex
+.countdown__label {
+    @apply
     mt-2
-    gap-5
-    md:gap-[1.5rem]
     text-xs
     text-theme-gray-1
 }

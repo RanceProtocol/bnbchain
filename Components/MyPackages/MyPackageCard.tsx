@@ -163,43 +163,36 @@ const MyPackageCard: FC<IProp> = (props) => {
 
                     <div className={styles.countdown__nd__button}>
                         <div className={styles.countdown__container}>
-                            <span className={styles.countdown__value_container}>
-                                <span className={styles.countdown__value}>
-                                    {countdown?.weeks
+                            <span className={styles.countdown__group}>
+                                <span className={styles.countdown__value}>{countdown?.weeks
                                         ? padZero(countdown?.weeks)
                                         : "00"}
                                 </span>
-                                <span className={styles.countdown__value}>
-                                    {countdown?.days
+                                <span className={styles.countdown__label}>WEEKS</span>
+                            </span>
+
+                            <span className={styles.countdown__group}>
+                                <span className={styles.countdown__value}>{countdown?.days
                                         ? padZero(countdown?.days)
                                         : "00"}
                                 </span>
-                                <span className={styles.countdown__value}>
-                                    {countdown?.hours
+                                <span className={styles.countdown__label}>DAYS</span>
+                            </span>
+
+                            <span className={styles.countdown__group}>
+                                <span className={styles.countdown__value}>{countdown?.hours
                                         ? padZero(countdown?.hours)
                                         : "00"}
                                 </span>
-                                <span className={styles.countdown__value}>
-                                    {countdown?.minutes
+                                <span className={styles.countdown__label}>HOURS</span>
+                            </span>
+
+                            <span className={styles.countdown__group}>
+                                <span className={styles.countdown__value}>{countdown?.minutes
                                         ? padZero(countdown?.minutes)
                                         : "00"}
                                 </span>
-                            </span>
-                            <span
-                                className={styles.countdown__label__continaer}
-                            >
-                                <span className={styles.countdown__label}>
-                                    WEEKS
-                                </span>
-                                <span className={styles.countdown__label}>
-                                    DAYS
-                                </span>
-                                <span className={styles.countdown__label}>
-                                    HOURS
-                                </span>
-                                <span className={styles.countdown__label}>
-                                    MINS
-                                </span>
+                                <span className={styles.countdown__label}>MINS</span>
                             </span>
                         </div>
 
