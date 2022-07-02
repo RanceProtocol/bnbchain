@@ -50,12 +50,14 @@
 }
 
 .btn {
-    @apply w-2/3
-    block
+    @apply block
     mx-auto
     bg-theme-secondary-2
     hover:bg-theme-secondary-1
     text-theme-black
-    font-bold text-xl
+    font-bold
+    text-base
+    sm:text-xl
     rounded-full p-4
+    whitespace-nowrap
 }

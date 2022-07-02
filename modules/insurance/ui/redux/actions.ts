@@ -19,15 +19,14 @@ export const initializePackagePlans =
             const data = await getPackagePlans(contract);
             dispatch({
                 type: actionTypes.GET__PACKAGE__PLANS__SUCCESS,
-                payload: data
+                payload: data,
             });
         } catch (error) {
             dispatch({
                 type: actionTypes.GET__PACKAGE__PLANS__FAILED,
             });
             const toastBody = CustomToast({
-                message:
-                    "Error getting package plans! Please reload the page",
+                message: "Error getting package plans! Please reload the page",
                 status: STATUS.ERROR,
                 type: TYPE.ERROR,
             });
@@ -48,7 +47,7 @@ export const intializeUserPackages =
             const data = await getUserPackages(contract, userAddress);
             dispatch({
                 type: actionTypes.GET__USER__PACKAGES__SUCCESS,
-                payload: data ,
+                payload: data,
             });
         } catch (error) {
             dispatch({
@@ -56,3 +55,10 @@ export const intializeUserPackages =
             });
         }
     };
+
+export const removeUserPackage = (packageId: string) => {
+    return {
+        type: actionTypes.REMOVE__USER__PACKAGE,
+        payload: {packageId}
+    }
+}

@@ -1,6 +1,5 @@
 import { FC, Fragment, useEffect, useState } from "react";
 import styles from "./styles.module.css";
-import { PackageEnum } from "../../constants/data";
 import InsurancePackagePlanCard from "./insurancePackagePlanCard";
 import InsurancePackagePlanCardSkeleton from "./insurancePackagePlanCardSkeleton";
 import PackagePurchaseModal from "../PackagePurchaseModal";
@@ -93,7 +92,7 @@ const InsurancePackagePlans: FC<IProp> = () => {
                 state={{
                     open: successModalOpen,
                     heading: "Success",
-                    text: "Your insurance package is now active, check “My Packages” to monitor progress",
+                    text: "Your insurance package is now active and the coin sent to your wallet, check “My Packages” to monitor progress",
                     buttonText: "Go to “My Packages”",
                 }}
                 action={handleSuccessModalAction}

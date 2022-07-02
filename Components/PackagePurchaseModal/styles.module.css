@@ -10,7 +10,8 @@
     bg-theme-primary-2
     p-6
     rounded-xl
-    md:rounded-2xl;
+    md:rounded-2xl
+    overflow-y-auto
 }
 
 .header {

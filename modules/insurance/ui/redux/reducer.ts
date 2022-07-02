@@ -1,3 +1,4 @@
+import { IInsurancePackage } from "../../domain/entities";
 import IInsuranceStore from "../../domain/insuranceStore";
 import * as actionTypes from "./actionTypes";
 
@@ -38,6 +39,10 @@ export const insuranceReducer = (
             };
         case actionTypes.GET__USER__PACKAGES__FAILED:
             return { ...state, userPackages: [], loadingUserPackages: false };
+
+        case actionTypes.REMOVE__USER__PACKAGE:
+            const filteredPackages = state.userPackages.filter((item: IInsurancePackage) => item.packageId !== payload.packageId)
+            return {...state, userPackages: filteredPackages}
         default:
             return state;
     }
