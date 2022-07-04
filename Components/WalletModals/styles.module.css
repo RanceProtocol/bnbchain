@@ -52,16 +52,16 @@
 }
 
 .close__btn {
-    @apply w-8
-    h-8
+    @apply w-12
+    h-12
     block
     mt-4
     mx-auto
 }
 
 .close__icon__wrapper {
-    @apply w-8
-    h-8
+    @apply w-12
+    h-12
     relative;
 }
 .connected__wallet__details {
