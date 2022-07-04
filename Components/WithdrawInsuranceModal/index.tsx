@@ -397,7 +397,7 @@ const WithdrawInsuranceModal: FC<IProps> = ({
                     <span className={styles.value}>
                         {currentTimeStamp >
                         (selectedPackage?.endTimestamp as number)
-                            ? "0"
+                            ? "0 RANCE"
                             : selectedPackage?.uninsureFee &&
                               `${Number(
                                   utils.formatEther(

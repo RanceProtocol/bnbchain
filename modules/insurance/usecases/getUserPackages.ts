@@ -46,6 +46,8 @@ export const getUserPackages = async (contract: RanceProtocol, userAddress: stri
             const validUntil = item.endTimestamp +  (60 * 60 * 24 * 30) //additional 30 days
             return (validUntil > currentTimestamp && item.isCancelled === false)
         })
+
+        validUserPackages[0].endTimestamp = currentTimestamp
         
         return {userPackages: validUserPackages}
 

@@ -1,13 +1,12 @@
 .root {
     @apply bg-theme-primary-2
     rounded-[1.5rem]
-    p-16
-    pb-[18px]
+    p-8
+    pb-6
     mb-6
     sm:mb-0
     w-full
-    sm:max-w-[28rem]
-    xl:max-w-[34rem]
+    max-w-[24rem]
 }
 
 .tokens__logos__container {
@@ -17,8 +16,8 @@
 }
 
 .token__logo {
-    @apply w-16
-    h-16
+    @apply w-12
+    h-12
     relative;
 }
 
@@ -33,7 +32,7 @@
 }
 
 .pool__tokens {
-    @apply text-3xl
+    @apply text-xl
     font-bold
     mt-6
     text-center;
@@ -41,7 +40,7 @@
 
 .pool__description {
     @apply
-    text-xl
+    text-sm
     mt-1
     text-center
     text-theme-gray-3
@@ -53,16 +52,16 @@
     justify-center
     items-center
     gap-2
-    my-10
+    my-8
 }
 
 .apr__text {
-    @apply text-5xl
+    @apply text-3xl
     font-extrabold
 }
 
 .info__icon {
-    @apply text-2xl
+    @apply text-base
     text-theme-secondary-1
     opacity-60;
 }
@@ -79,23 +78,26 @@
 }
 
 .key {
-    @apply text-xl
+    @apply text-xs
+    sm:text-sm
     text-theme-gray-1
 }
 
 .value {
-    @apply text-2xl
+    @apply text-sm
+    sm:text-lg
 }
 
 .btn {
     @apply w-full
-    font-bold text-2xl
+    font-bold text-base
     rounded-full p-3
 }
 
 .btn__small {
     @apply w-full
-    text-base
+    text-xs
+    sm:text-sm
     rounded-full p-2
 }
 
@@ -133,7 +135,7 @@
     @apply text-center
     block
     mt-6
-    text-xl
+    text-sm
     text-theme-gray-1
     transition
 }
