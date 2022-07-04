@@ -86,8 +86,8 @@
 }
 
 .coin__radio__button__image {
-    @apply w-6
-    h-6
+    @apply w-9
+    h-9
     relative;
 }
 
