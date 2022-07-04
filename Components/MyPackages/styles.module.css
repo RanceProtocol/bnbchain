@@ -1,5 +1,5 @@
 .root {
-    @apply my-10
+    @apply my-8
     grid grid-cols-1
     sm:grid-cols-2
     sm:gap-6
@@ -10,10 +10,17 @@
 /* my package card here */
 .my__package__card {
     @apply bg-theme-primary-2
-    rounded-[1.5rem]
-    pt-8 px-4 pb-[18px]
-    mb-6 sm:mb-0 w-full max-w-[38rem]
-    sm:w-auto mx-auto sm:mx-0;
+    rounded-2xl
+    pt-8
+    px-4
+    pb-[2.2rem]
+    mb-6 sm:mb-0
+    w-full
+    max-w-[38rem]
+    min-w-[19rem]
+    sm:w-auto
+    mx-auto
+    sm:mx-0;
 }
 
 .head {
@@ -21,20 +28,26 @@
     flex
     justify-between
     items-center
-    p-6
-    rounded-[1rem]
+    p-2
+    px-4
+    rounded-lg
+}
+
+.balance {
+    @apply text-xs
 }
 
 .amount {
-    @apply text-xl
+    @apply text-sm
     font-bold
 }
 
 .status {
     @apply whitespace-nowrap
     px-4
-    py-2
-    rounded-xl
+    py-1
+    rounded-lg
+    text-xs
 }
 
 .status__active {
@@ -60,12 +73,13 @@
 
 .body {
     @apply relative
-    left-4
+    left-2
+    sm:left-4
 }
 
 .name {
     @apply font-extrabold
-    text-2xl
+    text-xl
 }
 
 .dot {
@@ -76,8 +90,8 @@
     @apply flex
     justify-start
     items-center
-    gap-12
-    sm:gap-16
+    gap-6
+    sm:gap-8
     mt-6
     border-b-[0.2px]
     border-theme-gray-1
@@ -104,7 +118,7 @@
     mt-6
     p-4
     pb-0
-    rounded-[1rem]
+    rounded-xl
 }
 
 .coin {
@@ -116,16 +130,18 @@
 .icon__nd__name {
     @apply flex
     items-center
+    text-xs
 }
 
 .price__change {
     @apply flex
     flex-col
     items-end
+    text-xs
 }
 
 .coin_logo__wrapper {
-    @apply w-8 h-8
+    @apply w-6 h-6
     relative
     mr-2
 }
@@ -140,13 +156,14 @@
 
 .increase__key {
     @apply
-    text-xs
+    text-[.5rem]
     text-theme-gray-1
 }
 
 .expired__in__text {
     @apply my-6
     text-theme-gray-1
+    text-xs
 }
 
 .countdown__nd__button {
@@ -157,7 +174,8 @@
 
 .countdown__container {
     @apply flex
-    gap-4
+    gap-2
+    sm:gap-4
 }
 
 .countdown__group {
@@ -171,55 +189,45 @@
     @apply absolute
     left-[100%]
     content-[':']
-    text-xl
-    sm:text-2xl
-    md:text-2xl
+    text-base
+    sm:text-xl
     font-extrabold
-    top-0
+    /* -top-1 */
 }
 
 .countdown__value {
     @apply
-    text-xl
-    sm:text-2xl
-    md:text-2xl
+    text-base
+    sm:text-xl
     font-extrabold
 }
-
-/* .countdown__value:not(.countdown__value:nth-of-type(4)):after {
-    @apply relative
-    content-[':']
-    left-2
-} */
 
 .countdown__label {
     @apply
     mt-2
-    text-xs
+    text-[.5rem]
     text-theme-gray-1
 }
 
 .cancel__button {
     @apply bg-theme-red-1
-    text-sm
-    md:text-base
+    text-xs
+    md:text-sm
     px-2
     sm:px-3
-    md:px-6
-    py-3
-    rounded-xl
+    py-2
+    rounded-md
     whitespace-nowrap
 }
 
 .withdraw__button {
     @apply bg-theme-secondary-1
-    text-sm
-    md:text-base
+    text-xs
+    md:text-sm
     px-2
     sm:px-3
-    md:px-6
-    py-3
-    rounded-xl
+    py-2
+    rounded-md
     whitespace-nowrap
 }
 
@@ -227,7 +235,7 @@
     @apply text-center
     sm:col-span-2
     xl:col-span-3
-    mt-8
+    mt-4
     text-theme-white-alpha
-    text-xl
+    text-sm
 }

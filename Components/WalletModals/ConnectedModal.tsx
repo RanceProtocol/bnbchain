@@ -88,7 +88,8 @@ export const ConnectedModal: FC<IProps> = ({
                 >
                     Disconnect
                 </button>
-                <button className={styles.buy__btn}>Buy Rance</button>
+                {/* <button className={styles.buy__btn}>Buy Rance</button> */}
+                <a href="https://mm.finance/swap" rel="noreferrer" target="_blank" className={styles.buy__btn}>Buy Rance</a>
             </div>
 
             <button className={styles.close__btn} onClick={onClose}>

@@ -34,6 +34,7 @@ export const getUserPackages = async (contract: RanceProtocol, userAddress: stri
         const userPackages = formatedObject.map((item:any, index:number):IInsurancePackage => {
             return {
                 ...item,
+                // endTimestamp: currentTimestamp,
                 packagePlanName: getDurationData(packagesPlansData[index].periodInSeconds).name,
                 duration: getDurationData(packagesPlansData[index].periodInSeconds).duration,
                 timeUnitFull: getDurationData(packagesPlansData[index].periodInSeconds).timeUnitFull,

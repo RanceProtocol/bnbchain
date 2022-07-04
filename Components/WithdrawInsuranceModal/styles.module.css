@@ -8,40 +8,43 @@
     -translate-x-1/2
     top-1/2 -translate-y-1/2
     bg-theme-primary-2
-    p-8
-    py-12
-    rounded-xl
-    md:rounded-2xl;
+    px-4
+    py-6
+    sm:p-8
+    rounded-lg
+    md:rounded-xl
+    max-h-[100vh]
+    overflow-x-auto
 }
 
 .header {
     @apply flex
     justify-between
     items-center
-    mb-8;
+    mb-4;
 }
 
 .title {
-    @apply text-3xl
+    @apply text-xl
     font-extrabold;
 }
 
 .close__btn {
-    @apply w-12
-    h-12
+    @apply w-8
+    h-8
 }
 
 .close__icon__wrapper {
-    @apply w-12
-    h-12
+    @apply w-8
+    h-8
     relative;
 }
 
 .notice {
     @apply
-    p-6
+    p-4
+    sm:p-6
     rounded-xl
-    mb-6
 }
 
 .notice__positive {
@@ -53,15 +56,16 @@
 }
 
 .notice__text {
-    @apply text-sm
+    @apply text-xs
 }
 
 .notice__key {
-    @apply block mb-2
+    @apply block
+    mb-2
 }
 
 .second__section {
-    @apply py-8
+    @apply py-6
     text-center
 }
 
@@ -71,16 +75,16 @@
 }
 
 .receive {
-    @apply text-xl
+    @apply text-sm
 }
 
 .amount {
-    @apply text-3xl
+    @apply text-xl
     font-extrabold;
 }
 
 .insured__balance__text {
-    @apply text-sm
+    @apply text-xs
     text-theme-white-alpha
 }
 
@@ -90,28 +94,29 @@
     border-dashed
     border-theme-gray-alpha-2
     rounded-xl
-    p-4
-    pb-2
-    mb-10
+    p-3
+    pb-0
+    mb-6
 }
 
 .key__value {
     @apply flex
     justify-between
     items-center
-    text-lg
+    text-sm
     mb-2
 }
 
-/* .key {
-    @apply
-    text-theme-white-alpha
-} */
+.value {
+    @apply font-bold
+}
 
 .action__btn {
     @apply w-full
-    font-bold text-xl
-    rounded-full p-4
+    font-bold text-base
+    rounded-full
+    p-2
+    sm:p-3
 }
 
 .withdrawal__btn {

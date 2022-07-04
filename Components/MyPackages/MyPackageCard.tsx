@@ -157,9 +157,17 @@ const MyPackageCard: FC<IProp> = (props) => {
                         </Sparklines>
                     </div>
 
+
+                    {currentTimeStamp > (endTimestamp as number) && (
                     <p className={styles.expired__in__text}>
-                        This package expires in{" "}
-                    </p>
+                    Access to this package ends in
+                </p>
+                )}
+                {(endTimestamp as number) >= currentTimeStamp && (
+                    <p className={styles.expired__in__text}>
+                    This package expires in
+                </p>
+                )}
 
                     <div className={styles.countdown__nd__button}>
                         <div className={styles.countdown__container}>

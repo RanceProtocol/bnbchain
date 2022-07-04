@@ -13,12 +13,12 @@
 
 .head {
     @apply w-full
-    h-20
-    rounded-[1rem]
+    h-12
+    rounded-lg
 }
 
 .name__section {
-    @apply h-9
+    @apply h-7
     w-[50%]
     rounded-lg
     mt-8
@@ -28,8 +28,8 @@
     @apply flex
     justify-start
     items-center
-    gap-12
-    sm:gap-16
+    gap-6
+    sm:gap-8
     mt-6
     border-b-[0.2px]
     border-theme-gray-1
@@ -39,31 +39,30 @@
 .key__value {
     @apply flex
     flex-col
-    text-xs
 }
 
 .key {
-    @apply w-24
+    @apply w-20
     h-2
     mt-3
     rounded-sm
 }
 
 .value {
-    @apply w-16
+    @apply w-12
     h-3
     rounded-sm
 }
 
 .coin__details {
     @apply w-full
-    h-[8rem]
+    h-[6rem]
     rounded-[1rem]
     mt-6
 }
 
 .expired__in__text {
-    @apply h-5
+    @apply h-4
     w-[45%]
     rounded
     mt-8

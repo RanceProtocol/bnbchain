@@ -32,7 +32,7 @@
 
 .message {
     @apply block
-    text-base
+    text-sm
     pt-4
 }
 

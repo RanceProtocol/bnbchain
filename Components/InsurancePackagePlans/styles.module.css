@@ -19,8 +19,8 @@
 }
 
 .name {
-    @apply text-3xl
-    font-extrabold mb-8;
+    @apply text-2xl
+    font-extrabold mb-6;
 }
 
 .insurable__coins__wrapper {
@@ -30,29 +30,27 @@
 }
 
 .insurable__coins__key {
-    @apply font-semibold
-    text-xl;
+    @apply text-base;
 }
 
 .insurable__coins__container {
     @apply flex
     relative
-    left-9;
+    left-8;
 }
 
 .coin_logo__wrapper {
-    @apply w-9 h-9
+    @apply w-6 h-6
     relative;
 }
-
 .coin_logo__wrapper:nth-child(2) {
-    @apply right-3;
+    @apply right-2;
 }
 .coin_logo__wrapper:nth-child(3) {
-    @apply right-6;
+    @apply right-4;
 }
 .coin_logo__wrapper:nth-child(4) {
-    @apply right-9;
+    @apply right-8;
 }
 
 .package__details {
@@ -60,18 +58,19 @@
     flex
     justify-between
     items-center
-    p-8
-    mb-12;
+    p-4
+    sm:p-6
+    mb-8;
 }
 
 .value {
     @apply block
-    text-2xl
+    text-xl
     font-bold;
 }
 
 .value__unit {
-    @apply text-sm;
+    @apply text-[.5rem];
 }
 
 .key {
@@ -86,6 +85,8 @@
     bg-theme-secondary-2
     hover:bg-theme-secondary-1
     text-theme-black
-    font-bold text-2xl
-    rounded-full p-4
+    font-bold
+    text-lg
+    rounded-full
+    p-3
 }

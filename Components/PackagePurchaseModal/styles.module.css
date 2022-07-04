@@ -11,7 +11,8 @@
     p-6
     rounded-xl
     md:rounded-2xl
-    overflow-y-auto
+    max-h-[100vh]
+    overflow-x-auto
 }
 
 .header {
@@ -22,7 +23,7 @@
 }
 
 .title {
-    @apply text-3xl
+    @apply text-xl
     font-extrabold;
 }
 
@@ -49,7 +50,7 @@
 }
 
 .notice__text {
-    @apply text-sm
+    @apply text-xs
 }
 
 .notice__key {
@@ -58,7 +59,7 @@
 
 .payment__token__icon {
     @apply w-16
-    h-12
+    h-8
     relative;
 }
 
@@ -71,7 +72,7 @@
     border-theme-secondary-1
     p-2
     cursor-pointer
-    rounded-2xl
+    rounded-xl
 }
 
 .coin__wrapper__active {
@@ -85,13 +86,13 @@
 }
 
 .coin__radio__button__image {
-    @apply w-8
-    h-8
+    @apply w-6
+    h-6
     relative;
 }
 
 .input__group {
-    @apply mb-6
+    @apply mb-4
 }
 
 .token__custom__label {
@@ -101,23 +102,25 @@
 }
 
 .payment__token__dropdown__icon {
-    @apply w-8
-    h-8
+    @apply w-6
+    h-6
     relative;
 }
 
 .payment__token__icon__label {
     @apply text-theme-white
+    text-xs
 }
 
 .label__and__balance {
     @apply flex
     justify-between
+    text-xs
 }
 
 .label {
     @apply font-extrabold
-    text-lg
+    text-xs
 }
 
 .balance {
@@ -125,11 +128,11 @@
 }
 
 .payment__token__select__container {
-    @apply w-full py-1 px-4 mt-4 rounded-full bg-theme-white-alpha-2 border border-theme-gray-4;
+    @apply w-full py-1 mt-4 rounded-full bg-theme-white-alpha-2 border border-theme-gray-4;
 }
 
 .amount__input {
-    @apply w-full py-4 px-8 mt-4 rounded-full bg-theme-white-alpha-2 border border-theme-gray-4;
+    @apply w-full py-4 px-4 mt-4 rounded-full bg-theme-white-alpha-2 border border-theme-gray-4 text-xs;
 }
 
 .amount__input::placeholder {
@@ -144,14 +147,14 @@
     rounded-xl
     p-4
     pb-2
-    mb-6
+    my-6
 }
 
 .key__value {
     @apply flex
     justify-between
     items-center
-    text-lg
+    text-xs
     mb-2
 }
 
@@ -165,8 +168,8 @@
     bg-theme-secondary-2
     hover:bg-theme-secondary-1
     text-theme-black
-    font-bold text-2xl
-    rounded-full p-4
+    font-bold text-base
+    rounded-full p-3
 }
 
 .Purchase__button:disabled {
@@ -177,7 +180,7 @@
 
 .message {
     @apply block
-    text-xl
+    text-sm
     py-2
     text-center
     text-theme-gray-6
