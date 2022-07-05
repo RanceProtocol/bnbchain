@@ -40,17 +40,18 @@
 }
 
 .coin_logo__wrapper {
-    @apply w-6 h-6
+    @apply w-8
+    h-8
     relative;
 }
 .coin_logo__wrapper:nth-child(2) {
-    @apply right-2;
+    @apply right-3;
 }
 .coin_logo__wrapper:nth-child(3) {
-    @apply right-4;
+    @apply right-6;
 }
 .coin_logo__wrapper:nth-child(4) {
-    @apply right-8;
+    @apply right-9;
 }
 
 .package__details {
