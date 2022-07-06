@@ -27,6 +27,9 @@ const InsurancePackagePlanCard: FC<IProp> = (props) => {
 
     const dispatch = useDispatch();
 
+    console.log(insurableCoins);
+    
+
     return (
         <div className={styles.insurance__package__card}>
             <h1 className={styles.name}>{name}</h1>
@@ -35,14 +38,14 @@ const InsurancePackagePlanCard: FC<IProp> = (props) => {
                     Insurable coins
                 </span>
                 <div className={styles.insurable__coins__container}>
-                    {insurableCoins.map((coninSymbol: string) => (
+                    {insurableCoins.map((coniSymbol: string) => (
                         <div
                             className={styles.coin_logo__wrapper}
-                            key={coninSymbol}
+                            key={coniSymbol}
                         >
                             <Image
-                                src={`/token-icons/${coninSymbol}.png`}
-                                alt={`${coninSymbol} logo`}
+                                src={`/token-icons/${coniSymbol}.png`}
+                                alt={`${coniSymbol} logo`}
                                 layout="fill"
                             />
                         </div>

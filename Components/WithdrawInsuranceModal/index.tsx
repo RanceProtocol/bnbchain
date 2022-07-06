@@ -12,6 +12,7 @@ import CustomToast, { STATUS, TYPE } from "../CustomToast";
 import { toast } from "react-toastify";
 import { truncateString } from "../../utils/helpers";
 import useToken from "../../hooks/useToken";
+import { addressToCoinDetails } from "../../constants/dummyData";
 
 interface IProps {
     state: { open: boolean; id: string | null };
@@ -455,7 +456,9 @@ const WithdrawInsuranceModal: FC<IProps> = ({
                         className={clsx(styles.action__btn, styles.cancel__btn)}
                         onClick={handleApproveInsureCoin}
                         disabled={sendingTx}
-                    >{`Approve ${insureCoin.symbol}`}</button>
+                    >{`Approve ${addressToCoinDetails[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof addressToCoinDetails][
+                        selectedPackage?.insureCoin as string
+                    ].symbol.toUpperCase()}`}</button>
                 ) : (
                     <button
                         className={clsx(styles.action__btn, styles.cancel__btn)}

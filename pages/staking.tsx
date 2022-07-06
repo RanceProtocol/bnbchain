@@ -29,7 +29,8 @@ const Staking: NextPage = () => {
                 </div>
 
                 <div className={styles.staking__card__wrapper}>
-                    {stakingPools.map((pool:IStakingPool) =>  <StakingCard key = {pool.poolId} {...pool} />)}
+                    {/* {stakingPools.map((pool:IStakingPool) =>  <StakingCard key = {pool.poolId} {...pool} />)} */}
+                    <p>Coming soon...</p>
                 </div>
             </main>
         </div>

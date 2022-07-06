@@ -4,9 +4,9 @@ export enum PackageEnum {
     PLATINUM = "Platinum",
 }
 
-export type IinsurableCoins = "BTC" | "ETH" | "CRO" | "MMF";
+export type IinsurableCoins = "WBTC" | "WETH" | "WCRO" | "MMF";
 
-export const insurableCoins: IinsurableCoins[] = ["BTC", "ETH", "CRO", "MMF"];
+export const insurableCoins: IinsurableCoins[] = ["WBTC", "WETH", "WCRO", "MMF"];
 
 export interface IinsurancePackagePlanDetails {
     packageType: PackageEnum;

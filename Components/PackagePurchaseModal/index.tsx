@@ -20,6 +20,7 @@ import { toast } from "react-toastify";
 import { useInsuranceViewModel } from "../../modules/insurance/controllers/insuranceViewModel";
 import { useWeb3React } from "@web3-react/core";
 import { pathObj } from "../../constants/path";
+import { addressToCoinDetails } from "../../constants/dummyData";
 
 type addressType = keyof typeof ranceProtocol;
 
@@ -421,7 +422,7 @@ const PackagePurchaseModal: FC<IProps> = ({
                             <div className={styles.coin__radio__button__image}>
                                 <Image
                                     src={`/token-icons/${coin}.png`}
-                                    alt="modal close icon"
+                                    alt={`${coin} logo`}
                                     layout="fill"
                                 />
                             </div>
@@ -533,7 +534,7 @@ const PackagePurchaseModal: FC<IProps> = ({
                             className={styles.Purchase__button}
                             disabled={sendingTx}
                         >
-                            {sendingTx ? "Approving..." : "Approve"}
+                            {sendingTx ? "Approving..." : `Approve ${paymentToken?.label}`}
                         </button>
                     )}
 

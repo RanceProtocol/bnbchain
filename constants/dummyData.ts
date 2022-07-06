@@ -47,7 +47,7 @@ export interface IStakingPool {
     stakeTokenPrice: number,
 }
 
-export const insurableCoins: IinsurableCoins[] = ["BTC", "ETH", "CRO", "MMF"];
+export const insurableCoins: IinsurableCoins[] = ["WBTC", "WETH", "WCRO", "MMF"];
 
 export const insurancePackagePlans: IinsurancePackagePlan[] = [
     {
@@ -163,12 +163,12 @@ export const addressToCoinDetails: {
     mainnet: {
         "0x062E66477Faf219F25D27dCED647BF57C3107d52": {
             id: "bitcoin",
-            symbol: "btc",
+            symbol: "wbtc",
             name: "Bitcoin",
         },
         "0xe44Fd7fCb2b1581822D0c862B68222998a0c299a": {
             id: "ethereum",
-            symbol: "eth",
+            symbol: "weth",
             name: "Ethereum",
         },
         "0x5C7F8A570d578ED84E63fdFA7b1eE72dEae1AE23": {
@@ -185,12 +185,12 @@ export const addressToCoinDetails: {
     staging: {
         "0x378520d445d3379497f991f7fef7E613014c20b2": {
             id: "bitcoin",
-            symbol: "btc",
+            symbol: "wbtc",
             name: "Bitcoin",
         },
         "0x66963e06Bf63a08E7B23B31406dB4B6F529fcf82": {
             id: "ethereum",
-            symbol: "eth",
+            symbol: "weth",
             name: "Ethereum",
         },
         "0x2c1cA1839893B21d9eAd72c0bc1d1e05841bfD82": {
