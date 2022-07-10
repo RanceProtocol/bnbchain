@@ -3,8 +3,12 @@
 /* eslint-disable */
 export type { Erc20 } from "./Erc20";
 export type { MMFRouter } from "./MMFRouter";
+export type { RanceMusdStaking } from "./RanceMusdStaking";
 export type { RanceProtocol } from "./RanceProtocol";
+export type { RanceRanceStaking } from "./RanceRanceStaking";
 export * as factories from "./factories";
 export { Erc20__factory } from "./factories/Erc20__factory";
 export { MMFRouter__factory } from "./factories/MMFRouter__factory";
+export { RanceMusdStaking__factory } from "./factories/RanceMusdStaking__factory";
 export { RanceProtocol__factory } from "./factories/RanceProtocol__factory";
+export { RanceRanceStaking__factory } from "./factories/RanceRanceStaking__factory";

@@ -3,4 +3,6 @@
 /* eslint-disable */
 export { Erc20__factory } from "./Erc20__factory";
 export { MMFRouter__factory } from "./MMFRouter__factory";
+export { RanceMusdStaking__factory } from "./RanceMusdStaking__factory";
 export { RanceProtocol__factory } from "./RanceProtocol__factory";
+export { RanceRanceStaking__factory } from "./RanceRanceStaking__factory";
