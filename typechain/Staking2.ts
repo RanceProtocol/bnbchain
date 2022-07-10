@@ -28,11 +28,11 @@ import type {
   PromiseOrValue,
 } from "./common";
 
-export interface RanceRanceStakingInterface extends utils.Interface {
+export interface Staking2Interface extends utils.Interface {
   functions: {
     "BONUS_MULTIPLIER()": FunctionFragment;
-    "RANCE()": FunctionFragment;
-    "RANCEPerBlock()": FunctionFragment;
+    "MUSD()": FunctionFragment;
+    "MUSDPerBlock()": FunctionFragment;
     "add(uint256,address,bool)": FunctionFragment;
     "compound()": FunctionFragment;
     "deposit(uint256,uint256)": FunctionFragment;
@@ -45,7 +45,7 @@ export interface RanceRanceStakingInterface extends utils.Interface {
     "owner()": FunctionFragment;
     "pause()": FunctionFragment;
     "paused()": FunctionFragment;
-    "pendingRANCE(uint256,address)": FunctionFragment;
+    "pendingMUSD(uint256,address)": FunctionFragment;
     "poolInfo(uint256)": FunctionFragment;
     "poolLength()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
@@ -67,8 +67,8 @@ export interface RanceRanceStakingInterface extends utils.Interface {
   getFunction(
     nameOrSignatureOrTopic:
       | "BONUS_MULTIPLIER"
-      | "RANCE"
-      | "RANCEPerBlock"
+      | "MUSD"
+      | "MUSDPerBlock"
       | "add"
       | "compound"
       | "deposit"
@@ -81,7 +81,7 @@ export interface RanceRanceStakingInterface extends utils.Interface {
       | "owner"
       | "pause"
       | "paused"
-      | "pendingRANCE"
+      | "pendingMUSD"
       | "poolInfo"
       | "poolLength"
       | "renounceOwnership"
@@ -104,9 +104,9 @@ export interface RanceRanceStakingInterface extends utils.Interface {
     functionFragment: "BONUS_MULTIPLIER",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "RANCE", values?: undefined): string;
+  encodeFunctionData(functionFragment: "MUSD", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "RANCEPerBlock",
+    functionFragment: "MUSDPerBlock",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -152,7 +152,7 @@ export interface RanceRanceStakingInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "pause", values?: undefined): string;
   encodeFunctionData(functionFragment: "paused", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "pendingRANCE",
+    functionFragment: "pendingMUSD",
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -222,9 +222,9 @@ export interface RanceRanceStakingInterface extends utils.Interface {
     functionFragment: "BONUS_MULTIPLIER",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "RANCE", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "MUSD", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "RANCEPerBlock",
+    functionFragment: "MUSDPerBlock",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "add", data: BytesLike): Result;
@@ -249,7 +249,7 @@ export interface RanceRanceStakingInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "pause", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "pendingRANCE",
+    functionFragment: "pendingMUSD",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "poolInfo", data: BytesLike): Result;
@@ -401,12 +401,12 @@ export type WithdrawEvent = TypedEvent<
 
 export type WithdrawEventFilter = TypedEventFilter<WithdrawEvent>;
 
-export interface RanceRanceStaking extends BaseContract {
+export interface Staking2 extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: RanceRanceStakingInterface;
+  interface: Staking2Interface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -430,9 +430,9 @@ export interface RanceRanceStaking extends BaseContract {
   functions: {
     BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    RANCE(overrides?: CallOverrides): Promise<[string]>;
+    MUSD(overrides?: CallOverrides): Promise<[string]>;
 
-    RANCEPerBlock(overrides?: CallOverrides): Promise<[BigNumber]>;
+    MUSDPerBlock(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     add(
       _allocPoint: PromiseOrValue<BigNumberish>,
@@ -463,8 +463,8 @@ export interface RanceRanceStaking extends BaseContract {
     ): Promise<[BigNumber]>;
 
     initialize(
-      _RANCE: PromiseOrValue<string>,
-      _RANCEPerBlock: PromiseOrValue<BigNumberish>,
+      _MUSD: PromiseOrValue<string>,
+      _MUSDPerBlock: PromiseOrValue<BigNumberish>,
       _startBlock: PromiseOrValue<BigNumberish>,
       _wallet: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -489,7 +489,7 @@ export interface RanceRanceStaking extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<[boolean]>;
 
-    pendingRANCE(
+    pendingMUSD(
       _pid: PromiseOrValue<BigNumberish>,
       _user: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -503,7 +503,7 @@ export interface RanceRanceStaking extends BaseContract {
         lpToken: string;
         allocPoint: BigNumber;
         lastRewardBlock: BigNumber;
-        accRANCEPerShare: BigNumber;
+        accMUSDPerShare: BigNumber;
       }
     >;
 
@@ -578,9 +578,9 @@ export interface RanceRanceStaking extends BaseContract {
 
   BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<BigNumber>;
 
-  RANCE(overrides?: CallOverrides): Promise<string>;
+  MUSD(overrides?: CallOverrides): Promise<string>;
 
-  RANCEPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
+  MUSDPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
 
   add(
     _allocPoint: PromiseOrValue<BigNumberish>,
@@ -611,8 +611,8 @@ export interface RanceRanceStaking extends BaseContract {
   ): Promise<BigNumber>;
 
   initialize(
-    _RANCE: PromiseOrValue<string>,
-    _RANCEPerBlock: PromiseOrValue<BigNumberish>,
+    _MUSD: PromiseOrValue<string>,
+    _MUSDPerBlock: PromiseOrValue<BigNumberish>,
     _startBlock: PromiseOrValue<BigNumberish>,
     _wallet: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -637,7 +637,7 @@ export interface RanceRanceStaking extends BaseContract {
 
   paused(overrides?: CallOverrides): Promise<boolean>;
 
-  pendingRANCE(
+  pendingMUSD(
     _pid: PromiseOrValue<BigNumberish>,
     _user: PromiseOrValue<string>,
     overrides?: CallOverrides
@@ -651,7 +651,7 @@ export interface RanceRanceStaking extends BaseContract {
       lpToken: string;
       allocPoint: BigNumber;
       lastRewardBlock: BigNumber;
-      accRANCEPerShare: BigNumber;
+      accMUSDPerShare: BigNumber;
     }
   >;
 
@@ -726,9 +726,9 @@ export interface RanceRanceStaking extends BaseContract {
   callStatic: {
     BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<BigNumber>;
 
-    RANCE(overrides?: CallOverrides): Promise<string>;
+    MUSD(overrides?: CallOverrides): Promise<string>;
 
-    RANCEPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
+    MUSDPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
 
     add(
       _allocPoint: PromiseOrValue<BigNumberish>,
@@ -757,8 +757,8 @@ export interface RanceRanceStaking extends BaseContract {
     ): Promise<BigNumber>;
 
     initialize(
-      _RANCE: PromiseOrValue<string>,
-      _RANCEPerBlock: PromiseOrValue<BigNumberish>,
+      _MUSD: PromiseOrValue<string>,
+      _MUSDPerBlock: PromiseOrValue<BigNumberish>,
       _startBlock: PromiseOrValue<BigNumberish>,
       _wallet: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -779,7 +779,7 @@ export interface RanceRanceStaking extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<boolean>;
 
-    pendingRANCE(
+    pendingMUSD(
       _pid: PromiseOrValue<BigNumberish>,
       _user: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -793,7 +793,7 @@ export interface RanceRanceStaking extends BaseContract {
         lpToken: string;
         allocPoint: BigNumber;
         lastRewardBlock: BigNumber;
-        accRANCEPerShare: BigNumber;
+        accMUSDPerShare: BigNumber;
       }
     >;
 
@@ -938,9 +938,9 @@ export interface RanceRanceStaking extends BaseContract {
   estimateGas: {
     BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<BigNumber>;
 
-    RANCE(overrides?: CallOverrides): Promise<BigNumber>;
+    MUSD(overrides?: CallOverrides): Promise<BigNumber>;
 
-    RANCEPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
+    MUSDPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
 
     add(
       _allocPoint: PromiseOrValue<BigNumberish>,
@@ -971,8 +971,8 @@ export interface RanceRanceStaking extends BaseContract {
     ): Promise<BigNumber>;
 
     initialize(
-      _RANCE: PromiseOrValue<string>,
-      _RANCEPerBlock: PromiseOrValue<BigNumberish>,
+      _MUSD: PromiseOrValue<string>,
+      _MUSDPerBlock: PromiseOrValue<BigNumberish>,
       _startBlock: PromiseOrValue<BigNumberish>,
       _wallet: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -997,7 +997,7 @@ export interface RanceRanceStaking extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<BigNumber>;
 
-    pendingRANCE(
+    pendingMUSD(
       _pid: PromiseOrValue<BigNumberish>,
       _user: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1078,9 +1078,9 @@ export interface RanceRanceStaking extends BaseContract {
   populateTransaction: {
     BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    RANCE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    MUSD(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    RANCEPerBlock(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    MUSDPerBlock(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     add(
       _allocPoint: PromiseOrValue<BigNumberish>,
@@ -1111,8 +1111,8 @@ export interface RanceRanceStaking extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     initialize(
-      _RANCE: PromiseOrValue<string>,
-      _RANCEPerBlock: PromiseOrValue<BigNumberish>,
+      _MUSD: PromiseOrValue<string>,
+      _MUSDPerBlock: PromiseOrValue<BigNumberish>,
       _startBlock: PromiseOrValue<BigNumberish>,
       _wallet: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1137,7 +1137,7 @@ export interface RanceRanceStaking extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    pendingRANCE(
+    pendingMUSD(
       _pid: PromiseOrValue<BigNumberish>,
       _user: PromiseOrValue<string>,
       overrides?: CallOverrides
