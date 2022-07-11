@@ -78,6 +78,18 @@ const StakingCard: FC<IProps> = (props) => {
                     <span className={styles.value}>{`$${totalStakedUsd}`}</span>
                 </div>
             </div>
+
+            <div className={styles.user__details}>
+                <div className = {styles.key__values}>
+                    <span className={styles.key}>Earnings</span>
+                    <span className={styles.value}>0.0 ~ $0.0</span>
+                </div>
+
+                <div className = {styles.key__values}>
+                    <span className={styles.key}>Stake</span>
+                    <span className={styles.value}>0.0 ~ $0.0</span>
+                </div>
+            </div>
             {!walletUnlockStatus ? 
                 <button className = {clsx(styles.btn, styles.btn__hollow)}>Approve</button>
             :

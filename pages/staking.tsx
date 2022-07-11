@@ -16,7 +16,7 @@ const Staking: NextPage = () => {
                 <div className={styles.banner}>
                     <div className={styles.banner__container}>
                         <h1 className = {styles.banner__header}>Stake RANCE to earn RANCE or MUSD</h1>
-                        <p className={styles.banner__text}>Staking is a way of earning interest on your cryptocurrency by depositing it for a fixed period of time</p>
+                        <p className={styles.banner__text}>Staking is a way of earning interest on your RANCE token by depositing it for a fixed period of time</p>
                     </div>
                     <div className={styles.banner__image__container}>
                         <Image 
@@ -29,8 +29,7 @@ const Staking: NextPage = () => {
                 </div>
 
                 <div className={styles.staking__card__wrapper}>
-                    {/* {stakingPools.map((pool:IStakingPool) =>  <StakingCard key = {pool.poolId} {...pool} />)} */}
-                    <p>Coming soon...</p>
+                    {stakingPools.map((pool:IStakingPool) =>  <StakingCard key = {pool.poolId} {...pool} />)}
                 </div>
             </main>
         </div>
