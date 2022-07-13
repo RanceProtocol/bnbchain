@@ -1,6 +1,19 @@
+import { stakingPools } from "./dummyData";
+
 export const ranceProtocol = {
     staging: "0x080d599F2E2f86Ee7bE68f0d0Dcf352f11950ED4",
     mainnet: "0x48A3D687a79844C2CdBcE66b7Be12919840393F7",
+};
+
+export const stakingContractAddresses = {
+    staging: [
+        "0xB1ad1e8612C228e4A6C9cDed64d8A270157c9455",
+        "0x1D17EE3b2eD935305b77D72Ab883D3827bC2E605",
+    ],
+    mainnet: [
+        "0xB1ad1e8612C228e4A6C9cDed64d8A270157c9455",
+        "0x1D17EE3b2eD935305b77D72Ab883D3827bC2E605",
+    ],
 };
 
 export const tokens = {
@@ -19,14 +32,22 @@ export const tokens = {
         WETH: "0x66963e06Bf63a08E7B23B31406dB4B6F529fcf82",
         CRO: "0x2c1ca1839893b21d9ead72c0bc1d1e05841bfd82",
         MUSD: "0x6cefffe285b0f883ec726f31bff5a188a60fc193",
-    }
+    },
 };
+
+export const stakingAddressToPool: {[key: string]: number} = {
+    "0xB1ad1e8612C228e4A6C9cDed64d8A270157c9455": 0, //staging
+    "0x1D17EE3b2eD935305b77D72Ab883D3827bC2E605": 1, //staging
+};
+
+export const AUTOSHARK_ADDRESSES = "0xB0EeB0632bAB15F120735e5838908378936bd484";
 
 // export const tokenAddressToName = Object.fromEntries(
 //     Object.entries(tokens).map((entries: string[]) => [entries[1], entries[0]])
 // );
 
-export const tokenAddressToName =  Object.fromEntries(
-    Object.entries(tokens[process.env
-        .NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof tokens]).map((entries: string[]) => [entries[1], entries[0]])
+export const tokenAddressToName = Object.fromEntries(
+    Object.entries(
+        tokens[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof tokens]
+    ).map((entries: string[]) => [entries[1], entries[0]])
 );

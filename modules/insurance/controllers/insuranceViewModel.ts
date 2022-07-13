@@ -14,7 +14,6 @@ import { insure as insureUseCase } from "../usecases/insure";
 import { cancelInsurance as cancelInsuranceUseCase } from "../usecases/cancelInsurance";
 import { withdrawInsurance as withdrawInsuranceUseCase } from "../usecases/withdrawInsurance";
 import { watchEvent } from "../../../utils/events";
-import { userInfo } from "os";
 
 interface IProps {
     address: string | null | undefined;
