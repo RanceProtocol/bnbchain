@@ -6,6 +6,7 @@ import useTransaction from "../../../hooks/useTransaction";
 import { Staking1__factory, Staking2__factory } from "../../../typechain";
 import { getDefaultProvider } from "../../../wallet/utils";
 import { initializeStakingPools as initializeStakingPoolsAction } from "../ui/redux/actions";
+import { getPoolsUserData as getPoolsUserDataAction } from "../ui/redux/actions";
 import { compound as compoundUsecase } from "../usecases/compound";
 import { stake as stakeUsecase } from "../usecases/stake";
 import { unstake as unstakeUsecase } from "../usecases/unstake";
@@ -41,7 +42,13 @@ export const useStakingViewModel = (props: IProps) => {
             stakingContract2,
             address
         )(dispatch);
-    }, [stakingContract1, stakingContract2, address]);
+    }, [stakingContract1, stakingContract2]);
+
+    const getPoolsUserData = useCallback(() => {
+        if(!address) return
+        getPoolsUserDataAction(stakingContract1, stakingContract2, address)(dispatch)
+        
+    }, [stakingContract1,stakingContract2, address])
 
     const stake = useCallback(
         (
@@ -101,5 +108,5 @@ export const useStakingViewModel = (props: IProps) => {
         [stakingContract1]
     );
 
-    return { initializeStakingPools, stake, unstake, harvest, compound };
+    return { initializeStakingPools, getPoolsUserData, stake, unstake, harvest, compound };
 };

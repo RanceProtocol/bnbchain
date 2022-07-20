@@ -40,6 +40,11 @@ export const stakingAddressToPool: {[key: string]: number} = {
     "0x1D17EE3b2eD935305b77D72Ab883D3827bC2E605": 1, //staging
 };
 
+export const masterRanceWallet = {
+    staging: "0x91A8BEF2bEBD46fBD079667DcE72865C1f015df0",
+    mainnet: "0x91A8BEF2bEBD46fBD079667DcE72865C1f015df0" // replaced with mainnet wallet later
+}
+
 export const AUTOSHARK_ADDRESSES = "0xB0EeB0632bAB15F120735e5838908378936bd484";
 
 // export const tokenAddressToName = Object.fromEntries(

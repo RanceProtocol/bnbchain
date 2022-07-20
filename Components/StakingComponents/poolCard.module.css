@@ -77,13 +77,22 @@
     flex-col
 }
 
+.key__values:last-of-type {
+    @apply items-end
+}
+
+
 .key {
     @apply text-xs
     text-theme-gray-1
 }
 
+.pool__details .value {
+    @apply text-theme-gray-2
+}
+
 .value {
-    @apply text-sm
+    @apply text-lg
 }
 
 .btn {

@@ -2,29 +2,38 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/staking.module.css";
-import StakingCard from "../Components/StakingCard";
-import { stakingPools } from "../constants/dummyData";
+import PoolCard from "../Components/StakingComponents/PoolCard";
 // import type { IStakingPool } from "../constants/dummyData";
 import { useStakingViewModel } from "../modules/staking/controllers/stakingViewModel";
 import { useWeb3React } from "@web3-react/core";
 import { useEffect } from "react";
 import { IStakingPool } from "../modules/staking/domain/entities";
 import { stakingState } from "../modules/staking/ui/redux/state";
+import EarningCard from "../Components/StakingComponents/EarningCard";
+import PoolCardSkeleton from "../Components/StakingComponents/PoolCardSkeleton";
+import EarningSectionSkeleton from "../Components/StakingComponents/EarningSectionSkeleton";
 
 const Staking: NextPage = () => {
     const { account, library } = useWeb3React();
 
-    const { initializeStakingPools } = useStakingViewModel({
+    const { initializeStakingPools, getPoolsUserData } = useStakingViewModel({
         address: account,
         provider: library,
     });
 
+    const { loadingPools, pools, loadingUserEarnings } = stakingState();
+
     useEffect(() => {
         initializeStakingPools();
         // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        if (loadingPools || pools.length === 0) return;
+        getPoolsUserData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [account]);
 
-    const {loadingPools, pools} = stakingState()
     return (
         <div className={styles.container}>
             <Head>
@@ -52,10 +61,60 @@ const Staking: NextPage = () => {
                 </div>
 
                 <div className={styles.staking__card__wrapper}>
-                    {pools.length !==0 && pools.map((pool: IStakingPool) => (
-                        <StakingCard key={pool.id} {...pool} />
-                    ))}
+                    {pools.length !== 0 ? (
+                        pools.map((pool: IStakingPool) => (
+                            <PoolCard key={pool.id} {...pool} />
+                        ))
+                    ) : loadingPools ? (
+                        new Array(2)
+                            .fill(undefined)
+                            .map((item, index) => (
+                                <PoolCardSkeleton key={index} />
+                            ))
+                    ) : (
+                        <p className={styles.message}>Cannot get pools...</p>
+                    )}
                 </div>
+
+                {account && loadingUserEarnings ? (
+                    <EarningSectionSkeleton />
+                ) : (
+                    pools[0]?.userEarned &&
+                    pools[1]?.userEarned && (
+                        <div className={styles.earning__section}>
+                            <div className={styles.text__section}>
+                                <div className={styles.earning__heading}>
+                                    Available Earnings
+                                </div>
+                                <p className={styles.earning__text}>
+                                    Accumulated earnings available to harvest
+                                </p>
+                            </div>
+                            <div className={styles.cards__section}>
+                                {pools.length !== 0 &&
+                                    pools.map((pool: IStakingPool) => (
+                                        <EarningCard
+                                            key={pool.id}
+                                            id={pool.id}
+                                            contractAddress={
+                                                pool.contractAddress
+                                            }
+                                            rewardTokenDecimals={
+                                                pool.rewardTokenDecimals
+                                            }
+                                            rewardTokenPrice={
+                                                pool.rewardTokenPrice
+                                            }
+                                            rewardTokenSymbol={
+                                                pool.rewardTokenSymbol
+                                            }
+                                            userEarned={pool.userEarned}
+                                        />
+                                    ))}
+                            </div>
+                        </div>
+                    )
+                )}
             </main>
         </div>
     );

@@ -3,13 +3,13 @@ import { BigNumber } from "ethers";
 export interface IStakingPool {
     id: number;
     contractAddress: string;
-    stakeTokenSymbol: string
+    stakeTokenSymbol: string;
     stakeTokenAddress: string;
     rewardTokenAddress: string;
     rewardTokenSymbol: string;
     apr: BigNumber;
     totalStaked: BigNumber;
-    totalEarned: BigNumber;
+    potentialEarnings: BigNumber;
     userStaked?: BigNumber;
     userEarned?: BigNumber;
     stakeTokenDecimals: number;

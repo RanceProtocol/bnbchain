@@ -1,5 +1,5 @@
 import { BigNumber } from "ethers";
-import { stakingAddressToPool, tokens } from "../../../constants/addresses";
+import { masterRanceWallet, stakingAddressToPool, tokens } from "../../../constants/addresses";
 import { Erc20__factory, Staking1, Staking2 } from "../../../typechain";
 import { structOutputToObject } from "../../../utils/helpers";
 import { getRANCEPrice } from "../../../utils/price";
@@ -8,16 +8,15 @@ import { IStakingPool } from "../domain/entities";
 export const initializeStakingPools = async (
     contract1: Staking1,
     contract2: Staking2,
-    userAddress: string | null | undefined
+    userAddress:string | null | undefined
 ): Promise<IStakingPool[]> => {
-    const pool1 = await getstakingContract1Pools(contract1, userAddress);
-    const pool2 = await getstakingContract2Pools(contract2, userAddress);
-    return [pool1, pool2];
+    const pools = await Promise.all([getstakingContract1Pool(contract1, userAddress), getstakingContract2Pool(contract2, userAddress)])
+    return pools;
 };
 
-const getstakingContract1Pools = async (
+const getstakingContract1Pool = async (
     contract: Staking1,
-    userAddress: string | null | undefined
+    userAddress:string | null | undefined
 ): Promise<IStakingPool> => {
     const contractAddress = contract.address;
     const totalAllocPoint = Number(await contract.totalAllocPoint());
@@ -32,6 +31,7 @@ const getstakingContract1Pools = async (
         poolInfo.lpToken,
         contract.provider
     );
+
     const stakeTokenDecimals = await stakeToken.decimals();
     const totalStaked = await stakeToken.balanceOf(contract.address);
     const rewardToken = Erc20__factory.connect(
@@ -40,7 +40,6 @@ const getstakingContract1Pools = async (
         contract.provider
     );
     const rewardTokenDecimals = await rewardToken.decimals();
-    const rewardTokenSymbol = await rewardToken.symbol();
     const rancePerBlock = (await contract.RANCEPerBlock()).mul(
         await contract.BONUS_MULTIPLIER()
     );
@@ -54,6 +53,8 @@ const getstakingContract1Pools = async (
         ? BigNumber.from(0)
         : numerator.div(denominator);
 
+    const potentialEarnings = await rewardToken.balanceOf(masterRanceWallet[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof masterRanceWallet])
+
     const pool: IStakingPool = {
         id: stakingAddressToPool[contract.address],
         contractAddress,
@@ -63,17 +64,17 @@ const getstakingContract1Pools = async (
             tokens[
                 process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof tokens
             ].RANCE,
-        rewardTokenSymbol,
+        rewardTokenSymbol: "RANCE",
         apr,
         totalStaked,
-        totalEarned: BigNumber.from(0),
+        potentialEarnings,
         stakeTokenDecimals,
         rewardTokenDecimals,
         stakeTokenPrice: rancePrice,
         rewardTokenPrice: rancePrice,
     };
 
-    if (userAddress) {
+    if(userAddress) {
         pool.userStaked = (
             await contract.userInfo(
                 stakingAddressToPool[contract.address],
@@ -84,14 +85,15 @@ const getstakingContract1Pools = async (
             stakingAddressToPool[contract.address],
             userAddress
         );
+        
     }
 
     return pool;
 };
 
-const getstakingContract2Pools = async (
+const getstakingContract2Pool = async (
     contract: Staking2,
-    userAddress: string | null | undefined
+    userAddress:string | null | undefined
 ): Promise<IStakingPool> => {
     const contractAddress = contract.address;
     const totalAllocPoint = Number(await contract.totalAllocPoint());
@@ -111,7 +113,6 @@ const getstakingContract2Pools = async (
         contract.provider
     );
     const rewardTokenDecimals = await rewardToken.decimals();
-    const rewardTokenSymbol = await rewardToken.symbol();
     const musdPerBlock = (await contract.MUSDPerBlock()).mul(
         await contract.BONUS_MULTIPLIER()
     );
@@ -124,6 +125,8 @@ const getstakingContract2Pools = async (
     const apr = denominator.eq(0)
         ? BigNumber.from(0)
         : numerator.div(denominator);
+    
+    const potentialEarnings = await rewardToken.balanceOf(masterRanceWallet[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof masterRanceWallet])
 
     const pool: IStakingPool = {
         id: stakingAddressToPool[contract.address],
@@ -134,17 +137,17 @@ const getstakingContract2Pools = async (
             tokens[
                 process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof tokens
             ].MUSD,
-        rewardTokenSymbol,
+        rewardTokenSymbol: "MUSD",
         apr,
         totalStaked,
-        totalEarned: BigNumber.from(0),
+        potentialEarnings,
         stakeTokenDecimals,
         rewardTokenDecimals,
         stakeTokenPrice: rancePrice,
         rewardTokenPrice: 1, //MUSD is equivilent to $
     };
 
-    if (userAddress) {
+    if(userAddress) {
         pool.userStaked = (
             await contract.userInfo(
                 stakingAddressToPool[contract.address],
