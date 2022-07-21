@@ -6,12 +6,27 @@ import clsx from "clsx";
 import StakingModal from "../StakingModal";
 import type { IStakingPool } from "../../modules/staking/domain/entities";
 import useLazyToken from "../../hooks/useLazyToken";
-import { utils } from "ethers";
+import { BigNumber, utils } from "ethers";
 import { useWeb3React } from "@web3-react/core";
 import { toggleWalletModal } from "../../appState/shared/action";
 import { useDispatch } from "react-redux";
+import CustomToast, { STATUS, TYPE } from "../CustomToast";
+import { toast } from "react-toastify";
+import { truncateString } from "../../utils/helpers";
 
-interface IProps extends IStakingPool {}
+interface IProps extends IStakingPool {
+    ranceBalance: BigNumber;
+    stake: (stakingAddress: string,
+        pId: number,
+        amount: BigNumber,
+        callbacks: { [key: string]: (errorMessage?: string) => void }) => void,
+    harvest: (stakingAddress: string, pId: number, callbacks: {
+        [key: string]: (errorMessage?: string | undefined) => void;
+    }) => void
+    unstake: (stakingAddress: string, pId: number, amount: BigNumber, callbacks: {
+        [key: string]: (errorMessage?: string | undefined) => void;
+    }) => void
+}
 
 const PoolCard: FC<IProps> = (props) => {
     const {
@@ -30,9 +45,11 @@ const PoolCard: FC<IProps> = (props) => {
         totalStaked,
         userEarned,
         userStaked,
+        ranceBalance,
+        stake,
+        harvest,
+        unstake
     } = props;
-
-    const { getSymbol } = useLazyToken();
 
     const [modalState, setModalState] = useState<{
         open: boolean;
@@ -42,9 +59,49 @@ const PoolCard: FC<IProps> = (props) => {
 
     const dispatch = useDispatch();
 
-    const stakeHandler = () => {};
+    const harvestHandler = () => {
+        if(!userEarned?.gt(0)) {
+            const toastBody = CustomToast({
+                message: `You have no earnings to harvest in the ${stakeTokenSymbol}/${rewardTokenSymbol} pool`,
+                status: STATUS.ERROR,
+                type: TYPE.ERROR,
+            });
+            return toast(toastBody);
+        }
+        let pendingToastId: number | string = "";
+        const callbacks = {
+            sent: () => {
+                const toastBody = CustomToast({
+                    message: `Harvesting the earnings in the ${stakeTokenSymbol}/${rewardTokenSymbol} pool`,
+                    status: STATUS.PENDING,
+                    type: TYPE.TRANSACTION,
+                });
+                pendingToastId = toast(toastBody, { autoClose: false });
+            },
+            successfull: async () => {
+                const toastBody = CustomToast({
+                    message: `Successfully harvested your earnings in ${stakeTokenSymbol}/${rewardTokenSymbol} pool`,
+                    status: STATUS.SUCCESSFULL,
+                    type: TYPE.TRANSACTION,
+                });
+                toast.dismiss(pendingToastId);
+                toast(toastBody);
+            },
+            failed: (errorMessage?: string) => {
+                const toastBody = CustomToast({
+                    message: errorMessage
+                        ? truncateString(errorMessage, 100)
+                        : "Error harvesting earnings",
+                    status: STATUS.ERROR,
+                    type: TYPE.TRANSACTION,
+                });
+                toast.dismiss(pendingToastId);
+                toast(toastBody);
+            },
+        };
 
-    const unstakeHandler = () => {};
+        harvest(contractAddress, id, callbacks);
+    }
 
     const tringerActionModal = (action: "staking" | "unstaking") => {
         setModalState({ open: true, action });
@@ -168,6 +225,7 @@ const PoolCard: FC<IProps> = (props) => {
                                 styles.btn__small,
                                 styles.btn__hollow
                             )}
+                            onClick = {harvestHandler}
                         >
                             Harvest
                         </button>
@@ -176,22 +234,28 @@ const PoolCard: FC<IProps> = (props) => {
 
                 <a
                     className={styles.contract__link}
-                    href={`https://cronos.com/address/${contractAddress}`}
+                    href={`https://cronoscan.com/address/${contractAddress}`}
                     target="_blank"
                     rel="noreferrer"
                 >
                     view contract
                 </a>
             </div>
-            {/* <StakingModal 
+            {account&& <StakingModal 
                 open = {modalState.open}
                 action = {modalState.action}
                 onClose = {() => setModalState(prev => ({...prev, open: false}))}
-                actionHandler = {modalState.action === "staking" ? stakeHandler : unstakeHandler }
-                earnTokenName = {earnToken}
-                stakeTokenName = {stakeToken}
-                poolId = {poolId}
-            /> */}
+                rewardTokenSymbol = {rewardTokenSymbol}
+                stakeTokenSymbol = {stakeTokenSymbol}
+                poolId = {id}
+                rewardTokenAddress = {rewardTokenAddress}
+                stakeTokenAddress = {stakeTokenAddress}
+                ranceBalance = {ranceBalance}
+                userStake = {userStaked}
+                stake = {stake}
+                unstake = {unstake}
+                contractAddress = {contractAddress}
+            />}
         </Fragment>
     );
 };

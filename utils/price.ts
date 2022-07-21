@@ -89,6 +89,6 @@ export const getRANCEPrice = async (
         return price
     } catch (error) {
         console.error(error);
-        return 0
+        return 1
     }
 };

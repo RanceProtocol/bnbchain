@@ -1,10 +1,11 @@
+import { BigNumber } from "ethers";
 import useTransaction, { SendParams } from "../../../hooks/useTransaction";
 import { Staking1, Staking2 } from "../../../typechain";
 
 interface StakeParams {
     contract: Staking1 | Staking2;
     pId: number;
-    amount: string;
+    amount: BigNumber;
     send: (params: SendParams) => Promise<void>;
     callbacks?: { [key: string]: () => void };
 }

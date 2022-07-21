@@ -86,6 +86,7 @@
 .cards__section {
     @apply flex gap-4
     overflow-x-auto
+    mx-auto
     mt-4
     lg:mt-0
 }

@@ -11,6 +11,7 @@ import { compound as compoundUsecase } from "../usecases/compound";
 import { stake as stakeUsecase } from "../usecases/stake";
 import { unstake as unstakeUsecase } from "../usecases/unstake";
 import { harvest as harvestUsecase } from "../usecases/harvest";
+import { BigNumber } from "ethers";
 
 interface IProps {
     address: string | null | undefined;
@@ -54,7 +55,7 @@ export const useStakingViewModel = (props: IProps) => {
         (
             stakingAddress: string,
             pId: number,
-            amount: string,
+            amount: BigNumber,
             callbacks: { [key: string]: (errorMessage?: string) => void }
         ) => {
             const contract =
@@ -70,7 +71,7 @@ export const useStakingViewModel = (props: IProps) => {
         (
             stakingAddress: string,
             pId: number,
-            amount: string,
+            amount: BigNumber,
             callbacks: { [key: string]: (errorMessage?: string) => void }
         ) => {
             const contract =

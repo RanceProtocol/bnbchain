@@ -12,11 +12,13 @@ import { stakingState } from "../modules/staking/ui/redux/state";
 import EarningCard from "../Components/StakingComponents/EarningCard";
 import PoolCardSkeleton from "../Components/StakingComponents/PoolCardSkeleton";
 import EarningSectionSkeleton from "../Components/StakingComponents/EarningSectionSkeleton";
+import useToken from "../hooks/useToken";
+import { tokens } from "../constants/addresses";
 
 const Staking: NextPage = () => {
     const { account, library } = useWeb3React();
 
-    const { initializeStakingPools, getPoolsUserData } = useStakingViewModel({
+    const { initializeStakingPools, getPoolsUserData, stake, harvest, unstake } = useStakingViewModel({
         address: account,
         provider: library,
     });
@@ -33,6 +35,9 @@ const Staking: NextPage = () => {
         getPoolsUserData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [account]);
+
+    const RANCE = useToken(tokens[process.env
+        .NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof tokens].RANCE);
 
     return (
         <div className={styles.container}>
@@ -63,7 +68,7 @@ const Staking: NextPage = () => {
                 <div className={styles.staking__card__wrapper}>
                     {pools.length !== 0 ? (
                         pools.map((pool: IStakingPool) => (
-                            <PoolCard key={pool.id} {...pool} />
+                        <PoolCard key={pool.id} {...pool} ranceBalance = {RANCE.balance} stake = {stake} harvest = {harvest} unstake = {unstake}/>
                         ))
                     ) : loadingPools ? (
                         new Array(2)
@@ -109,9 +114,11 @@ const Staking: NextPage = () => {
                                                 pool.rewardTokenSymbol
                                             }
                                             userEarned={pool.userEarned}
+                                            harvest = {harvest}
                                         />
                                     ))}
                             </div>
+                           
                         </div>
                     )
                 )}

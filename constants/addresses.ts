@@ -1,5 +1,3 @@
-import { stakingPools } from "./dummyData";
-
 export const ranceProtocol = {
     staging: "0x080d599F2E2f86Ee7bE68f0d0Dcf352f11950ED4",
     mainnet: "0x48A3D687a79844C2CdBcE66b7Be12919840393F7",
