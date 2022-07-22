@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import styles from "./poolcardSkeleton.module.css";
+import styles from "./poolCardSkeleton.module.css";
 const PoolCardSkeleton = () => {
     return (
         <div className={styles.root}>
