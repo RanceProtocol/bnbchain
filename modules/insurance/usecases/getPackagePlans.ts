@@ -34,7 +34,7 @@ export const getPackagePlans = async (
         const insurableCoinsObject = Object.fromEntries(insurableCoinsEntries);
         
 
-        const paymentTokenLength = await contract.getPackagePlansLength()
+        const paymentTokenLength = await contract.getPaymentTokensLength()
         
         const paymentTokensNames: string[] = await contract.getPaymentTokens(0, paymentTokenLength);
         

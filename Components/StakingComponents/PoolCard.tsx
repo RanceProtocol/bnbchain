@@ -144,24 +144,24 @@ const PoolCard: FC<IProps> = (props) => {
                         <div className={styles.key__values}>
                             <span className={styles.key}>Earnings</span>
                             <span className={styles.value}>{`$${
-                                Number(
+                                (Number(
                                     utils.formatUnits(
                                         userEarned!,
                                         rewardTokenDecimals
                                     )
-                                ) * rewardTokenPrice
+                                ) * rewardTokenPrice).toFixed(2)
                             }`}</span>
                         </div>
 
                         <div className={styles.key__values}>
                             <span className={styles.key}>Stake</span>
                             <span className={styles.value}>{`$${
-                                Number(
+                                (Number(
                                     utils.formatUnits(
                                         userStaked!,
                                         stakeTokenDecimals
                                     )
-                                ) * stakeTokenPrice
+                                ) * stakeTokenPrice).toFixed(2)
                             }`}</span>
                         </div>
                     </div>
@@ -171,24 +171,24 @@ const PoolCard: FC<IProps> = (props) => {
                     <div className={styles.key__values}>
                         <span className={styles.key}>Potential earnings</span>
                         <span className={styles.value}>{`$${
-                            Number(
+                            (Number(
                                 utils.formatUnits(
                                     potentialEarnings,
                                     rewardTokenDecimals
                                 )
-                            ) * rewardTokenPrice
+                            ) * rewardTokenPrice).toFixed(2)
                         }`}</span>
                     </div>
 
                     <div className={styles.key__values}>
                         <span className={styles.key}>Total Staked</span>
                         <span className={styles.value}>{`$${
-                            Number(
+                            (Number(
                                 utils.formatUnits(
                                     totalStaked,
                                     stakeTokenDecimals
                                 )
-                            ) * stakeTokenPrice
+                            ) * stakeTokenPrice).toFixed(2)
                         }`}</span>
                     </div>
                 </div>

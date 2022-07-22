@@ -23,7 +23,7 @@ const Staking: NextPage = () => {
         provider: library,
     });
 
-    const { loadingPools, pools, loadingUserEarnings } = stakingState();
+    const { loadingPools, pools } = stakingState();
 
     useEffect(() => {
         initializeStakingPools();
@@ -75,7 +75,7 @@ const Staking: NextPage = () => {
                     )}
                 </div>
 
-                {account && (loadingUserEarnings ? (
+                {account && (loadingPools ? (
                     <EarningSectionSkeleton />
                 ) : (
                     pools[0]?.userEarned &&

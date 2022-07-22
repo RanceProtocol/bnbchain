@@ -21,13 +21,17 @@ export const stakingReducer = (
                 ...state,
                 pools: payload.pools,
                 loadingPools: false,
+                loadingUserEarnings: false,
                 
             };
         case actionTypes.GET__STAKING__POOLS__FAILLED:
             return {
                 ...state,
                 loadingPools: false,
+                loadingUserEarnings: false
             };
+        case actionTypes.GETTING__USER__STAKING__POOLS__EARNING:
+            return {...state, loadingUserEarnings: true}
         case actionTypes.SET__STAKING__POOL:
             const unChangedPools = state.pools.filter(
                 (pool) =>

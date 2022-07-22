@@ -17,6 +17,11 @@ export const initializeStakingPools =
         dispatch: Dispatch<{ type: string; payload?: any }>
     ): Promise<void> => {
         dispatch({ type: actionTypes.GET__STAKING__POOLS });
+        if (userAddress) {
+            dispatch({
+                type: actionTypes.GETTING__USER__STAKING__POOLS__EARNING,
+            });
+        }
         try {
             const pools: IStakingPool[] = await initializeStakingPoolsUsecase(
                 contract1,
@@ -40,15 +45,22 @@ export const initializeStakingPools =
         }
     };
 
-export const updateStakingPool = (contract: Staking1 | Staking2, pId: number, userAddress: string | null | undefined) => async (dispatch: Dispatch<{ type: string; payload?: any }>): Promise<void> => {
-    try {
-        const pool = await getPoolUsecase({contract, pId, userAddress})
-        dispatch({
-            type: actionTypes.SET__STAKING__POOL,
-            payload: {pool}
-        })
-    } catch (error) {
-        console.error(error);
-        
-    }
-}
+export const updateStakingPool =
+    (
+        contract: Staking1 | Staking2,
+        pId: number,
+        userAddress: string | null | undefined
+    ) =>
+    async (
+        dispatch: Dispatch<{ type: string; payload?: any }>
+    ): Promise<void> => {
+        try {
+            const pool = await getPoolUsecase({ contract, pId, userAddress });
+            dispatch({
+                type: actionTypes.SET__STAKING__POOL,
+                payload: { pool },
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    };
