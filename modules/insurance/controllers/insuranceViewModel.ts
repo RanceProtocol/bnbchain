@@ -14,7 +14,7 @@ import { insure as insureUseCase } from "../usecases/insure";
 import { cancelInsurance as cancelInsuranceUseCase } from "../usecases/cancelInsurance";
 import { withdrawInsurance as withdrawInsuranceUseCase } from "../usecases/withdrawInsurance";
 import { watchEvent } from "../../../utils/events";
-import { userInfo } from "os";
+import useTransaction from "../../../hooks/useTransaction";
 
 interface IProps {
     address: string | null | undefined;
@@ -28,6 +28,7 @@ const dappEnv: addressType = process.env
 export const useInsuranceViewModel = (props: IProps) => {
     const { address, provider } = props;
     const dispatch = useDispatch();
+    const { send } = useTransaction();
 
     const insuranceContract = RanceProtocol__factory.connect(
         ranceProtocol[dappEnv],
@@ -74,6 +75,7 @@ export const useInsuranceViewModel = (props: IProps) => {
                 path,
                 insureCoin,
                 paymentToken,
+                send,
                 callbacks,
             });
         },
@@ -90,6 +92,7 @@ export const useInsuranceViewModel = (props: IProps) => {
             await cancelInsuranceUseCase({
                 contract: insuranceContract,
                 packageId,
+                send,
                 callbacks,
             });
         },
@@ -106,6 +109,7 @@ export const useInsuranceViewModel = (props: IProps) => {
             await withdrawInsuranceUseCase({
                 contract: insuranceContract,
                 packageId,
+                send,
                 callbacks,
             });
         },

@@ -1,0 +1,18 @@
+.root {
+    @apply 
+    rounded-3xl my-8
+    w-full
+    h-[20rem]
+    p-4
+    sm:p-6
+    md:p-8
+    block
+    lg:flex
+    lg:gap-6
+    animate-pulse
+    bg-theme-primary-2
+}
+
+.bg__color {
+    @apply bg-theme-gray-alpha
+}
