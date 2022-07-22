@@ -57,6 +57,7 @@ const StakingModal: FC<IProps> = ({
         (async () => {
             getAllowance(contractAddress);
         })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     const [amount, setAmount] = useState<string>("");
     const [sendingTx, setSendingTx] = useState<boolean>(false);
