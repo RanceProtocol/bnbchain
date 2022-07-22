@@ -9,7 +9,6 @@ interface StakeParams {
     send: (params: SendParams) => Promise<void>;
     callbacks?: { [key: string]: () => void };
 }
-
 export const stake = (params: StakeParams) => {
     const { contract, pId, callbacks, send, amount } = params;
     const method = contract.deposit;

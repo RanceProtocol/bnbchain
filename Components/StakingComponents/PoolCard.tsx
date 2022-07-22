@@ -217,6 +217,7 @@ const PoolCard: FC<IProps> = (props) => {
                                 styles.btn__solid2
                             )}
                             onClick={() => tringerActionModal("unstaking")}
+                            disabled = {!userStaked}
                         >
                             Unstake
                         </button>

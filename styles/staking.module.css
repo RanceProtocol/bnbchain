@@ -90,3 +90,12 @@
     mt-4
     lg:mt-0
 }
+
+.message {
+    @apply text-center
+    sm:col-span-2
+    xl:col-span-3
+    mt-4
+    text-theme-white-alpha
+    text-sm
+}

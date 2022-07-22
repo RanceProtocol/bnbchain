@@ -260,11 +260,11 @@ const StakingModal: FC<IProps> = ({
                     </label>
                     <span className={styles.balance}>
                         {action === "staking"
-                            ? `Available: ${utils.formatEther(
-                                  ranceBalance
+                            ? `Available: ${Number(
+                                  utils.formatEther(ranceBalance)
                               )} RANCE`
-                            : `staked: ${utils.formatEther(
-                                  userStake as BigNumber
+                            : `staked: ${Number(
+                                  utils.formatEther(userStake as BigNumber)
                               )} RANCE`}
                     </span>
                 </div>
@@ -303,7 +303,9 @@ const StakingModal: FC<IProps> = ({
             ) : amount === "" ? (
                 <span className={styles.message}>Enter amount</span>
             ) : Number(amount) > Number(utils.formatEther(userStake!)) ? (
-                <span className={styles.message}>Insufficient stake balance</span>
+                <span className={styles.message}>
+                    Insufficient stake balance
+                </span>
             ) : (
                 <button
                     className={styles.action__button}

@@ -1,17 +1,18 @@
 import { Web3Provider } from "@ethersproject/providers";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { stakingContractAddresses } from "../../../constants/addresses";
 import useTransaction from "../../../hooks/useTransaction";
 import { Staking1__factory, Staking2__factory } from "../../../typechain";
 import { getDefaultProvider } from "../../../wallet/utils";
 import { initializeStakingPools as initializeStakingPoolsAction } from "../ui/redux/actions";
-import { getPoolsUserData as getPoolsUserDataAction } from "../ui/redux/actions";
+import { updateStakingPool as updateStakingPoolAction } from "../ui/redux/actions";
 import { compound as compoundUsecase } from "../usecases/compound";
 import { stake as stakeUsecase } from "../usecases/stake";
 import { unstake as unstakeUsecase } from "../usecases/unstake";
 import { harvest as harvestUsecase } from "../usecases/harvest";
 import { BigNumber } from "ethers";
+import { watchEvent } from "../../../utils/events";
 
 interface IProps {
     address: string | null | undefined;
@@ -44,12 +45,6 @@ export const useStakingViewModel = (props: IProps) => {
             address
         )(dispatch);
     }, [stakingContract1, stakingContract2]);
-
-    const getPoolsUserData = useCallback(() => {
-        if(!address) return
-        getPoolsUserDataAction(stakingContract1, stakingContract2, address)(dispatch)
-        
-    }, [stakingContract1,stakingContract2, address])
 
     const stake = useCallback(
         (
@@ -109,5 +104,33 @@ export const useStakingViewModel = (props: IProps) => {
         [stakingContract1]
     );
 
-    return { initializeStakingPools, getPoolsUserData, stake, unstake, harvest, compound };
+    useEffect(() => {
+        watchEvent(stakingContract1, "Deposit", [null, 0, null], () => {
+            updateStakingPoolAction(stakingContract1, 0, address)(dispatch);
+        });
+
+        watchEvent(stakingContract1, "Withdraw", [null, 0, null], () => {
+            updateStakingPoolAction(stakingContract1, 0, address)(dispatch);
+        });
+
+        return () => {
+            stakingContract1.removeAllListeners();
+        };
+    }, [stakingContract1]);
+
+    useEffect(() => {
+        watchEvent(stakingContract2, "Deposit", [null, 1, null], () => {
+            updateStakingPoolAction(stakingContract2, 1, address)(dispatch);
+        });
+
+        watchEvent(stakingContract2, "Withdraw", [null, 1, null], () => {
+            updateStakingPoolAction(stakingContract2, 1, address)(dispatch);
+        });
+
+        return () => {
+            stakingContract2.removeAllListeners();
+        };
+    }, [stakingContract2]);
+
+    return { initializeStakingPools, stake, unstake, harvest, compound };
 };

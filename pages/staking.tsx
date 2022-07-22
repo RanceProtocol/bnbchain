@@ -18,7 +18,7 @@ import { tokens } from "../constants/addresses";
 const Staking: NextPage = () => {
     const { account, library } = useWeb3React();
 
-    const { initializeStakingPools, getPoolsUserData, stake, harvest, unstake } = useStakingViewModel({
+    const { initializeStakingPools, stake, harvest, unstake } = useStakingViewModel({
         address: account,
         provider: library,
     });
@@ -27,12 +27,6 @@ const Staking: NextPage = () => {
 
     useEffect(() => {
         initializeStakingPools();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    useEffect(() => {
-        if (loadingPools || pools.length === 0) return;
-        getPoolsUserData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [account]);
 
@@ -77,11 +71,11 @@ const Staking: NextPage = () => {
                                 <PoolCardSkeleton key={index} />
                             ))
                     ) : (
-                        <p className={styles.message}>Cannot get pools...</p>
+                        <p className={styles.message}>Could not get pools</p>
                     )}
                 </div>
 
-                {account && loadingUserEarnings ? (
+                {account && (loadingUserEarnings ? (
                     <EarningSectionSkeleton />
                 ) : (
                     pools[0]?.userEarned &&
@@ -121,7 +115,7 @@ const Staking: NextPage = () => {
                            
                         </div>
                     )
-                )}
+                ))}
             </main>
         </div>
     );
