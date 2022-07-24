@@ -73,8 +73,6 @@ const EarningCard: FC<IProps> = (props) => {
         harvest(contractAddress, id, callbacks);
     }
     
-    console.log("xxxxxx: ", utils.formatUnits(userEarned!, rewardTokenDecimals));
-    
 
     return (
         <div className={styles.root}>
