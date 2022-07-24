@@ -72,6 +72,9 @@ const EarningCard: FC<IProps> = (props) => {
 
         harvest(contractAddress, id, callbacks);
     }
+    
+    console.log("xxxxxx: ", utils.formatUnits(userEarned!, rewardTokenDecimals));
+    
 
     return (
         <div className={styles.root}>
@@ -84,9 +87,9 @@ const EarningCard: FC<IProps> = (props) => {
                     />
                 </div>
                 <span className={styles.dollar__value}>{`~ $${
-                    Number(
+                    (Number(
                         utils.formatUnits(userEarned!, rewardTokenDecimals)
-                    ) * rewardTokenPrice
+                    ) * rewardTokenPrice).toFixed(2)
                 }`}</span>
             </div>
 
@@ -95,7 +98,7 @@ const EarningCard: FC<IProps> = (props) => {
                 <span className={styles.token__amount}>
                     {Number(
                         utils.formatUnits(userEarned!, rewardTokenDecimals)
-                    )}
+                    ).toFixed(2)}
                 </span>
             </div>
 

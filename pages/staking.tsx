@@ -23,10 +23,12 @@ const Staking: NextPage = () => {
         provider: library,
     });
 
-    const { loadingPools, pools } = stakingState();
+    const { loadingPools, pools, loadingUserEarnings } = stakingState();
 
     useEffect(() => {
-        initializeStakingPools();
+        (async () => {
+            initializeStakingPools();
+        })()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [account]);
 
@@ -75,7 +77,7 @@ const Staking: NextPage = () => {
                     )}
                 </div>
 
-                {account && (loadingPools ? (
+                {account && (loadingUserEarnings ? (
                     <EarningSectionSkeleton />
                 ) : (
                     pools[0]?.userEarned &&
