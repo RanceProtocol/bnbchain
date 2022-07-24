@@ -11,8 +11,9 @@ import { compound as compoundUsecase } from "../usecases/compound";
 import { stake as stakeUsecase } from "../usecases/stake";
 import { unstake as unstakeUsecase } from "../usecases/unstake";
 import { harvest as harvestUsecase } from "../usecases/harvest";
-import { BigNumber } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { watchEvent } from "../../../utils/events";
+import { getRPC } from "../../../utils/rpc";
 
 interface IProps {
     address: string | null | undefined;
@@ -38,7 +39,19 @@ export const useStakingViewModel = (props: IProps) => {
         provider?.getSigner() || getDefaultProvider()
     );
 
-    const initializeStakingPools = useCallback(() => {
+    const initializeStakingPools = useCallback(async () => {
+        const rpc = await getRPC();
+        const provider = new ethers.providers.JsonRpcProvider(rpc);
+
+        const stakingContract1 = Staking1__factory.connect(
+            stakingContractAddresses[dappEnv][0],
+            provider
+        );
+
+        const stakingContract2 = Staking2__factory.connect(
+            stakingContractAddresses[dappEnv][1],
+            provider
+        );
         initializeStakingPoolsAction(
             stakingContract1,
             stakingContract2,
@@ -105,11 +118,24 @@ export const useStakingViewModel = (props: IProps) => {
     );
 
     useEffect(() => {
-        watchEvent(stakingContract1, "Deposit", [null, 0, null], () => {
+        watchEvent(stakingContract1, "Deposit", [null, 0, null], async () => {
+            const rpc = await getRPC();
+            const provider = new ethers.providers.JsonRpcProvider(rpc);
+            const stakingContract1 = Staking1__factory.connect(
+                stakingContractAddresses[dappEnv][0],
+                provider
+            );
             updateStakingPoolAction(stakingContract1, 0, address)(dispatch);
         });
 
-        watchEvent(stakingContract1, "Withdraw", [null, 0, null], () => {
+        watchEvent(stakingContract1, "Withdraw", [null, 0, null], async () => {
+            const rpc = await getRPC();
+            const provider = new ethers.providers.JsonRpcProvider(rpc);
+
+            const stakingContract1 = Staking1__factory.connect(
+                stakingContractAddresses[dappEnv][0],
+                provider
+            );
             updateStakingPoolAction(stakingContract1, 0, address)(dispatch);
         });
 
@@ -119,11 +145,25 @@ export const useStakingViewModel = (props: IProps) => {
     }, [stakingContract1]);
 
     useEffect(() => {
-        watchEvent(stakingContract2, "Deposit", [null, 1, null], () => {
+        watchEvent(stakingContract2, "Deposit", [null, 1, null], async () => {
+            const rpc = await getRPC();
+            const provider = new ethers.providers.JsonRpcProvider(rpc);
+
+            const stakingContract2 = Staking2__factory.connect(
+                stakingContractAddresses[dappEnv][1],
+                provider
+            );
             updateStakingPoolAction(stakingContract2, 1, address)(dispatch);
         });
 
-        watchEvent(stakingContract2, "Withdraw", [null, 1, null], () => {
+        watchEvent(stakingContract2, "Withdraw", [null, 1, null], async () => {
+            const rpc = await getRPC();
+            const provider = new ethers.providers.JsonRpcProvider(rpc);
+
+            const stakingContract2 = Staking2__factory.connect(
+                stakingContractAddresses[dappEnv][1],
+                provider
+            );
             updateStakingPoolAction(stakingContract2, 1, address)(dispatch);
         });
 

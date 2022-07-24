@@ -21,7 +21,7 @@ export const stakingReducer = (
                 ...state,
                 pools: payload.pools,
                 loadingPools: false,
-                loadingUserEarnings: false,
+                loadingUserEarnings: payload.pools[0].userEarned ? false : true,
                 
             };
         case actionTypes.GET__STAKING__POOLS__FAILLED:

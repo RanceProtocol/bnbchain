@@ -75,7 +75,6 @@ const StakingModal: FC<IProps> = ({
 
     const stakeHandler = () => {
         if (amount === "0") return;
-
         let pendingToastId: number | string = "";
         const callbacks = {
             sent: () => {
@@ -99,6 +98,7 @@ const StakingModal: FC<IProps> = ({
                 onClose();
             },
             failed: (errorMessage?: string) => {
+                setSendingTx(false);
                 const toastBody = CustomToast({
                     message: errorMessage
                         ? truncateString(errorMessage, 100)
@@ -108,7 +108,6 @@ const StakingModal: FC<IProps> = ({
                 });
                 toast.dismiss(pendingToastId);
                 toast(toastBody);
-                setSendingTx(false);
             },
         };
 
@@ -128,13 +127,13 @@ const StakingModal: FC<IProps> = ({
         let pendingToastId: number | string = "";
         const callbacks = {
             sent: () => {
+                setSendingTx(true);
                 const toastBody = CustomToast({
                     message: `unstaking ${amount} RANCE from ${stakeTokenSymbol}/${rewardTokenSymbol} pool`,
                     status: STATUS.PENDING,
                     type: TYPE.TRANSACTION,
                 });
                 pendingToastId = toast(toastBody, { autoClose: false });
-                setSendingTx(true);
             },
             successfull: async () => {
                 const toastBody = CustomToast({
@@ -164,6 +163,11 @@ const StakingModal: FC<IProps> = ({
         unstake(contractAddress, poolId, utils.parseEther(amount), callbacks);
     };
 
+    const handleCloseModal = () => {
+        // disallow clossing modal when transaction is ongoing
+        !sendingTx && onClose();
+    };
+
     const handleApprove = async () => {
         if (amount === "0") return;
         let pendingToastId: number | string = "";
@@ -179,10 +183,11 @@ const StakingModal: FC<IProps> = ({
             },
             successfull: async () => {
                 try {
-                    const newAllowance = await getAllowance(contractAddress);
+                    await getAllowance(contractAddress);
                 } catch (error) {
                     console.error(error);
                 } finally {
+                    setSendingTx(false);
                     toast.dismiss(pendingToastId);
                     const toastBody = CustomToast({
                         message: "RANCE approval successfull",
@@ -190,7 +195,6 @@ const StakingModal: FC<IProps> = ({
                         type: TYPE.TRANSACTION,
                     });
                     toast(toastBody);
-                    setSendingTx(false);
                 }
             },
             failed: (errorMessage?: string) => {
@@ -215,13 +219,13 @@ const StakingModal: FC<IProps> = ({
         <ModalWrapper
             open={open}
             label={`${action} modal`}
-            onClose={onClose}
+            onClose={handleCloseModal}
             onAfterClose={onAfterCloseHandler}
             contentClassName={styles.root}
         >
             <div className={styles.header}>
                 <h1 className={styles.title}>{action}</h1>
-                <button className={styles.close__btn} onClick={onClose}>
+                <button className={styles.close__btn} onClick={handleCloseModal}>
                     <div className={styles.close__icon__wrapper}>
                         <Image
                             src={`/icons/close.svg`}
@@ -290,7 +294,7 @@ const StakingModal: FC<IProps> = ({
                         onClick={stakeHandler}
                         disabled={sendingTx}
                     >
-                        {sendingTx ? "Staking RANCE..." : "Stake"}
+                        Stake
                     </button>
                 ) : (
                     <button
@@ -298,7 +302,7 @@ const StakingModal: FC<IProps> = ({
                         onClick={handleApprove}
                         disabled={sendingTx}
                     >
-                        {sendingTx ? "Approving RANCE..." : "Approve RANCE"}
+                        Approve RANCE
                     </button>
                 )
             ) : amount === "" ? (
@@ -313,7 +317,7 @@ const StakingModal: FC<IProps> = ({
                     onClick={unstakeHandler}
                     disabled={sendingTx}
                 >
-                    {sendingTx ? "Unstaking RANCE..." : "Unstake"}
+                    Unstake
                 </button>
             )}
         </ModalWrapper>
