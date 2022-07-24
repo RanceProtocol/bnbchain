@@ -5,7 +5,6 @@ import { AiOutlineInfoCircle } from "react-icons/ai";
 import clsx from "clsx";
 import StakingModal from "../StakingModal";
 import type { IStakingPool } from "../../modules/staking/domain/entities";
-import useLazyToken from "../../hooks/useLazyToken";
 import { BigNumber, utils } from "ethers";
 import { useWeb3React } from "@web3-react/core";
 import { toggleWalletModal } from "../../appState/shared/action";
@@ -13,19 +12,31 @@ import { useDispatch } from "react-redux";
 import CustomToast, { STATUS, TYPE } from "../CustomToast";
 import { toast } from "react-toastify";
 import { truncateString } from "../../utils/helpers";
+import ReactTooltip from "react-tooltip";
 
 interface IProps extends IStakingPool {
     ranceBalance: BigNumber;
-    stake: (stakingAddress: string,
+    stake: (
+        stakingAddress: string,
         pId: number,
         amount: BigNumber,
-        callbacks: { [key: string]: (errorMessage?: string) => void }) => void,
-    harvest: (stakingAddress: string, pId: number, callbacks: {
-        [key: string]: (errorMessage?: string | undefined) => void;
-    }) => void
-    unstake: (stakingAddress: string, pId: number, amount: BigNumber, callbacks: {
-        [key: string]: (errorMessage?: string | undefined) => void;
-    }) => void
+        callbacks: { [key: string]: (errorMessage?: string) => void }
+    ) => void;
+    harvest: (
+        stakingAddress: string,
+        pId: number,
+        callbacks: {
+            [key: string]: (errorMessage?: string | undefined) => void;
+        }
+    ) => void;
+    unstake: (
+        stakingAddress: string,
+        pId: number,
+        amount: BigNumber,
+        callbacks: {
+            [key: string]: (errorMessage?: string | undefined) => void;
+        }
+    ) => void;
 }
 
 const PoolCard: FC<IProps> = (props) => {
@@ -48,7 +59,7 @@ const PoolCard: FC<IProps> = (props) => {
         ranceBalance,
         stake,
         harvest,
-        unstake
+        unstake,
     } = props;
 
     const [modalState, setModalState] = useState<{
@@ -60,7 +71,7 @@ const PoolCard: FC<IProps> = (props) => {
     const dispatch = useDispatch();
 
     const harvestHandler = () => {
-        if(!userEarned?.gt(0)) {
+        if (!userEarned?.gt(0)) {
             const toastBody = CustomToast({
                 message: `You have no earnings to harvest in the ${stakeTokenSymbol}/${rewardTokenSymbol} pool`,
                 status: STATUS.ERROR,
@@ -101,7 +112,7 @@ const PoolCard: FC<IProps> = (props) => {
         };
 
         harvest(contractAddress, id, callbacks);
-    }
+    };
 
     const tringerActionModal = (action: "staking" | "unstaking") => {
         setModalState({ open: true, action });
@@ -136,33 +147,52 @@ const PoolCard: FC<IProps> = (props) => {
 
                 <div className={styles.apr}>
                     <span className={styles.apr__text}>{`${apr}% APR`}</span>
-                    <AiOutlineInfoCircle className={styles.info__icon} />
+                    <AiOutlineInfoCircle
+                        className={styles.info__icon}
+                        data-tip="The rewards from this pool doesn't auto-compound, so we show APR."
+                    />
                 </div>
 
                 {account && userEarned !== undefined && (
                     <div className={styles.user__details}>
                         <div className={styles.key__values}>
                             <span className={styles.key}>Earnings</span>
-                            <span className={styles.value}>{`$${
-                                (Number(
+                            <span className={styles.value}>
+                                {`${Number(
                                     utils.formatUnits(
                                         userEarned!,
                                         rewardTokenDecimals
                                     )
-                                ) * rewardTokenPrice).toFixed(2)
-                            }`}</span>
+                                ).toFixed(1)}`}{" "}
+                                <span className={styles.dollar__value}>{`~$${(
+                                    Number(
+                                        utils.formatUnits(
+                                            userEarned!,
+                                            rewardTokenDecimals
+                                        )
+                                    ) * rewardTokenPrice
+                                ).toFixed(1)}`}</span>
+                            </span>
                         </div>
 
                         <div className={styles.key__values}>
                             <span className={styles.key}>Stake</span>
-                            <span className={styles.value}>{`$${
-                                (Number(
+                            <span className={styles.value}>
+                                {`${Number(
                                     utils.formatUnits(
                                         userStaked!,
                                         stakeTokenDecimals
                                     )
-                                ) * stakeTokenPrice).toFixed(2)
-                            }`}</span>
+                                ).toFixed(1)}`}{" "}
+                                <span className={styles.dollar__value}>{`~$${(
+                                    Number(
+                                        utils.formatUnits(
+                                            userStaked!,
+                                            stakeTokenDecimals
+                                        )
+                                    ) * stakeTokenPrice
+                                ).toFixed(1)}`}</span>
+                            </span>
                         </div>
                     </div>
                 )}
@@ -170,26 +200,42 @@ const PoolCard: FC<IProps> = (props) => {
                 <div className={styles.pool__details}>
                     <div className={styles.key__values}>
                         <span className={styles.key}>Potential earnings</span>
-                        <span className={styles.value}>{`$${
-                            (Number(
+                        <span className={styles.value}>
+                            {`${Number(
                                 utils.formatUnits(
                                     potentialEarnings,
                                     rewardTokenDecimals
                                 )
-                            ) * rewardTokenPrice).toFixed(2)
-                        }`}</span>
+                            ).toFixed(1)}`}{" "}
+                            <span className={styles.dollar__value}>{`~$${(
+                                Number(
+                                    utils.formatUnits(
+                                        potentialEarnings,
+                                        rewardTokenDecimals
+                                    )
+                                ) * rewardTokenPrice
+                            ).toFixed(1)}`}</span>
+                        </span>
                     </div>
 
                     <div className={styles.key__values}>
                         <span className={styles.key}>Total Staked</span>
-                        <span className={styles.value}>{`$${
-                            (Number(
+                        <span className={styles.value}>
+                            {`${Number(
                                 utils.formatUnits(
                                     totalStaked,
                                     stakeTokenDecimals
                                 )
-                            ) * stakeTokenPrice).toFixed(2)
-                        }`}</span>
+                            ).toFixed(1)}`}{" "}
+                            <span className={styles.dollar__value}>{`~$${(
+                                Number(
+                                    utils.formatUnits(
+                                        totalStaked,
+                                        stakeTokenDecimals
+                                    )
+                                ) * stakeTokenPrice
+                            ).toFixed(1)}`}</span>
+                        </span>
                     </div>
                 </div>
 
@@ -217,7 +263,7 @@ const PoolCard: FC<IProps> = (props) => {
                                 styles.btn__solid2
                             )}
                             onClick={() => tringerActionModal("unstaking")}
-                            disabled = {!userStaked}
+                            disabled={!userStaked}
                         >
                             Unstake
                         </button>
@@ -226,7 +272,7 @@ const PoolCard: FC<IProps> = (props) => {
                                 styles.btn__small,
                                 styles.btn__hollow
                             )}
-                            onClick = {harvestHandler}
+                            onClick={harvestHandler}
                         >
                             Harvest
                         </button>
@@ -242,21 +288,33 @@ const PoolCard: FC<IProps> = (props) => {
                     view contract
                 </a>
             </div>
-            {account&& <StakingModal 
-                open = {modalState.open}
-                action = {modalState.action}
-                onClose = {() => setModalState(prev => ({...prev, open: false}))}
-                rewardTokenSymbol = {rewardTokenSymbol}
-                stakeTokenSymbol = {stakeTokenSymbol}
-                poolId = {id}
-                rewardTokenAddress = {rewardTokenAddress}
-                stakeTokenAddress = {stakeTokenAddress}
-                ranceBalance = {ranceBalance}
-                userStake = {userStaked}
-                stake = {stake}
-                unstake = {unstake}
-                contractAddress = {contractAddress}
-            />}
+            <ReactTooltip
+                place="top"
+                type="dark"
+                effect="solid"
+                className={styles.tooltip}
+                clickable={true}
+            />
+
+            {account && (
+                <StakingModal
+                    open={modalState.open}
+                    action={modalState.action}
+                    onClose={() =>
+                        setModalState((prev) => ({ ...prev, open: false }))
+                    }
+                    rewardTokenSymbol={rewardTokenSymbol}
+                    stakeTokenSymbol={stakeTokenSymbol}
+                    poolId={id}
+                    rewardTokenAddress={rewardTokenAddress}
+                    stakeTokenAddress={stakeTokenAddress}
+                    ranceBalance={ranceBalance}
+                    userStake={userStaked}
+                    stake={stake}
+                    unstake={unstake}
+                    contractAddress={contractAddress}
+                />
+            )}
         </Fragment>
     );
 };
