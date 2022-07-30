@@ -1,5 +1,5 @@
 import { Web3Provider } from "@ethersproject/providers";
-import { BigNumber } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { ranceProtocol } from "../../../constants/addresses";
@@ -15,6 +15,7 @@ import { cancelInsurance as cancelInsuranceUseCase } from "../usecases/cancelIns
 import { withdrawInsurance as withdrawInsuranceUseCase } from "../usecases/withdrawInsurance";
 import { watchEvent } from "../../../utils/events";
 import useTransaction from "../../../hooks/useTransaction";
+import { getRPC } from "../../../utils/rpc";
 
 interface IProps {
     address: string | null | undefined;
@@ -36,12 +37,24 @@ export const useInsuranceViewModel = (props: IProps) => {
     );
 
     const initializePackagePlans = useCallback(async (): Promise<void> => {
+        const rpc = await getRPC();
+        const provider = new ethers.providers.JsonRpcProvider(rpc);
+        const insuranceContract = RanceProtocol__factory.connect(
+            ranceProtocol[dappEnv],
+            provider
+        );
         await initializePackagePlansAction(insuranceContract)(dispatch);
-    }, [insuranceContract]);
+    }, []);
 
     const intializeUserPackages = useCallback(async (): Promise<void> => {
+        const rpc = await getRPC();
+        const provider = new ethers.providers.JsonRpcProvider(rpc);
+        const insuranceContract = RanceProtocol__factory.connect(
+            ranceProtocol[dappEnv],
+            provider
+        );
         await intializeUserPackagesAction(insuranceContract, address)(dispatch);
-    }, [insuranceContract, address]);
+    }, [address]);
 
     const removeUserPackage = useCallback(
         async (packageId: string) => {
