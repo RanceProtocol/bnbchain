@@ -1,0 +1,28 @@
+.root {
+    @apply flex items-center;
+}
+
+.coin_logo__container {
+    @apply flex
+    relative
+    left-8;
+}
+
+.coin_logo__wrapper {
+    @apply w-8
+    h-8
+    relative;
+}
+.coin_logo__wrapper:nth-child(2) {
+    @apply right-3;
+}
+.coin_logo__wrapper:nth-child(3) {
+    @apply right-6;
+}
+.coin_logo__wrapper:nth-child(4) {
+    @apply right-9;
+}
+
+.remaining__test {
+    @apply text-sm;
+}

@@ -4,10 +4,8 @@
     sm:grid-cols-2
     sm:gap-6
     lg:grid-cols-3
-    lg:gap-8
+    lg:gap-8;
 }
-
-
 
 /* package card here */
 .insurance__package__card {
@@ -31,27 +29,6 @@
 
 .insurable__coins__key {
     @apply text-base;
-}
-
-.insurable__coins__container {
-    @apply flex
-    relative
-    left-8;
-}
-
-.coin_logo__wrapper {
-    @apply w-8
-    h-8
-    relative;
-}
-.coin_logo__wrapper:nth-child(2) {
-    @apply right-3;
-}
-.coin_logo__wrapper:nth-child(3) {
-    @apply right-6;
-}
-.coin_logo__wrapper:nth-child(4) {
-    @apply right-9;
 }
 
 .package__details {
@@ -89,5 +66,5 @@
     font-bold
     text-lg
     rounded-full
-    p-3
+    p-3;
 }

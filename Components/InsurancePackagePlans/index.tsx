@@ -37,24 +37,20 @@ const InsurancePackagePlans: FC<IProp> = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    let insurableCoinsSymbols = Object.keys(insurableCoins)
+    let insurableCoinsSymbols = Object.keys(insurableCoins);
 
-    const [successModalOpen, setSuccessModalOpen] = useState(false)
+    const [successModalOpen, setSuccessModalOpen] = useState(false);
 
-    const [purchaseSuccessfull, setPurchaseSuccessfull] = useState(false)
+    const [purchaseSuccessfull, setPurchaseSuccessfull] = useState(false);
 
     useEffect(() => {
-        purchaseSuccessfull && setSuccessModalOpen(true)
-    }, [purchaseSuccessfull])
+        purchaseSuccessfull && setSuccessModalOpen(true);
+    }, [purchaseSuccessfull]);
 
     const handleSuccessModalAction = () => {
-        setSuccessModalOpen(() => false)
-        router.push(
-            `${router.pathname}?tab=${insurancePageTabs.myPackages}`)
-
-    }
-    
-    
+        setSuccessModalOpen(() => false);
+        router.push(`${router.pathname}?tab=${insurancePageTabs.myPackages}`);
+    };
 
     return (
         <Fragment>
@@ -62,7 +58,9 @@ const InsurancePackagePlans: FC<IProp> = () => {
                 {loadingPackagePlans && !packagePlans.length
                     ? new Array(3)
                           .fill(undefined)
-                          .map((item, index) => <InsurancePackagePlanCardSkeleton key = {index} />)
+                          .map((item, index) => (
+                              <InsurancePackagePlanCardSkeleton key={index} />
+                          ))
                     : packagePlans.map(
                           (insurancePackage: IInsurancePackagePlan) => (
                               <InsurancePackagePlanCard
@@ -77,16 +75,18 @@ const InsurancePackagePlans: FC<IProp> = () => {
                           )
                       )}
             </div>
-            {account && <PackagePurchaseModal
-                state={packagePurchaseModal}
-                onClose={() =>
-                    setPackagePurchaseModal((prev) => ({
-                        ...prev,
-                        open: false,
-                    }))
-                }
-                onSuccessfull = {() => setPurchaseSuccessfull(true)}
-            />}
+            {account && (
+                <PackagePurchaseModal
+                    state={packagePurchaseModal}
+                    onClose={() =>
+                        setPackagePurchaseModal((prev) => ({
+                            ...prev,
+                            open: false,
+                        }))
+                    }
+                    onSuccessfull={() => setPurchaseSuccessfull(true)}
+                />
+            )}
 
             <SuccessModal
                 state={{

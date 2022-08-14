@@ -6,6 +6,7 @@ import type { IInsurancePackagePlan } from "../../modules/insurance/domain/entit
 import { useWeb3React } from "@web3-react/core";
 import { toggleWalletModal } from "../../appState/shared/action";
 import { useDispatch } from "react-redux";
+import InsurableCoinsList from "./insurableCoinsList";
 
 interface IProp extends IInsurancePackagePlan {
     insurableCoins: string[];
@@ -26,7 +27,6 @@ const InsurancePackagePlanCard: FC<IProp> = (props) => {
     const { account } = useWeb3React();
 
     const dispatch = useDispatch();
-    
 
     return (
         <div className={styles.insurance__package__card}>
@@ -35,20 +35,7 @@ const InsurancePackagePlanCard: FC<IProp> = (props) => {
                 <span className={styles.insurable__coins__key}>
                     Insurable coins
                 </span>
-                <div className={styles.insurable__coins__container}>
-                    {insurableCoins.map((coniSymbol: string) => (
-                        <div
-                            className={styles.coin_logo__wrapper}
-                            key={coniSymbol}
-                        >
-                            <Image
-                                src={`/token-icons/${coniSymbol}.png`}
-                                alt={`${coniSymbol} logo`}
-                                layout="fill"
-                            />
-                        </div>
-                    ))}
-                </div>
+                <InsurableCoinsList coinSymbols={insurableCoins} />
             </div>
             <div className={styles.package__details}>
                 <div className={styles.key__value}>
