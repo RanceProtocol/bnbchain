@@ -6,7 +6,12 @@ export enum PackageEnum {
 
 export type IinsurableCoins = "WBTC" | "WETH" | "WCRO" | "MMF";
 
-export const insurableCoins: IinsurableCoins[] = ["WBTC", "WETH", "WCRO", "MMF"];
+export const insurableCoins: IinsurableCoins[] = [
+    "WBTC",
+    "WETH",
+    "WCRO",
+    "MMF",
+];
 
 export interface IinsurancePackagePlanDetails {
     packageType: PackageEnum;
@@ -46,3 +51,5 @@ export const getDurationData = (periodInSeconds: number) => {
     const months = Math.round(periodInSeconds / (60 * 60 * 24 * 30));
     return periodInMonthsToPlanData[months];
 };
+
+export const tokenLogoBaseUri = "https://tokens.pancakeswap.finance/images/";

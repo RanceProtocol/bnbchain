@@ -1,15 +1,14 @@
 export const supportedChainIds = {
-    Mainnet: 25,
-    // Testnet: 338,
-  }
-
-  export const getSupportedChainsName = (chainId: number):string => {
+    Mainnet: 56,
+    Testnet: 97,
+};
+export const getSupportedChainsName = (chainId: number): string => {
     switch (chainId) {
-      case 25:
-        return "Cronos Mainnet Beta"
-      case 338:
-        return "Cronos Testnet"
-      default:
-        return "Cronos Mainnet Beta"
+        case 56:
+            return "Binance Smart Chain Mainnet";
+        case 97:
+            return "Binance Smart Chain Testnet";
+        default:
+            return "Binance Smart Chain Mainnet";
     }
-  }
+};

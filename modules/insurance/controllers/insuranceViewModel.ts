@@ -1,5 +1,5 @@
 import { Web3Provider } from "@ethersproject/providers";
-import { BigNumber, ethers } from "ethers";
+import { BigNumber } from "ethers";
 import { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { ranceProtocol } from "../../../constants/addresses";
@@ -15,7 +15,6 @@ import { cancelInsurance as cancelInsuranceUseCase } from "../usecases/cancelIns
 import { withdrawInsurance as withdrawInsuranceUseCase } from "../usecases/withdrawInsurance";
 import { watchEvent } from "../../../utils/events";
 import useTransaction from "../../../hooks/useTransaction";
-import { getRPC } from "../../../utils/rpc";
 
 interface IProps {
     address: string | null | undefined;
@@ -37,30 +36,26 @@ export const useInsuranceViewModel = (props: IProps) => {
     );
 
     const initializePackagePlans = useCallback(async (): Promise<void> => {
-        const rpc = await getRPC();
-        const provider = new ethers.providers.JsonRpcProvider(rpc);
         const insuranceContract = RanceProtocol__factory.connect(
             ranceProtocol[dappEnv],
-            provider
+            provider?.getSigner() || getDefaultProvider()
         );
         await initializePackagePlansAction(insuranceContract)(dispatch);
-    }, []);
+    }, [provider, dispatch]);
 
     const intializeUserPackages = useCallback(async (): Promise<void> => {
-        const rpc = await getRPC();
-        const provider = new ethers.providers.JsonRpcProvider(rpc);
         const insuranceContract = RanceProtocol__factory.connect(
             ranceProtocol[dappEnv],
-            provider
+            provider?.getSigner() || getDefaultProvider()
         );
         await intializeUserPackagesAction(insuranceContract, address)(dispatch);
-    }, [address]);
+    }, [address, provider, dispatch]);
 
     const removeUserPackage = useCallback(
         async (packageId: string) => {
             dispatch(removeUserPackageAction(packageId));
         },
-        [address]
+        [dispatch]
     );
 
     interface IinsureParams {
@@ -92,7 +87,7 @@ export const useInsuranceViewModel = (props: IProps) => {
                 callbacks,
             });
         },
-        [insuranceContract, address]
+        [insuranceContract, send]
     );
 
     interface ICancelParams {
@@ -109,7 +104,7 @@ export const useInsuranceViewModel = (props: IProps) => {
                 callbacks,
             });
         },
-        [insuranceContract, address]
+        [insuranceContract, send]
     );
 
     interface IWithdrawParams {
@@ -126,7 +121,7 @@ export const useInsuranceViewModel = (props: IProps) => {
                 callbacks,
             });
         },
-        [insuranceContract, address]
+        [insuranceContract, send]
     );
 
     useEffect(() => {
@@ -151,7 +146,7 @@ export const useInsuranceViewModel = (props: IProps) => {
         return () => {
             insuranceContract.removeAllListeners();
         };
-    }, [insuranceContract]);
+    }, [insuranceContract, address, removeUserPackage]);
 
     return {
         initializePackagePlans,

@@ -19,8 +19,8 @@ import CustomToast, { STATUS, TYPE } from "../CustomToast";
 import { toast } from "react-toastify";
 import { useInsuranceViewModel } from "../../modules/insurance/controllers/insuranceViewModel";
 import { useWeb3React } from "@web3-react/core";
-import { pathObj } from "../../constants/path";
 import { addressToCoinDetails } from "../../constants/dummyData";
+import { findBestRoute } from "../../utils/path";
 
 type addressType = keyof typeof ranceProtocol;
 
@@ -33,7 +33,7 @@ interface IProps {
 const PackagePurchaseModal: FC<IProps> = ({
     state: { open, planId },
     onClose,
-    onSuccessfull
+    onSuccessfull,
 }) => {
     const state = insuranceState();
     const { packagePlans, insurableCoins, paymentTokens } = state;
@@ -41,11 +41,11 @@ const PackagePurchaseModal: FC<IProps> = ({
 
     const { approve, getAllowance, getBalance, getDecimal, getSymbol } =
         useLazyToken();
-        const { account, library } = useWeb3React();
-        const {insure} = useInsuranceViewModel({
-            address: account,
-            provider: library
-        })
+    const { account, library } = useWeb3React();
+    const { insure } = useInsuranceViewModel({
+        address: account,
+        provider: library,
+    });
 
     const [formDetails, setFormDetails] = useState<{
         coin: string | undefined;
@@ -105,7 +105,7 @@ const PackagePurchaseModal: FC<IProps> = ({
             value: entry[1],
             label: entry[0],
         }));
-        
+
         setPaymentTokenOptions(paymentTokenOptionsObject);
         if (!paymentTokenOptionsObject.length) return;
         setFormDetails((prev) => ({
@@ -116,7 +116,7 @@ const PackagePurchaseModal: FC<IProps> = ({
 
     useEffect(() => {
         if (!paymentToken?.value) return;
-        // before fetching data for the new tokens, clear the state
+        // before fetching data for the newly selected tokens, clear the state
         setUserSelectedPaymentTokenDetails({
             symbol: "",
             balance: null,
@@ -154,7 +154,7 @@ const PackagePurchaseModal: FC<IProps> = ({
                 });
                 toast(toastBody);
             }
-        })();// eslint-disable-next-line react-hooks/exhaustive-deps
+        })(); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [paymentToken?.value]);
 
     const handleCoinChange = useCallback(
@@ -249,7 +249,9 @@ const PackagePurchaseModal: FC<IProps> = ({
             },
             failed: (errorMessage?: string) => {
                 const toastBody = CustomToast({
-                    message: errorMessage ? truncateString(errorMessage, 100) : `${userSelectedPaymentTokenDetails.symbol} approval failed`,
+                    message: errorMessage
+                        ? truncateString(errorMessage, 100)
+                        : `${userSelectedPaymentTokenDetails.symbol} approval failed`,
                     status: STATUS.ERROR,
                     type: TYPE.TRANSACTION,
                 });
@@ -302,7 +304,7 @@ const PackagePurchaseModal: FC<IProps> = ({
                     }));
                 } catch (error) {
                     console.error(error);
-                }finally {
+                } finally {
                     const toastBody = CustomToast({
                         message: `Successfully bought a ${targetPackageData?.duration} ${targetPackageData?.timeUnitFull} insurance package for ${coin}`,
                         status: STATUS.SUCCESSFULL,
@@ -311,13 +313,15 @@ const PackagePurchaseModal: FC<IProps> = ({
                     toast.dismiss(pendingToastId);
                     toast(toastBody);
                     setSendingTx(false);
-                    onSuccessfull()
-                    onClose()
+                    onSuccessfull();
+                    onClose();
                 }
             },
             failed: (errorMessage?: string) => {
                 const toastBody = CustomToast({
-                    message: errorMessage ? truncateString(errorMessage, 100) : "Insurance package purchase failed",
+                    message: errorMessage
+                        ? truncateString(errorMessage, 100)
+                        : "Insurance package purchase failed",
                     status: STATUS.ERROR,
                     type: TYPE.TRANSACTION,
                 });
@@ -326,15 +330,39 @@ const PackagePurchaseModal: FC<IProps> = ({
                 setSendingTx(false);
             },
         };
-        const paths = pathObj[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof pathObj];
-        const path = Object.values(paths[`${paymentToken.label}-${coin}` as keyof typeof paths])
-        
-        const amount = utils.parseUnits(total, userSelectedPaymentTokenDetails.decimal as number)
+
+        let path: string[];
+
+        try {
+            path = await findBestRoute({
+                fromTokenContractAddress: paymentToken.value,
+                toTokenContractAddress: insurableCoins[coin as string],
+                amount: formDetails.amount,
+            });
+        } catch (error) {
+            const toastBody = CustomToast({
+                message: "Something went wrong!",
+                status: STATUS.ERROR,
+                type: TYPE.ERROR,
+            });
+            return toast(toastBody);
+        }
+
+        const amount = utils.parseUnits(
+            total,
+            userSelectedPaymentTokenDetails.decimal as number
+        );
         const insureCoinName = coin as string;
         const paymentTokenName = paymentToken.label;
-        
-        await insure({planId, amount, path, insureCoin: insureCoinName, paymentToken: paymentTokenName, callbacks})
 
+        await insure({
+            planId,
+            amount,
+            path,
+            insureCoin: insureCoinName,
+            paymentToken: paymentTokenName,
+            callbacks,
+        });
     };
 
     const CustomTokenOption: FC<{ value: string; label: string }> = ({
@@ -387,13 +415,13 @@ const PackagePurchaseModal: FC<IProps> = ({
                     <span className={styles.notice__key}>Notice:</span>
                     <p className={styles.notice__paragraph}>
                         To insure a particular coin, you must provide its
-                        equivalent in Mad USD (MUSD).
+                        equivalent in BUSD or USDT.
                     </p>
                 </div>
                 <div className={styles.payment__token__icon}>
                     <Image
-                        src={`/token-icons/MUSD.png`}
-                        alt="mad usd token icon"
+                        src={`/token-icons/BUSD.png`}
+                        alt="payment token icon"
                         layout="fill"
                     />
                 </div>
@@ -534,7 +562,9 @@ const PackagePurchaseModal: FC<IProps> = ({
                             className={styles.Purchase__button}
                             disabled={sendingTx}
                         >
-                            {sendingTx ? "Approving..." : `Approve ${paymentToken?.label}`}
+                            {sendingTx
+                                ? "Approving..."
+                                : `Approve ${paymentToken?.label}`}
                         </button>
                     )}
 

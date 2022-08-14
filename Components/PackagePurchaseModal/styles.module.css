@@ -12,7 +12,7 @@
     rounded-xl
     md:rounded-2xl
     max-h-[100vh]
-    overflow-x-auto
+    overflow-x-auto;
 }
 
 .header {
@@ -29,7 +29,7 @@
 
 .close__btn {
     @apply w-8
-    h-8
+    h-8;
 }
 
 .close__icon__wrapper {
@@ -46,25 +46,25 @@
     items-center
     p-4
     rounded-xl
-    mb-4
+    mb-4;
 }
 
 .notice__text {
-    @apply text-xs
+    @apply text-xs;
 }
 
 .notice__key {
-    @apply block mb-2
+    @apply block mb-2;
 }
 
 .payment__token__icon {
     @apply w-16
-    h-8
+    h-10
     relative;
 }
 
 .coins__container {
-    @apply flex justify-between items-center mb-6
+    @apply flex gap-5 overflow-x-auto justify-between items-center mb-6;
 }
 
 .coin__wrapper {
@@ -72,17 +72,17 @@
     border-theme-secondary-1
     p-2
     cursor-pointer
-    rounded-xl
+    rounded-xl;
 }
 
 .coin__wrapper__active {
-    @apply bg-theme-secondary-1
+    @apply bg-theme-secondary-1;
 }
 
 .coin__radio__button__input {
     @apply absolute opacity-0
     w-0
-    h-0
+    h-0;
 }
 
 .coin__radio__button__image {
@@ -92,13 +92,13 @@
 }
 
 .input__group {
-    @apply mb-4
+    @apply mb-4;
 }
 
 .token__custom__label {
     @apply flex
     gap-2
-    items-center
+    items-center;
 }
 
 .payment__token__dropdown__icon {
@@ -109,22 +109,22 @@
 
 .payment__token__icon__label {
     @apply text-theme-white
-    text-xs
+    text-xs;
 }
 
 .label__and__balance {
     @apply flex
     justify-between
-    text-xs
+    text-xs;
 }
 
 .label {
     @apply font-extrabold
-    text-xs
+    text-xs;
 }
 
 .balance {
-    @apply text-theme-green
+    @apply text-theme-green;
 }
 
 .payment__token__select__container {
@@ -147,7 +147,7 @@
     rounded-xl
     p-4
     pb-2
-    my-6
+    my-6;
 }
 
 .key__value {
@@ -155,12 +155,11 @@
     justify-between
     items-center
     text-xs
-    mb-2
+    mb-2;
 }
 
 .key {
-    @apply
-    text-theme-white-alpha
+    @apply text-theme-white-alpha;
 }
 
 .Purchase__button {
@@ -169,13 +168,13 @@
     hover:bg-theme-secondary-1
     text-theme-black
     font-bold text-base
-    rounded-full p-3
+    rounded-full p-3;
 }
 
 .Purchase__button:disabled {
     @apply bg-theme-secondary-alpha-2
     text-theme-white-alpha
-    cursor-not-allowed
+    cursor-not-allowed;
 }
 
 .message {
@@ -183,5 +182,5 @@
     text-sm
     py-2
     text-center
-    text-theme-gray-6
+    text-theme-gray-6;
 }

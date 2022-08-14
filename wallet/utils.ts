@@ -3,7 +3,7 @@ import { UnsupportedChainIdError } from "@web3-react/core";
 import { ethers } from "ethers";
 import { explorers } from "../constants/explorers";
 import { RPC_URLS } from "../constants/rpcUrls";
-import { getChainId } from "../utils/helpers";
+import { chainIdToName, getChainId } from "../utils/helpers";
 import {
     NoEthereumProviderError,
     UserRejectedRequestError as UserRejectedRequestErrorInjected,
@@ -29,12 +29,12 @@ export const addNetwork = async (
                     params: [
                         {
                             chainId: `0x${chainId.toString(16)}`,
-                            chainName: "Cronos Mainnet Beta",
+                            chainName: chainIdToName[chainId],
                             rpcUrls: [RPC_URLS[chainId]],
                             blockExplorerUrls: [explorers[chainId]],
                             nativeCurrency: {
-                                name: "Cronos",
-                                symbol: "CRO", // 2-6 characters long
+                                name: "Binance Coin",
+                                symbol: "BNB", // 2-6 characters long
                                 decimals: 18,
                             },
                         },
@@ -64,17 +64,18 @@ export const getDefaultProvider = () => {
     return new ethers.providers.JsonRpcProvider(
         process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT === "mainnet" ||
         process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT === "staging"
-            ? RPC_URLS[25]
-            : RPC_URLS[338]
+            ? RPC_URLS[56]
+            : RPC_URLS[97]
     );
 };
 
 export const getConnectionError = (err: any): string => {
     if (err instanceof NoEthereumProviderError)
         return "Non-Ethereum enabled browser detected, install MetaMask extension on desktop, or connect with walletConnect or visit from a DApp browser on mobile wallet";
-    else if (err instanceof UnsupportedChainIdError)
-        return "You're connected to an unsupported network. switch to Cronos mainnet";
-    else if (
+    else if (err instanceof UnsupportedChainIdError) {
+        const chainName = chainIdToName[getChainId()];
+        return `You're connected to an unsupported network. switch to ${chainName}`;
+    } else if (
         err instanceof UserRejectedRequestErrorInjected ||
         err instanceof UserRejectedRequestErrorWalletConnect
     )

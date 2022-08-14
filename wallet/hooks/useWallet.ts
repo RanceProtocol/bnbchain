@@ -6,13 +6,13 @@ import {
     supportedChainIds,
 } from "../../constants/chainIds";
 import { addNetwork, getConnectionError } from "../utils";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import CustomToast, { STATUS, TYPE } from "../../Components/CustomToast";
 import { toast } from "react-toastify";
 import { getChainId } from "../../utils/helpers";
 
 const useWallet = () => {
-    const { activate, deactivate, active } = useWeb3React();
+    const { activate, deactivate } = useWeb3React();
 
     useEffect(() => {
         injected.isAuthorized().then(async (isAuthorized: boolean) => {

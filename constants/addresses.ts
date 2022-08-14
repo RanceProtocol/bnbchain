@@ -1,5 +1,5 @@
 export const ranceProtocol = {
-    staging: "0x080d599F2E2f86Ee7bE68f0d0Dcf352f11950ED4",
+    staging: "0xaca2d837a52e141e9a6cEbE33f685cc90F311356",
     mainnet: "0x48A3D687a79844C2CdBcE66b7Be12919840393F7",
 };
 
@@ -33,15 +33,15 @@ export const tokens = {
     },
 };
 
-export const stakingAddressToPool: {[key: string]: number} = {
+export const stakingAddressToPool: { [key: string]: number } = {
     "0xB1ad1e8612C228e4A6C9cDed64d8A270157c9455": 0, //staging
     "0x1D17EE3b2eD935305b77D72Ab883D3827bC2E605": 1, //staging
 };
 
 export const masterRanceWallet = {
     staging: "0x91A8BEF2bEBD46fBD079667DcE72865C1f015df0",
-    mainnet: "0x91A8BEF2bEBD46fBD079667DcE72865C1f015df0" // replaced with mainnet wallet later
-}
+    mainnet: "0x91A8BEF2bEBD46fBD079667DcE72865C1f015df0", // replaced with mainnet wallet later
+};
 
 export const AUTOSHARK_ADDRESSES = "0xB0EeB0632bAB15F120735e5838908378936bd484";
 
@@ -49,8 +49,10 @@ export const AUTOSHARK_ADDRESSES = "0xB0EeB0632bAB15F120735e5838908378936bd484";
 //     Object.entries(tokens).map((entries: string[]) => [entries[1], entries[0]])
 // );
 
-export const tokenAddressToName = Object.fromEntries(
-    Object.entries(
-        tokens[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof tokens]
-    ).map((entries: string[]) => [entries[1], entries[0]])
-);
+// export const tokenAddressToName = Object.fromEntries(
+//     Object.entries(
+//         tokens[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof tokens]
+//     ).map((entries: string[]) => [entries[1], entries[0]])
+// );
+
+export const tokenAddressToName = {};
