@@ -28,9 +28,9 @@ export const ConnectedModal: FC<IProps> = ({
         toggleAccountModal(dispatch);
     };
     const { account } = useWeb3React();
-    const MUSD = useToken(
+    const BUSD = useToken(
         tokens[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof tokens]
-            .MUSD
+            .BUSD
     );
     const RANCE = useToken(
         tokens[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof tokens]
@@ -76,11 +76,11 @@ export const ConnectedModal: FC<IProps> = ({
             </div>
 
             <div className={styles.wallet__balance}>
+                {/* <span className={styles.balance__value}>{`${Number(
+                    utils.formatUnits(BUSD.balance, BUSD.decimals)
+                ).toFixed(2)} BUSD`}</span> */}
                 <span className={styles.balance__value}>{`${Number(
-                    utils.formatUnits(MUSD.balance, MUSD.decimals)
-                ).toFixed(2)} MUSD`}</span>
-                <span className={styles.balance__value}>{`${Number(
-                    utils.formatUnits(RANCE.balance, MUSD.decimals)
+                    utils.formatUnits(RANCE.balance, RANCE.decimals)
                 ).toFixed(2)} RANCE`}</span>
                 <span className={styles.balance__key}>Wallet balance</span>
             </div>
@@ -94,7 +94,12 @@ export const ConnectedModal: FC<IProps> = ({
                 </button>
                 {/* <button className={styles.buy__btn}>Buy Rance</button> */}
                 <a
-                    href="https://mm.finance/swap"
+                    href={`https://pancakeswap.finance/swap?outputCurrency=${
+                        tokens[
+                            process.env
+                                .NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof tokens
+                        ].RANCE
+                    }`}
                     rel="noreferrer"
                     target="_blank"
                     className={styles.buy__btn}

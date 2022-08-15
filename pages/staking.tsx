@@ -18,22 +18,25 @@ import { tokens } from "../constants/addresses";
 const Staking: NextPage = () => {
     const { account, library } = useWeb3React();
 
-    const { initializeStakingPools, stake, harvest, unstake } = useStakingViewModel({
-        address: account,
-        provider: library,
-    });
+    // const { initializeStakingPools, stake, harvest, unstake } =
+    //     useStakingViewModel({
+    //         address: account,
+    //         provider: library,
+    //     });
 
-    const { loadingPools, pools, loadingUserEarnings } = stakingState();
+    // const { loadingPools, pools, loadingUserEarnings } = stakingState();
 
-    useEffect(() => {
-        (async () => {
-            initializeStakingPools();
-        })()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [account]);
+    // useEffect(() => {
+    //     (async () => {
+    //         initializeStakingPools();
+    //     })();
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [account]);
 
-    const RANCE = useToken(tokens[process.env
-        .NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof tokens].RANCE);
+    const RANCE = useToken(
+        tokens[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof tokens]
+            .RANCE
+    );
 
     return (
         <div className={styles.container}>
@@ -61,7 +64,7 @@ const Staking: NextPage = () => {
                     </div>
                 </div>
 
-                <div className={styles.staking__card__wrapper}>
+                {/* <div className={styles.staking__card__wrapper}>
                     {pools.length !== 0 ? (
                         pools.map((pool: IStakingPool) => (
                         <PoolCard key={pool.id} {...pool} ranceBalance = {RANCE.balance} stake = {stake} harvest = {harvest} unstake = {unstake}/>
@@ -117,7 +120,11 @@ const Staking: NextPage = () => {
                            
                         </div>
                     )
-                ))}
+                ))} */}
+
+                <div className={styles.staking__card__wrapper}>
+                    <p>Coming soon...</p>
+                </div>
             </main>
         </div>
     );

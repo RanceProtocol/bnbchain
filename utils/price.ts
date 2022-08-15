@@ -82,13 +82,13 @@ export const getRANCEPrice = async (
         tokens[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof tokens]
             .RANCE,
         tokens[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof tokens]
-            .MUSD,
+            .BUSD,
     ];
     try {
         const price = await getPriceWithAutosharkRouter(path, provider);
-        return price
+        return price;
     } catch (error) {
         console.error(error);
-        return 1
+        return 1;
     }
 };

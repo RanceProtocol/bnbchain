@@ -19,7 +19,6 @@ import CustomToast, { STATUS, TYPE } from "../CustomToast";
 import { toast } from "react-toastify";
 import { useInsuranceViewModel } from "../../modules/insurance/controllers/insuranceViewModel";
 import { useWeb3React } from "@web3-react/core";
-import { addressToCoinDetails } from "../../constants/dummyData";
 import { findBestRoute } from "../../utils/path";
 
 type addressType = keyof typeof ranceProtocol;
@@ -487,7 +486,9 @@ const PackagePurchaseModal: FC<IProps> = ({
                                         userSelectedPaymentTokenDetails.balance,
                                         userSelectedPaymentTokenDetails.decimal as number
                                     )
-                                )} ${userSelectedPaymentTokenDetails.symbol}`}
+                                ).toFixed(2)} ${
+                                    userSelectedPaymentTokenDetails.symbol
+                                }`}
                             </span>
                         ) : (
                             <span className={styles.balance}>

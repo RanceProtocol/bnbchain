@@ -32,22 +32,27 @@ export interface IInsurancePackage {
 }
 
 export interface IStakingPool {
-    poolId: string
-    stakeToken: string,
-    earnToken: string
-    apr: number
-    totalStaked: number
-    totalStakedUsd: number
-    totalEarning: number
-    totalEarningUsd: number
-    staked: number,
-    stakedUsd: number,
-    contractUrl: string,
-    walletUnlockStatus: boolean,
-    stakeTokenPrice: number,
+    poolId: string;
+    stakeToken: string;
+    earnToken: string;
+    apr: number;
+    totalStaked: number;
+    totalStakedUsd: number;
+    totalEarning: number;
+    totalEarningUsd: number;
+    staked: number;
+    stakedUsd: number;
+    contractUrl: string;
+    walletUnlockStatus: boolean;
+    stakeTokenPrice: number;
 }
 
-export const insurableCoins: IinsurableCoins[] = ["WBTC", "WETH", "WCRO", "MMF"];
+export const insurableCoins: IinsurableCoins[] = [
+    "WBTC",
+    "WETH",
+    "WCRO",
+    "MMF",
+];
 
 export const insurancePackagePlans: IinsurancePackagePlan[] = [
     {
@@ -66,7 +71,7 @@ export const insurancePackagePlans: IinsurancePackagePlan[] = [
         timeUnit: "YR",
         timeUnitFull: "year",
         insuranceFee: 50,
-        uninsureFee:utils.parseEther("100"),
+        uninsureFee: utils.parseEther("100"),
     },
     {
         packageType: PackageEnum.PLATINUM,
@@ -124,7 +129,7 @@ export const insurancePackages: IInsurancePackage[] = [
     },
 ];
 
-export const stakingPools:IStakingPool[] = [
+export const stakingPools: IStakingPool[] = [
     {
         poolId: "124",
         stakeToken: "RANCE",
@@ -156,52 +161,3 @@ export const stakingPools:IStakingPool[] = [
         stakeTokenPrice: 100,
     },
 ];
-
-export const addressToCoinDetails: {
-    [key: string]: any;
-} = {
-    mainnet: {
-        "0x062E66477Faf219F25D27dCED647BF57C3107d52": {
-            id: "bitcoin",
-            symbol: "wbtc",
-            name: "Bitcoin",
-        },
-        "0xe44Fd7fCb2b1581822D0c862B68222998a0c299a": {
-            id: "ethereum",
-            symbol: "weth",
-            name: "Ethereum",
-        },
-        "0x5C7F8A570d578ED84E63fdFA7b1eE72dEae1AE23": {
-            id: "crypto-com-chain",
-            symbol: "cro",
-            name: "Cronos",
-        },
-        "0x97749c9B61F878a880DfE312d2594AE07AEd7656": {
-            id: "mmfinance",
-            symbol: "mmf",
-            name: "MMFinance",
-        },
-    },
-    staging: {
-        "0x378520d445d3379497f991f7fef7E613014c20b2": {
-            id: "bitcoin",
-            symbol: "wbtc",
-            name: "Bitcoin",
-        },
-        "0x66963e06Bf63a08E7B23B31406dB4B6F529fcf82": {
-            id: "ethereum",
-            symbol: "weth",
-            name: "Ethereum",
-        },
-        "0x2c1cA1839893B21d9eAd72c0bc1d1e05841bfD82": {
-            id: "crypto-com-chain",
-            symbol: "cro",
-            name: "Cronos",
-        },
-        // "0x97749c9B61F878a880DfE312d2594AE07AEd7656": {
-        //     id: "mmfinance",
-        //     symbol: "mmf",
-        //     name: "MMFinance",
-        // },
-    }
-};

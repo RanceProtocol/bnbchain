@@ -1,5 +1,9 @@
 import { BigNumber } from "ethers";
-import { masterRanceWallet, stakingAddressToPool, tokens } from "../../../constants/addresses";
+import {
+    masterRanceWallet,
+    stakingAddressToPool,
+    tokens,
+} from "../../../constants/addresses";
 import { Erc20__factory, Staking1, Staking2 } from "../../../typechain";
 import { structOutputToObject } from "../../../utils/helpers";
 import { getRANCEPrice } from "../../../utils/price";
@@ -7,9 +11,8 @@ import { IStakingPool } from "../domain/entities";
 
 export const getstakingContract1Pool = async (
     contract: Staking1,
-    userAddress:string | null | undefined
+    userAddress: string | null | undefined
 ): Promise<IStakingPool> => {
-    
     const contractAddress = contract.address;
     const totalAllocPoint = Number(await contract.totalAllocPoint());
 
@@ -45,7 +48,12 @@ export const getstakingContract1Pool = async (
         ? BigNumber.from(0)
         : numerator.div(denominator);
 
-    const potentialEarnings = await rewardToken.balanceOf(masterRanceWallet[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof masterRanceWallet])
+    const potentialEarnings = await rewardToken.balanceOf(
+        masterRanceWallet[
+            process.env
+                .NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof masterRanceWallet
+        ]
+    );
 
     const pool: IStakingPool = {
         id: stakingAddressToPool[contract.address],
@@ -66,7 +74,7 @@ export const getstakingContract1Pool = async (
         rewardTokenPrice: rancePrice,
     };
 
-    if(userAddress) {
+    if (userAddress) {
         pool.userStaked = (
             await contract.userInfo(
                 stakingAddressToPool[contract.address],
@@ -77,7 +85,6 @@ export const getstakingContract1Pool = async (
             stakingAddressToPool[contract.address],
             userAddress
         );
-        
     }
 
     return pool;
@@ -85,7 +92,7 @@ export const getstakingContract1Pool = async (
 
 export const getstakingContract2Pool = async (
     contract: Staking2,
-    userAddress:string | null | undefined
+    userAddress: string | null | undefined
 ): Promise<IStakingPool> => {
     const contractAddress = contract.address;
     const totalAllocPoint = Number(await contract.totalAllocPoint());
@@ -101,7 +108,7 @@ export const getstakingContract2Pool = async (
     const totalStaked = await stakeToken.balanceOf(contract.address);
     const rewardToken = Erc20__factory.connect(
         tokens[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof tokens]
-            .MUSD,
+            .BUSD,
         contract.provider
     );
     const rewardTokenDecimals = await rewardToken.decimals();
@@ -117,8 +124,13 @@ export const getstakingContract2Pool = async (
     const apr = denominator.eq(0)
         ? BigNumber.from(0)
         : numerator.div(denominator);
-    
-    const potentialEarnings = await rewardToken.balanceOf(masterRanceWallet[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof masterRanceWallet])
+
+    const potentialEarnings = await rewardToken.balanceOf(
+        masterRanceWallet[
+            process.env
+                .NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof masterRanceWallet
+        ]
+    );
 
     const pool: IStakingPool = {
         id: stakingAddressToPool[contract.address],
@@ -128,7 +140,7 @@ export const getstakingContract2Pool = async (
         rewardTokenAddress:
             tokens[
                 process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof tokens
-            ].MUSD,
+            ].BUSD,
         rewardTokenSymbol: "MUSD",
         apr,
         totalStaked,
@@ -139,7 +151,7 @@ export const getstakingContract2Pool = async (
         rewardTokenPrice: 1, //MUSD is equivilent to $
     };
 
-    if(userAddress) {
+    if (userAddress) {
         pool.userStaked = (
             await contract.userInfo(
                 stakingAddressToPool[contract.address],
