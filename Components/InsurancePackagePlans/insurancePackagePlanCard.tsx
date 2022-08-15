@@ -6,7 +6,7 @@ import type { IInsurancePackagePlan } from "../../modules/insurance/domain/entit
 import { useWeb3React } from "@web3-react/core";
 import { toggleWalletModal } from "../../appState/shared/action";
 import { useDispatch } from "react-redux";
-import InsurableCoinsList from "./InsurableCoinsList";
+import InsurableCoinsList from "./insurableCoinsList";
 
 interface IProp extends IInsurancePackagePlan {
     insurableCoins: string[];
