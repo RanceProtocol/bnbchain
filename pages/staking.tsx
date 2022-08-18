@@ -47,7 +47,7 @@ const Staking: NextPage = () => {
                 <div className={styles.banner}>
                     <div className={styles.banner__container}>
                         <h1 className={styles.banner__header}>
-                            Stake RANCE to earn RANCE or MUSD
+                            Stake RANCE to earn RANCE or USD
                         </h1>
                         <p className={styles.banner__text}>
                             Staking is a way of earning interest on your RANCE
