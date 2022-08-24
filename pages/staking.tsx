@@ -123,7 +123,7 @@ const Staking: NextPage = () => {
                 ))} */}
 
                 <div className={styles.staking__card__wrapper}>
-                    <p>Coming soon...</p>
+                    <p className={styles.message}>Coming soon...</p>
                 </div>
             </main>
         </div>

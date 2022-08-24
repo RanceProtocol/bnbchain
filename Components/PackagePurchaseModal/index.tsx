@@ -413,8 +413,8 @@ const PackagePurchaseModal: FC<IProps> = ({
                 <div className={styles.notice__text}>
                     <span className={styles.notice__key}>Notice:</span>
                     <p className={styles.notice__paragraph}>
-                        To insure a particular coin, you must provide its
-                        equivalent in BUSD or USDT.
+                        To insure a particular coin, you must select the coin
+                        and provide its equivalent in BUSD or USDT.
                     </p>
                 </div>
                 <div className={styles.payment__token__icon}>
@@ -507,6 +507,10 @@ const PackagePurchaseModal: FC<IProps> = ({
                 </div>
 
                 <div className={styles.details}>
+                    <div className={styles.key__value}>
+                        <span className={styles.key}>Selected coin</span>
+                        <span className={styles.value}>{coin}</span>
+                    </div>
                     <div className={styles.key__value}>
                         <span className={styles.key}>Lock up period</span>
                         <span
