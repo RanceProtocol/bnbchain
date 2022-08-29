@@ -3,10 +3,7 @@ import { FC, useEffect, useState } from "react";
 import { IoMdArrowDropup, IoMdArrowDropdown } from "react-icons/io";
 import styles from "./styles.module.css";
 import { Sparklines, SparklinesLine } from "react-sparklines";
-import {
-    getCoinChartData,
-    getPriceChangeSinceInsured,
-} from "../../utils/price";
+import { getCoinPriceDataSinceInsured } from "../../utils/price";
 import clsx from "clsx";
 import { addressToCoinDetails } from "../../constants/data";
 import {
@@ -18,6 +15,7 @@ import { useCountdown } from "../../hooks/useCountdown";
 import { padZero } from "../../utils/helpers";
 import { IInsurancePackage } from "../../modules/insurance/domain/entities";
 import { insuranceState } from "../../modules/insurance/ui/redux/state";
+import useLazyToken from "../../hooks/useLazyToken";
 
 interface IProp extends IInsurancePackage {
     clickAction: (id: string) => void;
@@ -30,6 +28,8 @@ const MyPackageCard: FC<IProp> = (props) => {
         endTimestamp,
         initialDeposit,
         insureCoin,
+        paymentToken,
+        insureOutput,
         packageId,
         packagePlanName,
         startTimestamp,
@@ -38,9 +38,35 @@ const MyPackageCard: FC<IProp> = (props) => {
     const [chartData, setChartData] = useState<number[]>([]);
     const [priceChange, setPriceChange] = useState<string>("0%");
     const [currentTimeStamp, setCurrentTimeStamp] = useState(0);
+    const [paymentTokenDecimals, setPaymetTokenDecimals] = useState<
+        number | null
+    >(null);
+    const [insureCoinDecimals, setInsureCoinDecimals] = useState<number | null>(
+        null
+    );
 
-    const state = insuranceState();
-    const { insurableCoins } = state;
+    const { getDecimal } = useLazyToken();
+    useEffect(() => {
+        (async () => {
+            try {
+                const decimals = await Promise.all([
+                    await getDecimal(paymentToken),
+                    await getDecimal(insureCoin),
+                ]);
+                setPaymetTokenDecimals(decimals[0]);
+                setInsureCoinDecimals(decimals[1]);
+            } catch (error) {
+                // const toastBody = CustomToast({
+                //     message:
+                //         "An error occured, Please reload the page",
+                //     status: STATUS.ERROR,
+                //     type: TYPE.ERROR,
+                // });
+                // toast(toastBody);
+            }
+        })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(() => {
         (async () => {
@@ -52,16 +78,14 @@ const MyPackageCard: FC<IProp> = (props) => {
 
     useEffect(() => {
         (async () => {
-            const chartData = await getCoinChartData(
+            const coinPriceData = await getCoinPriceDataSinceInsured(
                 addressToCoinDetails[insureCoin].id,
                 startTimestamp
             );
-            setChartData(chartData);
-            const priceChange = await getPriceChangeSinceInsured(
-                addressToCoinDetails[insureCoin].id,
-                startTimestamp
-            );
-            setPriceChange(priceChange);
+            console.log(coinPriceData);
+
+            setChartData(coinPriceData.sparklineData);
+            setPriceChange(coinPriceData.priceChange);
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -118,6 +142,21 @@ const MyPackageCard: FC<IProp> = (props) => {
                             className={styles.value}
                         >{`${duration} ${timeUnitFull}`}</span>
                         <span className={styles.key}>Duration</span>
+                    </div>
+                    <div className={styles.key__value}>
+                        <span className={styles.value}>
+                            {insureCoinDecimals
+                                ? `${Number(
+                                      utils.formatUnits(
+                                          insureOutput,
+                                          insureCoinDecimals
+                                      )
+                                  ).toFixed(2)} ${addressToCoinDetails[
+                                      insureCoin
+                                  ].symbol.toUpperCase()}`
+                                : "..."}
+                        </span>
+                        <span className={styles.key}>To return</span>
                     </div>
                 </div>
                 <div className={styles.section__two}>
