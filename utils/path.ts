@@ -5,20 +5,32 @@ interface Params {
     fromTokenContractAddress: string;
     toTokenContractAddress: string;
     amount: string;
+    provider: any;
 }
 
-export const findBestRoute = async (params: Params): Promise<string[]> => {
-    const { fromTokenContractAddress, toTokenContractAddress, amount } = params;
-    const pancakeswapPair = new PancakeswapPair({
+export const findBestRoute = async (
+    params: Params
+): Promise<{ path: string[]; expectedOutput: string }> => {
+    const {
         fromTokenContractAddress,
         toTokenContractAddress,
-        ethereumAddress: constants.AddressZero,
-    });
+        amount,
+        provider,
+    } = params;
 
     try {
+        const pancakeswapPair = new PancakeswapPair({
+            fromTokenContractAddress,
+            toTokenContractAddress,
+            ethereumAddress: constants.AddressZero,
+        });
+
         const pancakeswapPairFactory = await pancakeswapPair.createFactory();
         const result = await pancakeswapPairFactory.findBestRoute(amount);
-        return result.bestRouteQuote.routePathArray;
+        return {
+            path: result.bestRouteQuote.routePathArray,
+            expectedOutput: result.bestRouteQuote.expectedConvertQuote,
+        };
     } catch (error) {
         throw error;
     }
