@@ -1,6 +1,6 @@
 export const ranceProtocol = {
     staging: "0xaca2d837a52e141e9a6cEbE33f685cc90F311356",
-    mainnet: "",
+    mainnet: "0x9BdD2716Df5b173C54f6f08b4C38cC849F162139",
 };
 
 export const stakingContractAddresses = {
@@ -16,7 +16,7 @@ export const stakingContractAddresses = {
 
 export const tokens = {
     mainnet: {
-        RANCE: "",
+        RANCE: "0x42081fece4bc26a65cccb3b352379e1f3663b435", // to be changed
         BUSD: "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56",
         USDT: "0x55d398326f99059fF775485246999027B3197955",
     },
