@@ -16,7 +16,7 @@ import useToken from "../hooks/useToken";
 import { tokens } from "../constants/addresses";
 
 const Staking: NextPage = () => {
-    const { account, library } = useWeb3React();
+    // const { account, library } = useWeb3React();
 
     // const { initializeStakingPools, stake, harvest, unstake } =
     //     useStakingViewModel({
@@ -33,10 +33,10 @@ const Staking: NextPage = () => {
     //     // eslint-disable-next-line react-hooks/exhaustive-deps
     // }, [account]);
 
-    const RANCE = useToken(
-        tokens[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof tokens]
-            .RANCE
-    );
+    // const RANCE = useToken(
+    //     tokens[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof tokens]
+    //         .RANCE
+    // );
 
     return (
         <div className={styles.container}>
