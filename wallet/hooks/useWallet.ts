@@ -20,9 +20,11 @@ const useWallet = () => {
             injected.isAuthorized().then(async (isAuthorized: boolean) => {
                 if (
                     isAuthorized &&
-                    ["metamask", "trustwallet", "safepal"].includes(
-                        window.localStorage.getItem("wallet") as string
-                    )
+                    [
+                        walletStrings.metamask,
+                        walletStrings.trustwallet,
+                        walletStrings.safepal,
+                    ].includes(window.localStorage.getItem("wallet") as string)
                 ) {
                     try {
                         await activate(injected, undefined, true);
@@ -41,7 +43,7 @@ const useWallet = () => {
                         .then(async (isAuthorized: boolean) => {
                             if (
                                 isAuthorized &&
-                                ["bitkeep"].includes(
+                                [walletStrings.bitkeep].includes(
                                     window.localStorage.getItem(
                                         "wallet"
                                     ) as string
@@ -81,10 +83,10 @@ const useWallet = () => {
                 case "injected":
                     connector = injected;
                     break;
-                case "bitkeep":
+                case walletStrings.bitkeep:
                     connector = bitKeep;
                     break;
-                case "walletconnect":
+                case walletStrings.walletconnect:
                     connector = walletConnect;
                     break;
                 default:
@@ -99,7 +101,7 @@ const useWallet = () => {
                     !Object.values(supportedChainIds).includes(
                         Number(chainId)
                     ) &&
-                    (name === "injected" || name === "bitkeep")
+                    (name === "injected" || name === walletStrings.bitkeep)
                 ) {
                     try {
                         await addNetwork(provider);
