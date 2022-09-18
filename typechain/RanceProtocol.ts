@@ -33,7 +33,7 @@ export declare namespace RanceProtocol {
         planId: PromiseOrValue<BytesLike>;
         periodInSeconds: PromiseOrValue<BigNumberish>;
         insuranceFee: PromiseOrValue<BigNumberish>;
-        uninsureFee: PromiseOrValue<BigNumberish>;
+        unsureFee: PromiseOrValue<BigNumberish>;
         isActivated: PromiseOrValue<boolean>;
     };
 
@@ -47,7 +47,7 @@ export declare namespace RanceProtocol {
         planId: string;
         periodInSeconds: number;
         insuranceFee: number;
-        uninsureFee: BigNumber;
+        unsureFee: BigNumber;
         isActivated: boolean;
     };
 
@@ -652,7 +652,7 @@ export type OwnershipTransferredEventFilter =
 
 export interface PackagePlanAddedEventObject {
     _id: string;
-    _uninsureFee: BigNumber;
+    _unsureFee: BigNumber;
     _insuranceFee: number;
     _periodInSeconds: number;
 }
@@ -754,7 +754,7 @@ export interface RanceProtocol extends BaseContract {
         addPackagePlan(
             _periodInSeconds: PromiseOrValue<BigNumberish>,
             _insuranceFee: PromiseOrValue<BigNumberish>,
-            _uninsureFee: PromiseOrValue<BigNumberish>,
+            _unsureFee: PromiseOrValue<BigNumberish>,
             overrides?: Overrides & { from?: PromiseOrValue<string> }
         ): Promise<ContractTransaction>;
 
@@ -919,7 +919,7 @@ export interface RanceProtocol extends BaseContract {
                 planId: string;
                 periodInSeconds: number;
                 insuranceFee: number;
-                uninsureFee: BigNumber;
+                unsureFee: BigNumber;
                 isActivated: boolean;
             }
         >;
@@ -993,7 +993,7 @@ export interface RanceProtocol extends BaseContract {
     addPackagePlan(
         _periodInSeconds: PromiseOrValue<BigNumberish>,
         _insuranceFee: PromiseOrValue<BigNumberish>,
-        _uninsureFee: PromiseOrValue<BigNumberish>,
+        _unsureFee: PromiseOrValue<BigNumberish>,
         overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -1158,7 +1158,7 @@ export interface RanceProtocol extends BaseContract {
             planId: string;
             periodInSeconds: number;
             insuranceFee: number;
-            uninsureFee: BigNumber;
+            unsureFee: BigNumber;
             isActivated: boolean;
         }
     >;
@@ -1232,7 +1232,7 @@ export interface RanceProtocol extends BaseContract {
         addPackagePlan(
             _periodInSeconds: PromiseOrValue<BigNumberish>,
             _insuranceFee: PromiseOrValue<BigNumberish>,
-            _uninsureFee: PromiseOrValue<BigNumberish>,
+            _unsureFee: PromiseOrValue<BigNumberish>,
             overrides?: CallOverrides
         ): Promise<string>;
 
@@ -1397,7 +1397,7 @@ export interface RanceProtocol extends BaseContract {
                 planId: string;
                 periodInSeconds: number;
                 insuranceFee: number;
-                uninsureFee: BigNumber;
+                unsureFee: BigNumber;
                 isActivated: boolean;
             }
         >;
@@ -1532,13 +1532,13 @@ export interface RanceProtocol extends BaseContract {
 
         "PackagePlanAdded(bytes32,uint256,uint8,uint32)"(
             _id?: PromiseOrValue<BytesLike> | null,
-            _uninsureFee?: PromiseOrValue<BigNumberish> | null,
+            _unsureFee?: PromiseOrValue<BigNumberish> | null,
             _insuranceFee?: PromiseOrValue<BigNumberish> | null,
             _periodInSeconds?: null
         ): PackagePlanAddedEventFilter;
         PackagePlanAdded(
             _id?: PromiseOrValue<BytesLike> | null,
-            _uninsureFee?: PromiseOrValue<BigNumberish> | null,
+            _unsureFee?: PromiseOrValue<BigNumberish> | null,
             _insuranceFee?: PromiseOrValue<BigNumberish> | null,
             _periodInSeconds?: null
         ): PackagePlanAddedEventFilter;
@@ -1593,7 +1593,7 @@ export interface RanceProtocol extends BaseContract {
         addPackagePlan(
             _periodInSeconds: PromiseOrValue<BigNumberish>,
             _insuranceFee: PromiseOrValue<BigNumberish>,
-            _uninsureFee: PromiseOrValue<BigNumberish>,
+            _unsureFee: PromiseOrValue<BigNumberish>,
             overrides?: Overrides & { from?: PromiseOrValue<string> }
         ): Promise<BigNumber>;
 
@@ -1799,7 +1799,7 @@ export interface RanceProtocol extends BaseContract {
         addPackagePlan(
             _periodInSeconds: PromiseOrValue<BigNumberish>,
             _insuranceFee: PromiseOrValue<BigNumberish>,
-            _uninsureFee: PromiseOrValue<BigNumberish>,
+            _unsureFee: PromiseOrValue<BigNumberish>,
             overrides?: Overrides & { from?: PromiseOrValue<string> }
         ): Promise<PopulatedTransaction>;
 
