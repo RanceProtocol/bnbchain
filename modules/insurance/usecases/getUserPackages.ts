@@ -54,7 +54,7 @@ export const getUserPackages = async (
                     timeUnitFull: getDurationData(
                         packagesPlansData[index].periodInSeconds
                     ).timeUnitFull,
-                    uninsureFee: packagesPlansData[index].uninsureFee,
+                    unsureFee: packagesPlansData[index].unsureFee,
                 };
             }
         );
