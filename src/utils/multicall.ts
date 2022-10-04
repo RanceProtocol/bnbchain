@@ -1,7 +1,7 @@
 import { CallOverrides } from "ethers";
 import { Interface, JsonFragment } from "@ethersproject/abi";
 import { multicall2Address } from "../constants/addresses";
-import { Multicall2__factory } from "../typechain";
+import { Multicall2__factory } from "../typechain/factories/Multicall2__factory";
 
 export interface Call {
     address: string; // Address of the contract

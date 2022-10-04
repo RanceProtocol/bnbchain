@@ -10,16 +10,17 @@ import {
 } from "@web3-react/injected-connector";
 import { UserRejectedRequestError as UserRejectedRequestErrorWalletConnect } from "@web3-react/walletconnect-connector";
 
-export const addNetwork = async (
+export const setupNetwork = async (
     provider: ethers.providers.ExternalProvider
-) => {
-    if (!provider.request) return;
+): Promise<boolean> => {
+    if (!provider.request) return false;
     const chainId = getChainId();
     try {
         await provider?.request({
             method: "wallet_switchEthereumChain",
             params: [{ chainId: `0x${chainId.toString(16)}` }],
         });
+        return true;
     } catch (switchError: any) {
         // This error code indicates that the chain has not been added to MetaMask.
         if (switchError?.code === 4902 || switchError?.code === -32603) {
@@ -40,17 +41,20 @@ export const addNetwork = async (
                         },
                     ],
                 });
+                return true;
             } catch (addError: any) {
                 if (addError?.code === 4001) {
                     throw new Error("User rejected the request to add network");
                 }
                 console.error(addError);
+                return false;
             }
         }
         if (switchError?.code === 4001) {
             throw new Error("User rejected the request to switch network");
         }
         console.error(switchError);
+        return false;
     }
 };
 
