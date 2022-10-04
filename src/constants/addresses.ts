@@ -38,3 +38,4 @@ export const masterRanceWallet = {
 };
 
 export const AUTOSHARK_ADDRESSES = "0xB0EeB0632bAB15F120735e5838908378936bd484";
+export const multicall2Address = "0xfF6FD90A470Aaa0c1B8A54681746b07AcdFedc9B";

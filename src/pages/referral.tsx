@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import styles from "../styles/referral.module.css";
 import { Fragment, useEffect, useState } from "react";
 import GenerateReferralLink from "../Components/GenerateReferralLink";
@@ -15,7 +14,6 @@ import { referralState } from "../modules/referral/infrastructure/redux/state";
 import CustomToast, { STATUS, TYPE } from "../Components/CustomToast";
 import { toast } from "react-toastify";
 import { truncateString } from "../utils/helpers";
-import Loading from "../Components/SharedComponent/Loading";
 import Reactionloader from "../Components/SharedComponent/Reactionloader";
 import clsx from "clsx";
 
