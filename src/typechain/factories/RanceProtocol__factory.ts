@@ -172,7 +172,7 @@ const _abi = [
       {
         indexed: true,
         internalType: "uint256",
-        name: "_unsureFee",
+        name: "_uninsureFee",
         type: "uint256",
       },
       {
@@ -246,6 +246,88 @@ const _abi = [
         type: "address",
       },
     ],
+    name: "RanceAddressSet",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "newPercentage",
+        type: "uint256",
+      },
+    ],
+    name: "ReferralRewardUpdated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "referrer",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "timestamp",
+        type: "uint256",
+      },
+    ],
+    name: "Referred",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "referralId",
+        type: "bytes32",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "RewardClaimed",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "_address",
+        type: "address",
+      },
+    ],
     name: "TreasuryAddressSet",
     type: "event",
   },
@@ -307,7 +389,7 @@ const _abi = [
       },
       {
         internalType: "uint256",
-        name: "_unsureFee",
+        name: "_uninsureFee",
         type: "uint256",
       },
     ],
@@ -349,6 +431,19 @@ const _abi = [
       },
     ],
     name: "cancel",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32[]",
+        name: "_referralIds",
+        type: "bytes32[]",
+      },
+    ],
+    name: "claimReferralReward",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -400,7 +495,7 @@ const _abi = [
           },
           {
             internalType: "uint256",
-            name: "unsureFee",
+            name: "uninsureFee",
             type: "uint256",
           },
           {
@@ -496,6 +591,72 @@ const _abi = [
           },
         ],
         internalType: "struct RanceProtocol.Package[]",
+        name: "",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_user",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "cursor",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "length",
+        type: "uint256",
+      },
+    ],
+    name: "getAllUserReferrals",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "bytes32",
+            name: "id",
+            type: "bytes32",
+          },
+          {
+            internalType: "uint256",
+            name: "rewardAmount",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "timestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "token",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "referrer",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "user",
+            type: "address",
+          },
+          {
+            internalType: "bool",
+            name: "claimed",
+            type: "bool",
+          },
+        ],
+        internalType: "struct RanceProtocol.ReferralReward[]",
         name: "",
         type: "tuple[]",
       },
@@ -656,17 +817,31 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
+        name: "_user",
+        type: "address",
+      },
+    ],
+    name: "getUserReferralsLength",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
         name: "_treasuryAddress",
         type: "address",
       },
       {
         internalType: "address",
         name: "_uniswapRouter",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "_rance",
         type: "address",
       },
       {
@@ -768,6 +943,44 @@ const _abi = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "_planId",
+        type: "bytes32",
+      },
+      {
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256",
+      },
+      {
+        internalType: "address[]",
+        name: "path",
+        type: "address[]",
+      },
+      {
+        internalType: "string",
+        name: "_insureCoin",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_paymentToken",
+        type: "string",
+      },
+      {
+        internalType: "address",
+        name: "_referrer",
+        type: "address",
+      },
+    ],
+    name: "insureWithReferrer",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -1031,7 +1244,7 @@ const _abi = [
       },
       {
         internalType: "uint256",
-        name: "unsureFee",
+        name: "uninsureFee",
         type: "uint256",
       },
       {
@@ -1051,6 +1264,68 @@ const _abi = [
         internalType: "bytes32",
         name: "",
         type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "referralPercentage",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    name: "referrals",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "id",
+        type: "bytes32",
+      },
+      {
+        internalType: "uint256",
+        name: "rewardAmount",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "timestamp",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "token",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "referrer",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        internalType: "bool",
+        name: "claimed",
+        type: "bool",
       },
     ],
     stateMutability: "view",
@@ -1085,6 +1360,19 @@ const _abi = [
   {
     inputs: [],
     name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_token",
+        type: "address",
+      },
+    ],
+    name: "setRance",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -1163,6 +1451,19 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "_percentage",
+        type: "uint256",
+      },
+    ],
+    name: "updateReferralReward",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "newImplementation",
         type: "address",
@@ -1205,6 +1506,30 @@ const _abi = [
       },
     ],
     name: "userToPackageIds",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "userToReferralIds",
     outputs: [
       {
         internalType: "bytes32",

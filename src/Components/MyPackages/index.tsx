@@ -6,7 +6,7 @@ import SuccessModal from "../SuccessModal";
 import { useWeb3React } from "@web3-react/core";
 import { useInsuranceViewModel } from "../../modules/insurance/controllers/insuranceViewModel";
 import MyPackageCardSkeleton from "./myPackageCardSkeleton";
-import { insuranceState } from "../../modules/insurance/ui/redux/state";
+import { insuranceState } from "../../modules/insurance/infrastructure/redux/state";
 
 const MyPackages = () => {
     const [withdrawModalState, setWithdrawModalState] = useState<{

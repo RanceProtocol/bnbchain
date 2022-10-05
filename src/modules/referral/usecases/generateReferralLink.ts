@@ -13,7 +13,7 @@ export const generateReferralLink = async (
             signature,
             address,
         });
-        return `https://polygon.ranceprotocol.com?ref=${response.data.code}`;
+        return `https://bnbchain.ranceprotocol.com?ref=${response.data.code}`;
     } catch (error: any) {
         throw error;
     }

@@ -11,7 +11,7 @@ import { isValidAmountValue, truncateString } from "../../utils/helpers";
 import ModalWrapper from "../ModalWrapper";
 import styles from "./styles.module.css";
 import Select, { GroupBase, OptionsOrGroups, SingleValue } from "react-select";
-import { insuranceState } from "../../modules/insurance/ui/redux/state";
+import { insuranceState } from "../../modules/insurance/infrastructure/redux/state";
 import useLazyToken from "../../hooks/useLazyToken";
 import { ranceProtocol } from "../../constants/addresses";
 import { BigNumber, utils } from "ethers";
@@ -26,13 +26,13 @@ import Loading from "../SharedComponent/Loading";
 type addressType = keyof typeof ranceProtocol;
 
 interface IProps {
-    state: { open: boolean; planId: string };
+    state: { open: boolean; planId: string; referrer: string | null };
     onClose: () => void;
     onSuccessfull: () => void;
 }
 
 const PackagePurchaseModal: FC<IProps> = ({
-    state: { open, planId },
+    state: { open, planId, referrer },
     onClose,
     onSuccessfull,
 }) => {
@@ -323,6 +323,7 @@ const PackagePurchaseModal: FC<IProps> = ({
     const handleInsure = async () => {
         if (formDetails.total === "0" || !paymentToken || !tradeDetails.path)
             return;
+
         let pendingToastId: number | string = "";
         const callbacks = {
             sent: () => {
@@ -388,6 +389,7 @@ const PackagePurchaseModal: FC<IProps> = ({
             path: tradeDetails.path,
             insureCoin: insureCoinName,
             paymentToken: paymentTokenName,
+            referrer: referrer ?? undefined,
             callbacks,
         });
     };
@@ -635,7 +637,11 @@ const PackagePurchaseModal: FC<IProps> = ({
                         <button
                             type="button"
                             className={styles.Purchase__button}
-                            disabled={sendingTx || !tradeDetails.path}
+                            disabled={
+                                sendingTx ||
+                                tradeDetails.processing ||
+                                !tradeDetails.path
+                            }
                             onClick={handleInsure}
                         >
                             {sendingTx ? "Buying package..." : "Buy package"}

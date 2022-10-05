@@ -59,6 +59,6 @@ export const intializeUserPackages =
 export const removeUserPackage = (packageId: string) => {
     return {
         type: actionTypes.REMOVE__USER__PACKAGE,
-        payload: {packageId}
-    }
-}
+        payload: { packageId },
+    };
+};

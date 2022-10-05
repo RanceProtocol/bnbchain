@@ -5,7 +5,7 @@ import InsurancePackagePlanCardSkeleton from "./insurancePackagePlanCardSkeleton
 import PackagePurchaseModal from "../PackagePurchaseModal";
 import { useWeb3React } from "@web3-react/core";
 import { useInsuranceViewModel } from "../../modules/insurance/controllers/insuranceViewModel";
-import { insuranceState } from "../../modules/insurance/ui/redux/state";
+import { insuranceState } from "../../modules/insurance/infrastructure/redux/state";
 import { IInsurancePackagePlan } from "../../modules/insurance/domain/entities";
 import SuccessModal from "../SuccessModal";
 import { useRouter } from "next/router";
@@ -17,7 +17,8 @@ const InsurancePackagePlans: FC<IProp> = () => {
     const [packagePurchaseModal, setPackagePurchaseModal] = useState<{
         open: boolean;
         planId: string;
-    }>({ open: false, planId: "" });
+        referrer: string | null;
+    }>({ open: false, planId: "", referrer: null });
 
     const router = useRouter();
 
@@ -30,7 +31,8 @@ const InsurancePackagePlans: FC<IProp> = () => {
 
     const state = insuranceState();
 
-    const { loadingPackagePlans, packagePlans, insurableCoins } = state;
+    const { loadingPackagePlans, packagePlans, insurableCoins, hasInsured } =
+        state;
 
     useEffect(() => {
         initializePackagePlans();
@@ -67,9 +69,11 @@ const InsurancePackagePlans: FC<IProp> = () => {
                                   key={insurancePackage.planId}
                                   {...insurancePackage}
                                   insurableCoins={insurableCoinsSymbols}
+                                  hasInsured={hasInsured as boolean}
                                   onClickAction={(data: {
                                       open: boolean;
                                       planId: string;
+                                      referrer: string | null;
                                   }) => setPackagePurchaseModal(data)}
                               />
                           )
