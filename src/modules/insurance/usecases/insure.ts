@@ -30,5 +30,6 @@ export const insure = async (params: IinsureParams): Promise<void> => {
     const methodParams = referrer
         ? [planId, amount, path, insureCoin, paymentToken, referrer]
         : [planId, amount, path, insureCoin, paymentToken];
+
     await send({ method, methodParams, callbacks });
 };

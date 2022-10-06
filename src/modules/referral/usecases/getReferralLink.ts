@@ -8,7 +8,7 @@ export const getReferralLink = async (
         const response = await apiClient.get(
             `/api/referral/code?address=${address}`
         );
-        return `https://polygon.ranceprotocol.com?ref=${response.data.code}`;
+        return `https://bnbchain.ranceprotocol.com?ref=${response.data.code}`;
     } catch (error: any) {
         throw error;
     }
