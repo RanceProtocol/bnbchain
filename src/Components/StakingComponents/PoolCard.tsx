@@ -281,7 +281,7 @@ const PoolCard: FC<IProps> = (props) => {
 
                 <a
                     className={styles.contract__link}
-                    href={`https://cronoscan.com/address/${contractAddress}`}
+                    href={`https://bscscan.com/address/${contractAddress}`}
                     target="_blank"
                     rel="noreferrer"
                 >
