@@ -1,5 +1,4 @@
-import { BigNumber, ethers, utils } from "ethers";
-import { IinsurableCoins } from "./data";
+import { BigNumber, utils } from "ethers";
 
 export enum PackageEnum {
     SILVER = "Silver",
@@ -47,12 +46,7 @@ export interface IStakingPool {
     stakeTokenPrice: number;
 }
 
-export const insurableCoins: IinsurableCoins[] = [
-    "WBTC",
-    "WETH",
-    "WCRO",
-    "MMF",
-];
+export const insurableCoins = ["WBTC", "WETH", "WCRO", "MMF"];
 
 export const insurancePackagePlans: IinsurancePackagePlan[] = [
     {
