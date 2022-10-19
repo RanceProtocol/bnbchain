@@ -306,4 +306,9 @@ export const addressToCoinDetails: {
         symbol: "ttc",
         name: "TechTrees",
     },
+    "0x8FFf93E810a2eDaaFc326eDEE51071DA9d398E83": {
+        id: "bitrise-token",
+        symbol: "brise",
+        name: "Bitgert",
+    },
 };
