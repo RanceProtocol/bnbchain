@@ -311,4 +311,15 @@ export const addressToCoinDetails: {
         symbol: "brise",
         name: "Bitgert",
     },
+    "0x88f1A5ae2A3BF98AEAF342D26B30a79438c9142e" : {
+        id: "yearn-finance",
+        symbol: "yfi",
+        name: "yearn.finance",
+    },
+
+    "0xEd8c8Aa8299C10f067496BB66f8cC7Fb338A3405" : {
+        id: "prosper",
+        symbol: "pros",
+        name: "Prosper",
+    }
 };
