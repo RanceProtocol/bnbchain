@@ -321,5 +321,10 @@ export const addressToCoinDetails: {
         id: "prosper",
         symbol: "pros",
         name: "Prosper",
+    },
+    "0xf307910A4c7bbc79691fD374889b36d8531B08e3" : {
+        id: "ankr",
+        symbol: "ankr",
+        name: "Ankr", 
     }
 };
