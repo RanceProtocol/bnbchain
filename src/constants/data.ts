@@ -326,5 +326,100 @@ export const addressToCoinDetails: {
         id: "ankr",
         symbol: "ankr",
         name: "Ankr", 
+    },
+    "0x3019BF2a2eF8040C242C9a4c5c4BD4C81678b2A1" : {
+        id: "stepn",
+        symbol: "gmt",
+        name: "STEPN",
+    },
+    "0x8C851d1a123Ff703BD1f9dabe631b69902Df5f97" : {
+        id: "binaryx",
+        symbol: "bnx",
+        name: "BinaryX",
+    },
+    "0x9678E42ceBEb63F23197D726B29b1CB20d0064E5" : {
+        id: "binance-peg-iotex",
+        symbol: "iotx",
+        name: "Binance-Peg IoTeX",
+    },
+    "0x03fF0ff224f904be3118461335064bB48Df47938" : {
+        id: "wrapped-one",
+        symbol: "wone",
+        name: "Wrapped One",
+    },
+    "0xaFF9084f2374585879e8B434C399E29E80ccE635" : {
+        id: "zelcash",
+        symbol: "flux",
+        name: "Flux",
+    },
+    "0x4691937a7508860F876c9c0a2a617E7d9E945D4B" : {
+        id: "woo-network",
+        symbol: "woo",
+        name: "WOO Network",
+    },
+    "0x78650B139471520656b9E7aA7A5e9276814a38e9" : {
+        id: "btc-standard-hashrate-token",
+        symbol: "btcst",
+        name: "BTC Standard Hashrate Token",
+    },
+    "0xaeF0d72a118ce24feE3cD1d43d383897D05B4e99" : {
+        id: "winklink-bsc",
+        symbol: "win",
+        name: "WINkLink BSC",
+    },
+    "0xAD6cAEb32CD2c308980a548bD0Bc5AA4306c6c18" : {
+        id: "band-protocol",
+        symbol: "band",
+        name: "Band Protocol",
+    },
+    "0xf9CeC8d50f6c8ad3Fb6dcCEC577e05aA32B224FE" : {
+        id: "chromaway",
+        symbol: "chr",
+        name: "Chromia",
+    },
+    "0xA8c2B8eec3d368C0253ad3dae65a5F2BBB89c929" : {
+        id: "cryptyk",
+        symbol: "ctk",
+        name: "Cryptyk",
+    },
+    "0x477bC8d23c634C154061869478bce96BE6045D12" : {
+        id: "seedify-fund",
+        symbol: "sfund",
+        name: "Seedify.fund",
+    },
+    "0xA7f552078dcC247C2684336020c03648500C6d9F" : {
+        id: "ellipsis",
+        symbol: "eps",
+        name: "Ellipsis [OLD]",
+    },
+    "0xE6Ce27025F13f5213bBc560dC275e292965a392F" : {
+        id: "loom-network-new",
+        symbol: "loom",
+        name: "Loom Network (NEW)",
+    },
+    "0x857B222Fc79e1cBBf8Ca5f78CB133d1b7CF34BBd" : {
+        id: "lto-network",
+        symbol: "lto",
+        name: "LTO Network",
+    },
+    "0x2222227E22102Fe3322098e4CBfE18cFebD57c95" : {
+        id: "alien-worlds",
+        symbol: "tlm",
+        name: "Alien Worlds",
+    },
+    "0xAC51066d7bEC65Dc4589368da368b212745d63E8" : {
+        id: "my-neighbor-alice",
+        symbol: "alice",
+        name: "My Neighbor Alice",
+    },
+    "0xcF6BB5389c92Bdda8a3747Ddb454cB7a64626C63" : {
+        id: "venus",
+        symbol: "xvs",
+        name: "Venus",
+    },
+    "0x02fF5065692783374947393723dbA9599e59F591" : {
+        id: "yooshi",
+        symbol: "yooshi",
+        name: "YooShi",
     }
 };
