@@ -421,5 +421,40 @@ export const addressToCoinDetails: {
         id: "yooshi",
         symbol: "yooshi",
         name: "YooShi",
+    },
+    "0x570A5D26f7765Ecb712C0924E4De545B89fD43dF" : {
+        id: "wrapped-solana",
+        symbol: "sol",
+        name: "Wrapped Solana",
+    },
+    "0xCC42724C6683B7E57334c4E856f4c9965ED682bD" : {
+        id: "matic-network",
+        symbol: "matic",
+        name: "Polygon",
+    },
+    "0x67ee3Cb086F8a16f34beE3ca72FAD36F7Db929e2" : {
+        id: "dodo",
+        symbol: "dodo",
+        name: "DODO",
+    },
+    "0x3FdA9383A84C05eC8f7630Fe10AdF1fAC13241CC" : {
+        id: "dego-finance",
+        symbol: "dego",
+        name: "Dego Finance",
+    },
+    "0x12BB890508c125661E03b09EC06E404bc9289040" : {
+        id: "radio-caca",
+        symbol: "raca",
+        name: "Radio Caca",
+    },
+    "0xe0F94Ac5462997D2BC57287Ac3a3aE4C31345D66" : {
+        id: "ceek",
+        symbol: "ceek",
+        name: "CEEK Smart VR",
+    },
+    "0xcfcEcFe2bD2FED07A9145222E8a7ad9Cf1Ccd22A" : {
+        id: "adshares",
+        symbol: "ads",
+        name: "Adshares",
     }
 };
