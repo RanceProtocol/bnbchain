@@ -462,4 +462,5 @@ export const addressToCoinDetails: {
         symbol: "arv",
         name: "Ariva",
     }
+    
 };
