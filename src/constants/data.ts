@@ -456,5 +456,10 @@ export const addressToCoinDetails: {
         id: "adshares",
         symbol: "ads",
         name: "Adshares",
+    },
+    "0x6679eB24F59dFe111864AEc72B443d1Da666B360" : {
+        id: "ariva",
+        symbol: "arv",
+        name: "Ariva",
     }
 };
