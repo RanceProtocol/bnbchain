@@ -1,5 +1,4 @@
-import { BigNumber, ethers, utils } from "ethers";
-import { IinsurableCoins } from "./data";
+import { BigNumber, utils } from "ethers";
 
 export enum PackageEnum {
     SILVER = "Silver",
@@ -47,12 +46,7 @@ export interface IStakingPool {
     stakeTokenPrice: number;
 }
 
-export const insurableCoins: IinsurableCoins[] = [
-    "WBTC",
-    "WETH",
-    "WCRO",
-    "MMF",
-];
+export const insurableCoins = ["WBTC", "WETH", "WCRO", "MMF"];
 
 export const insurancePackagePlans: IinsurancePackagePlan[] = [
     {
@@ -141,7 +135,7 @@ export const stakingPools: IStakingPool[] = [
         totalEarningUsd: 134500.2,
         staked: 0,
         stakedUsd: 0,
-        contractUrl: "https://cronoscan.com/address/0x1234",
+        contractUrl: "https://bscscan.com/address/0x1234",
         walletUnlockStatus: false,
         stakeTokenPrice: 100,
     },
@@ -156,7 +150,7 @@ export const stakingPools: IStakingPool[] = [
         totalEarningUsd: 134500.2,
         staked: 1,
         stakedUsd: 0,
-        contractUrl: "https://cronoscan.com/address/0x1234",
+        contractUrl: "https://bscscan.com/address/0x1234",
         walletUnlockStatus: true,
         stakeTokenPrice: 100,
     },
