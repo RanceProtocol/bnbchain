@@ -29,8 +29,19 @@ export const getPackagePlans = async (
             insureCoinLength
         );
 
+        // REARRANGING TOKENS
+        const insurableCoinsNamesRearranged = [...insurableCoinsNames];
+        const indexOfSol = insurableCoinsNamesRearranged.indexOf("SOL");
+        const indexOfCake = insurableCoinsNamesRearranged.indexOf("CAKE");
+        const solAndMatic = insurableCoinsNamesRearranged.splice(indexOfSol, 2);
+        insurableCoinsNamesRearranged.splice(
+            indexOfCake + 1,
+            0,
+            ...solAndMatic
+        );
+
         const insurableCoinsEntries: string[][] = await Promise.all(
-            insurableCoinsNames.map(async (name) => [
+            insurableCoinsNamesRearranged.map(async (name) => [
                 name,
                 await contract.insureCoinNameToAddress(name),
             ])
