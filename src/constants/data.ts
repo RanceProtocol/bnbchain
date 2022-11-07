@@ -461,6 +461,16 @@ export const addressToCoinDetails: {
         id: "ariva",
         symbol: "arv",
         name: "Ariva",
+    },
+    "0x2eD9a5C8C13b93955103B9a7C167B67Ef4d568a3" : {
+        id: "mask-network",
+        symbol: "mask",
+        name: "Mask Network",
+    },
+    "0xC17c30e98541188614dF99239cABD40280810cA3" : {
+        id: "everrise",
+        symbol: "rise",
+        name: "EverRise",
     }
     
 };
