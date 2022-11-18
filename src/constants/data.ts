@@ -471,6 +471,11 @@ export const addressToCoinDetails: {
         id: "everrise",
         symbol: "rise",
         name: "EverRise",
+    },
+    "0xF218184Af829Cf2b0019F8E6F0b2423498a36983" : {
+        id: "math",
+        symbol: "math",
+        name: "MATH",
     }
     
 };
