@@ -22,12 +22,14 @@ export const initializeStakingPools =
                 type: actionTypes.GETTING__USER__STAKING__POOLS__EARNING,
             });
         }
+
         try {
             const pools: IStakingPool[] = await initializeStakingPoolsUsecase(
                 contract1,
                 contract2,
                 userAddress
             );
+
             dispatch({
                 type: actionTypes.GET__STAKING__POOLS__SUCCESS,
                 payload: { pools },

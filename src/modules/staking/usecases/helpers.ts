@@ -108,18 +108,18 @@ export const getstakingContract2Pool = async (
     const totalStaked = await stakeToken.balanceOf(contract.address);
     const rewardToken = Erc20__factory.connect(
         tokens[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof tokens]
-            .BUSD,
+            .USDT,
         contract.provider
     );
     const rewardTokenDecimals = await rewardToken.decimals();
-    const musdPerBlock = (await contract.MUSDPerBlock()).mul(
+    const usdtPerBlock = (await contract.USDTPerBlock()).mul(
         await contract.BONUS_MULTIPLIER()
     );
-    const totalMUSDPerYr = musdPerBlock.mul(17280).mul(365);
-    const poolMUSDPerYr = (poolInfo.allocPoint as BigNumber).mul(
-        totalMUSDPerYr
+    const totalUSDTPerYr = usdtPerBlock.mul(17280).mul(365);
+    const poolUSDTPerYr = (poolInfo.allocPoint as BigNumber).mul(
+        totalUSDTPerYr
     );
-    const numerator = poolMUSDPerYr.mul(100);
+    const numerator = poolUSDTPerYr.mul(100);
     const denominator = totalStaked.mul(totalAllocPoint);
     const apr = denominator.eq(0)
         ? BigNumber.from(0)
@@ -140,15 +140,15 @@ export const getstakingContract2Pool = async (
         rewardTokenAddress:
             tokens[
                 process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof tokens
-            ].BUSD,
-        rewardTokenSymbol: "MUSD",
+            ].USDT,
+        rewardTokenSymbol: "USDT",
         apr,
         totalStaked,
         potentialEarnings,
         stakeTokenDecimals,
         rewardTokenDecimals,
         stakeTokenPrice: rancePrice,
-        rewardTokenPrice: 1, //MUSD is equivilent to $
+        rewardTokenPrice: 1, //USDT is equivilent to $
     };
 
     if (userAddress) {
@@ -158,7 +158,7 @@ export const getstakingContract2Pool = async (
                 userAddress
             )
         ).amount;
-        pool.userEarned = await contract.pendingMUSD(
+        pool.userEarned = await contract.pendingUSDT(
             stakingAddressToPool[contract.address],
             userAddress
         );
