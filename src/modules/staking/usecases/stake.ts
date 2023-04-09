@@ -1,5 +1,5 @@
 import { BigNumber } from "ethers";
-import useTransaction, { SendParams } from "../../../hooks/useTransaction";
+import { SendParams } from "../../../hooks/useTransaction";
 import { Staking1, Staking2 } from "../../../typechain";
 
 interface StakeParams {

@@ -65,7 +65,7 @@ export const getUserPackages = async (
             hasInsured: userPackages.length !== 0,
         };
     } catch (error: any) {
-        console.log("getUserPackages: ", error);
+        console.error("getUserPackages: ", error);
         throw new Error(error);
     }
 };
