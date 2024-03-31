@@ -12,13 +12,13 @@ import { useWeb3React } from "@web3-react/core";
 import { walletLocalStorageKey } from "../../wallet/constant";
 import { usePlenaWallet } from "plena-wallet-sdk";
 
-interface IProps {
+export interface IConnectedModalProps {
     open: boolean;
     onClose: () => void;
     disconnectWallet: () => void;
 }
 
-export const ConnectedModal: FC<IProps> = ({
+export const ConnectedModal: FC<IConnectedModalProps> = ({
     onClose,
     open,
     disconnectWallet,

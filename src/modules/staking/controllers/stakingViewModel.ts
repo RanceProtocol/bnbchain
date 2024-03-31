@@ -14,8 +14,7 @@ import { compound as compoundUsecase } from "../usecases/compound";
 import { stake as stakeUsecase } from "../usecases/stake";
 import { unstake as unstakeUsecase } from "../usecases/unstake";
 import { harvest as harvestUsecase } from "../usecases/harvest";
-import { BigNumber, ethers } from "ethers";
-import { watchEvent } from "../../../utils/events";
+import { BigNumber } from "ethers";
 import useSWRImmutable from "swr/immutable";
 
 interface IProps {
