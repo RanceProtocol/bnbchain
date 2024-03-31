@@ -5,14 +5,18 @@ import { stakingContractAddresses } from "../../../constants/addresses";
 import useTransaction from "../../../hooks/useTransaction";
 import { Staking1__factory, Staking2__factory } from "../../../typechain";
 import { getDefaultProvider } from "../../../wallet/utils";
-import { initializeStakingPools as initializeStakingPoolsAction } from "../infrastructure/redux/actions";
-import { updateStakingPool as updateStakingPoolAction } from "../infrastructure/redux/actions";
+import {
+    initializeStakingPools as initializeStakingPoolsAction,
+    updateStakingPools as updateStakingPoolsAction,
+    getUserPoolsEarnings as getUserPoolsEarningsActions,
+} from "../infrastructure/redux/actions";
 import { compound as compoundUsecase } from "../usecases/compound";
 import { stake as stakeUsecase } from "../usecases/stake";
 import { unstake as unstakeUsecase } from "../usecases/unstake";
 import { harvest as harvestUsecase } from "../usecases/harvest";
-import { BigNumber } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { watchEvent } from "../../../utils/events";
+import useSWRImmutable from "swr/immutable";
 
 interface IProps {
     address: string | null | undefined;
@@ -41,14 +45,45 @@ export const useStakingViewModel = (props: IProps) => {
     const initializeStakingPools = useCallback(async () => {
         const stakingContract1 = Staking1__factory.connect(
             stakingContractAddresses[dappEnv][0],
-            provider?.getSigner() || getDefaultProvider()
+            provider || getDefaultProvider()
         );
 
         const stakingContract2 = Staking2__factory.connect(
             stakingContractAddresses[dappEnv][1],
-            provider?.getSigner() || getDefaultProvider()
+            provider || getDefaultProvider()
         );
         initializeStakingPoolsAction(
+            stakingContract1,
+            stakingContract2
+        )(dispatch);
+    }, [dispatch, provider]);
+
+    const updateStakingPools = useCallback(async () => {
+        const stakingContract1 = Staking1__factory.connect(
+            stakingContractAddresses[dappEnv][0],
+            provider || getDefaultProvider()
+        );
+
+        const stakingContract2 = Staking2__factory.connect(
+            stakingContractAddresses[dappEnv][1],
+            provider || getDefaultProvider()
+        );
+        updateStakingPoolsAction(stakingContract1, stakingContract2)(dispatch);
+    }, [dispatch, provider]);
+
+    const getUserPoolsEarnings = useCallback(async () => {
+        if (!address) return;
+
+        const stakingContract1 = Staking1__factory.connect(
+            stakingContractAddresses[dappEnv][0],
+            provider || getDefaultProvider()
+        );
+
+        const stakingContract2 = Staking2__factory.connect(
+            stakingContractAddresses[dappEnv][1],
+            provider || getDefaultProvider()
+        );
+        getUserPoolsEarningsActions(
             stakingContract1,
             stakingContract2,
             address
@@ -66,9 +101,30 @@ export const useStakingViewModel = (props: IProps) => {
                 stakingContract1.address === stakingAddress
                     ? stakingContract1
                     : stakingContract2;
-            stakeUsecase({ contract, pId, amount, send, callbacks });
+
+            const successCb = callbacks["successfull"];
+
+            const successCallback = () => {
+                updateStakingPools();
+                getUserPoolsEarnings();
+                successCb();
+            };
+            const modifiedCb = { ...callbacks, successfull: successCallback };
+            stakeUsecase({
+                contract,
+                pId,
+                amount,
+                send,
+                callbacks: modifiedCb,
+            });
         },
-        [stakingContract1, stakingContract2, send]
+        [
+            getUserPoolsEarnings,
+            send,
+            stakingContract1,
+            stakingContract2,
+            updateStakingPools,
+        ]
     );
 
     const unstake = useCallback(
@@ -82,9 +138,30 @@ export const useStakingViewModel = (props: IProps) => {
                 stakingContract1.address === stakingAddress
                     ? stakingContract1
                     : stakingContract2;
-            unstakeUsecase({ contract, pId, amount, send, callbacks });
+
+            const successCb = callbacks["successfull"];
+
+            const successCallback = () => {
+                updateStakingPools();
+                getUserPoolsEarnings();
+                successCb();
+            };
+            const modifiedCb = { ...callbacks, successfull: successCallback };
+            unstakeUsecase({
+                contract,
+                pId,
+                amount,
+                send,
+                callbacks: modifiedCb,
+            });
         },
-        [stakingContract1, stakingContract2, send]
+        [
+            getUserPoolsEarnings,
+            send,
+            stakingContract1,
+            stakingContract2,
+            updateStakingPools,
+        ]
     );
 
     const harvest = useCallback(
@@ -97,9 +174,17 @@ export const useStakingViewModel = (props: IProps) => {
                 stakingContract1.address === stakingAddress
                     ? stakingContract1
                     : stakingContract2;
-            harvestUsecase({ contract, pId, send, callbacks });
+
+            const successCb = callbacks["successfull"];
+
+            const successCallback = () => {
+                getUserPoolsEarnings();
+                successCb();
+            };
+            const modifiedCb = { ...callbacks, successfull: successCallback };
+            harvestUsecase({ contract, pId, send, callbacks: modifiedCb });
         },
-        [stakingContract1, stakingContract2, send]
+        [getUserPoolsEarnings, send, stakingContract1, stakingContract2]
     );
 
     const compound = useCallback(
@@ -108,54 +193,84 @@ export const useStakingViewModel = (props: IProps) => {
             callbacks: { [key: string]: (errorMessage?: string) => void }
         ) => {
             if (stakingAddress !== stakingContract1.address) return; // only the pool in stakingContract1 has a pool that supports compounding
-            compoundUsecase({ contract: stakingContract1, send, callbacks });
+
+            const successCb = callbacks["successfull"];
+
+            const successCallback = () => {
+                updateStakingPools();
+                getUserPoolsEarnings();
+                successCb();
+            };
+            const modifiedCb = { ...callbacks, successfull: successCallback };
+
+            compoundUsecase({
+                contract: stakingContract1,
+                send,
+                callbacks: modifiedCb,
+            });
         },
-        [stakingContract1, send]
+        [getUserPoolsEarnings, send, stakingContract1, updateStakingPools]
     );
 
+    // useEffect(() => {
+    //     watchEvent(stakingContract1, "Deposit", [null, 0, null], async () => {
+    //         const contract = Staking1__factory.connect(
+    //             stakingContractAddresses[dappEnv][0],
+    //             provider || getDefaultProvider()
+    //         );
+    //         updateStakingPoolAction(contract, 0, address)(dispatch);
+    //     });
+
+    //     watchEvent(stakingContract1, "Withdraw", [null, 0, null], async () => {
+    //         const contract = Staking1__factory.connect(
+    //             stakingContractAddresses[dappEnv][0],
+    //             provider || getDefaultProvider()
+    //         );
+    //         updateStakingPoolAction(contract, 0, address)(dispatch);
+    //     });
+
+    //     return () => {
+    //         stakingContract1.removeAllListeners();
+    //     };
+    // }, [address, dispatch, provider, stakingContract1]);
+
+    // useEffect(() => {
+    //     watchEvent(stakingContract2, "Deposit", [null, 1, null], async () => {
+    //         const contract = Staking2__factory.connect(
+    //             stakingContractAddresses[dappEnv][1],
+    //             provider || getDefaultProvider()
+    //         );
+    //         updateStakingPoolAction(contract, 1, address)(dispatch);
+    //     });
+
+    //     watchEvent(stakingContract2, "Withdraw", [null, 1, null], async () => {
+    //         const contract = Staking2__factory.connect(
+    //             stakingContractAddresses[dappEnv][1],
+    //             provider || getDefaultProvider()
+    //         );
+    //         updateStakingPoolAction(contract, 1, address)(dispatch);
+    //     });
+
+    //     return () => {
+    //         stakingContract2.removeAllListeners();
+    //     };
+    // }, [address, dispatch, provider, stakingContract2]);
+
+    // initialize the pools
     useEffect(() => {
-        watchEvent(stakingContract1, "Deposit", [null, 0, null], async () => {
-            const contract = Staking1__factory.connect(
-                stakingContractAddresses[dappEnv][0],
-                provider?.getSigner() || getDefaultProvider()
-            );
-            updateStakingPoolAction(contract, 0, address)(dispatch);
-        });
+        (async () => {
+            initializeStakingPools();
+        })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    // updating the pools every 30 seconds
+    useSWRImmutable(["update staking pools"], updateStakingPools, {
+        refreshInterval: 30 * 1000,
+    });
 
-        watchEvent(stakingContract1, "Withdraw", [null, 0, null], async () => {
-            const contract = Staking1__factory.connect(
-                stakingContractAddresses[dappEnv][0],
-                provider?.getSigner() || getDefaultProvider()
-            );
-            updateStakingPoolAction(contract, 0, address)(dispatch);
-        });
-
-        return () => {
-            stakingContract1.removeAllListeners();
-        };
-    }, [stakingContract1, address, dispatch, provider]);
-
-    useEffect(() => {
-        watchEvent(stakingContract2, "Deposit", [null, 1, null], async () => {
-            const contract = Staking2__factory.connect(
-                stakingContractAddresses[dappEnv][1],
-                provider?.getSigner() || getDefaultProvider()
-            );
-            updateStakingPoolAction(contract, 1, address)(dispatch);
-        });
-
-        watchEvent(stakingContract2, "Withdraw", [null, 1, null], async () => {
-            const contract = Staking2__factory.connect(
-                stakingContractAddresses[dappEnv][1],
-                provider?.getSigner() || getDefaultProvider()
-            );
-            updateStakingPoolAction(contract, 1, address)(dispatch);
-        });
-
-        return () => {
-            stakingContract2.removeAllListeners();
-        };
-    }, [stakingContract2, address, dispatch, provider]);
+    useSWRImmutable(["get user earnings"], getUserPoolsEarnings, {
+        refreshInterval: 15 * 1000,
+    });
 
     return { initializeStakingPools, stake, unstake, harvest, compound };
 };
