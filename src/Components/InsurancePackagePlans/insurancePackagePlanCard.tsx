@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import styles from "./styles.module.css";
 import { utils } from "ethers";
 import type { IInsurancePackagePlan } from "../../modules/insurance/domain/entities";
@@ -8,6 +8,7 @@ import { toggleWalletModal } from "../../appState/shared/action";
 import { useDispatch } from "react-redux";
 import InsurableCoinsList from "./insurableCoinsList";
 import { referralState } from "../../modules/referral/infrastructure/redux/state";
+import { usePlenaWallet } from "plena-wallet-sdk";
 
 interface IProp extends IInsurancePackagePlan {
     insurableCoins: string[];
@@ -32,6 +33,16 @@ const InsurancePackagePlanCard: FC<IProp> = (props) => {
         hasInsured,
     } = props;
     const { account } = useWeb3React();
+
+    const { walletAddress: plenaWalletAddress } = usePlenaWallet();
+
+    const connectedAddress = useMemo(() => {
+        if (account) {
+            return account;
+        } else if (plenaWalletAddress) {
+            return plenaWalletAddress;
+        } else return undefined;
+    }, [account, plenaWalletAddress]);
     const { referrerAddress } = referralState();
 
     const dispatch = useDispatch();
@@ -68,7 +79,7 @@ const InsurancePackagePlanCard: FC<IProp> = (props) => {
                 </div>
             </div>
 
-            {account ? (
+            {connectedAddress ? (
                 <button
                     className={styles.button}
                     onClick={() =>
@@ -79,7 +90,7 @@ const InsurancePackagePlanCard: FC<IProp> = (props) => {
                                 !hasInsured &&
                                 !!referrerAddress &&
                                 referrerAddress.toLocaleLowerCase() !==
-                                    account.toLocaleLowerCase()
+                                    connectedAddress.toLocaleLowerCase()
                                     ? referrerAddress
                                     : null,
                         })

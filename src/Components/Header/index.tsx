@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FC } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import styles from "./styles.module.css";
 import clsx from "clsx";
 import { routes } from "../../constants/routes";
@@ -13,13 +13,24 @@ import {
     toggleAccountModal,
     toggleWalletModal,
 } from "../../appState/shared/action";
+import { usePlenaWallet } from "plena-wallet-sdk";
 
 interface IProp {}
 
 const Header: FC<IProp> = () => {
     const router = useRouter();
     const { active, account } = useWeb3React();
+    const { walletAddress: plenaWalletAddress } = usePlenaWallet();
     const dispatch = useDispatch();
+
+    const connectedAddress = useMemo(() => {
+        if (account) {
+            return account;
+        } else if (plenaWalletAddress) {
+            return plenaWalletAddress;
+        } else return undefined;
+    }, [account, plenaWalletAddress]);
+
     return (
         <header className={styles.root}>
             <Link href="/">
@@ -77,7 +88,7 @@ const Header: FC<IProp> = () => {
                     </li>
                 </ul>
             </nav>
-            {active ? (
+            {active || plenaWalletAddress ? (
                 <div className={styles.connected}>
                     {window.localStorage.getItem("wallet") && (
                         <div className={styles.connected__wallet}>
@@ -99,7 +110,9 @@ const Header: FC<IProp> = () => {
                         className={styles.connected__btn}
                         onClick={() => toggleAccountModal(dispatch)}
                     >
-                        <span>{shortenAddress(account as string)}</span>
+                        <span>
+                            {shortenAddress(connectedAddress as string)}
+                        </span>
                         <RiArrowDropDownLine
                             className={styles.connected__btn__dropdown__icon}
                         />

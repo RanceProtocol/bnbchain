@@ -6,8 +6,18 @@ import { useRouter } from "next/router";
 import styles from "../styles/insurance.module.css";
 import { insurancePageTabs as tabs } from "../constants/routes";
 import { Fragment } from "react";
-import InsurancePackagePlans from "../Components/InsurancePackagePlans";
-import MyPackages from "../Components/MyPackages";
+import dynamic from "next/dynamic";
+
+const InsurancePackagePlans = dynamic(
+    () => import("../Components/InsurancePackagePlans"),
+    {
+        ssr: false,
+    }
+);
+
+const MyPackages = dynamic(() => import("../Components/MyPackages"), {
+    ssr: false,
+});
 
 const Insurance: NextPage = () => {
     const router = useRouter();

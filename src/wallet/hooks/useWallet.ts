@@ -5,16 +5,20 @@ import {
     getSupportedChainsName,
     supportedChainIds,
 } from "../../constants/chainIds";
-import { setupNetwork, getConnectionError } from "../utils";
+import { setupNetwork } from "../utils";
 import { useCallback, useEffect } from "react";
 import CustomToast, { STATUS, TYPE } from "../../Components/CustomToast";
 import { toast } from "react-toastify";
 import { getChainId } from "../../utils/helpers";
 import { walletLocalStorageKey, walletStrings } from "../constant";
 import { isMobile, isDesktop } from "react-device-detect";
+import { usePlenaWallet } from "plena-wallet-sdk";
 
 const useWallet = () => {
     const { activate, deactivate } = useWeb3React();
+    const { openModal, closeConnection, walletAddress } = usePlenaWallet();
+
+    console.log("walletAddress: ", walletAddress);
 
     const _ethereumListener = async () =>
         new Promise<void>((resolve) =>
@@ -97,7 +101,11 @@ const useWallet = () => {
     }, []);
 
     const connectWallet = useCallback(
-        async (name: string) => {
+        async (name: string, isPlena: boolean = false) => {
+            if (isPlena) {
+                openModal();
+                return window.localStorage.setItem(walletLocalStorageKey, name);
+            }
             let connector: AbstractConnector;
             let walletName = name;
             const injectedWallets = [
@@ -191,7 +199,7 @@ const useWallet = () => {
                 toast(body);
             }
         },
-        [activate]
+        [activate, openModal]
     );
 
     const disconnectWallet = () => {
