@@ -55,7 +55,7 @@ const useToken = (address: string) => {
 
     const getBalance = async () => {
         if (!connectedAddress) {
-            throw new Error("Please connect your wallet");
+            console.error("Please connect your wallet");
         }
 
         try {
