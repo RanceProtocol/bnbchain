@@ -3,7 +3,6 @@ import { FC, Fragment, useState } from "react";
 import Image from "next/image";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import clsx from "clsx";
-import StakingModal from "../StakingModal";
 import type { IStakingPool } from "../../modules/staking/domain/entities";
 import { BigNumber, utils } from "ethers";
 import { useWeb3React } from "@web3-react/core";
@@ -13,6 +12,11 @@ import CustomToast, { STATUS, TYPE } from "../CustomToast";
 import { toast } from "react-toastify";
 import { truncateString } from "../../utils/helpers";
 import ReactTooltip from "react-tooltip";
+import dynamic from "next/dynamic";
+
+const StakingModal = dynamic(() => import("../StakingModal/index"), {
+    ssr: false,
+});
 
 interface IProps extends IStakingPool {
     ranceBalance: BigNumber;

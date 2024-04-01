@@ -2,6 +2,7 @@ import { walletStrings } from "../../wallet/constant";
 import {
     BitKeep,
     Metamask,
+    Plena,
     SafePal,
     TrustWallet,
     WalletConnect,
@@ -12,6 +13,11 @@ export const walletConfig = [
         title: "Metamask",
         icon: Metamask,
         walletName: walletStrings.metamask,
+    },
+    {
+        title: "Plena",
+        icon: Plena,
+        walletName: walletStrings.plena,
     },
     {
         title: "Bitkeep",

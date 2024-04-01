@@ -8,11 +8,16 @@ import {
 import { useSharedStore } from "../../appState/shared/store";
 import useWallet from "../../wallet/hooks/useWallet";
 import Header from "../Header";
-import { DisconnectedModal, ConnectedModal } from "../WalletModals/";
+import { DisconnectedModal, IConnectedModalProps } from "../WalletModals/";
 import "react-toastify/dist/ReactToastify.css";
 import styles from "./styles.module.css";
 import { useWeb3React } from "@web3-react/core";
 import { useReferralViewModel } from "../../modules/referral/controllers/referralController";
+import dynamic from "next/dynamic";
+
+const ConnectedModal = dynamic<IConnectedModalProps>(() =>
+    import("../WalletModals/").then((module) => module.ConnectedModal)
+);
 
 interface IProps {
     children: ReactNode;
@@ -37,6 +42,8 @@ const Layout: FC<IProps> = ({ children }) => {
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    if (typeof window === "undefined") null;
 
     return (
         <Fragment>

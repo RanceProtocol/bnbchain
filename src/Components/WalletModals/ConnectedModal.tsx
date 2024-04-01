@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useMemo, useState } from "react";
 import ModalWrapper from "../ModalWrapper";
 import styles from "./styles.module.css";
 import Image from "next/image";
@@ -10,25 +10,40 @@ import { utils } from "ethers";
 import { shortenAddress } from "../../utils/helpers";
 import { useWeb3React } from "@web3-react/core";
 import { walletLocalStorageKey } from "../../wallet/constant";
+import { usePlenaWallet } from "plena-wallet-sdk";
 
-interface IProps {
+export interface IConnectedModalProps {
     open: boolean;
     onClose: () => void;
     disconnectWallet: () => void;
 }
 
-export const ConnectedModal: FC<IProps> = ({
+export const ConnectedModal: FC<IConnectedModalProps> = ({
     onClose,
     open,
     disconnectWallet,
 }) => {
     const dispatch = useDispatch();
 
+    const { account } = useWeb3React();
+    const {
+        walletAddress: plenaWalletAddress,
+        closeConnection: closePlenaConnection,
+    } = usePlenaWallet();
+
+    const connectedAddress = useMemo(() => {
+        if (account) {
+            return account;
+        } else if (plenaWalletAddress) {
+            return plenaWalletAddress;
+        } else return undefined;
+    }, [account, plenaWalletAddress]);
+
     const disconnectWalletHandler = () => {
         disconnectWallet();
+        closePlenaConnection();
         toggleAccountModal(dispatch);
     };
-    const { account } = useWeb3React();
     const BUSD = useToken(
         tokens[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof tokens]
             .BUSD
@@ -41,10 +56,10 @@ export const ConnectedModal: FC<IProps> = ({
     const [connectedWallet, setConnectedWallet] = useState<string | null>();
 
     useEffect(() => {
-        if (!account) return;
+        if (!account && !plenaWalletAddress) return;
         const wallet = window.localStorage.getItem(walletLocalStorageKey);
         setConnectedWallet(wallet);
-    }, [account, open]);
+    }, [account, open, plenaWalletAddress]);
 
     return (
         <ModalWrapper
@@ -68,10 +83,11 @@ export const ConnectedModal: FC<IProps> = ({
                     </div>
                 )}
                 <span className={styles.connected__wallet__name}>
-                    MetaMask connected
+                    {window.localStorage.getItem(walletLocalStorageKey)}{" "}
+                    connected
                 </span>
                 <span className={styles.connected__wallet__address}>
-                    {shortenAddress(account as string)}
+                    {shortenAddress(connectedAddress as string)}
                 </span>
             </div>
 
