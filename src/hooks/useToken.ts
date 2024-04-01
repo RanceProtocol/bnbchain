@@ -8,7 +8,7 @@ import useTransaction from "./useTransaction";
 import { usePlenaWallet } from "plena-wallet-sdk";
 
 const useToken = (address: string) => {
-    const { library, active, account } = useWeb3React();
+    const { library, account } = useWeb3React();
     const { walletAddress: plenaWalletAddress } = usePlenaWallet();
 
     const connectedAddress = useMemo(() => {
@@ -54,7 +54,7 @@ const useToken = (address: string) => {
     };
 
     const getBalance = async () => {
-        if (!active || !connectedAddress) {
+        if (!connectedAddress) {
             throw new Error("Please connect your wallet");
         }
 
@@ -72,7 +72,7 @@ const useToken = (address: string) => {
         amount: string | BigNumber,
         callbacks?: { [key: string]: () => void }
     ): Promise<void> => {
-        if (!active || !connectedAddress) {
+        if (!connectedAddress) {
             throw new Error("Please connect your wallet");
         }
         try {
@@ -85,7 +85,7 @@ const useToken = (address: string) => {
     };
 
     const getAllowance = async (spender: string) => {
-        if (!active || !connectedAddress) {
+        if (!connectedAddress) {
             throw new Error("Please connect your wallet");
         }
         try {
@@ -101,7 +101,7 @@ const useToken = (address: string) => {
     };
 
     useEffect(() => {
-        if (!active || !contract) return;
+        if (!contract) return;
         (async () => {
             await getDecimals();
             getBalance();
@@ -134,7 +134,7 @@ const useToken = (address: string) => {
         );
 
         return () => {
-            if (!active || !contract) return;
+            if (!contract) return;
             contract.removeAllListeners();
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
