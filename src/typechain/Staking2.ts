@@ -31,8 +31,8 @@ import type {
 export interface Staking2Interface extends utils.Interface {
   functions: {
     "BONUS_MULTIPLIER()": FunctionFragment;
-    "MUSD()": FunctionFragment;
-    "MUSDPerBlock()": FunctionFragment;
+    "USDT()": FunctionFragment;
+    "USDTPerBlock()": FunctionFragment;
     "add(uint256,address,bool)": FunctionFragment;
     "compound()": FunctionFragment;
     "deposit(uint256,uint256)": FunctionFragment;
@@ -45,7 +45,7 @@ export interface Staking2Interface extends utils.Interface {
     "owner()": FunctionFragment;
     "pause()": FunctionFragment;
     "paused()": FunctionFragment;
-    "pendingMUSD(uint256,address)": FunctionFragment;
+    "pendingUSDT(uint256,address)": FunctionFragment;
     "poolInfo(uint256)": FunctionFragment;
     "poolLength()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
@@ -67,8 +67,8 @@ export interface Staking2Interface extends utils.Interface {
   getFunction(
     nameOrSignatureOrTopic:
       | "BONUS_MULTIPLIER"
-      | "MUSD"
-      | "MUSDPerBlock"
+      | "USDT"
+      | "USDTPerBlock"
       | "add"
       | "compound"
       | "deposit"
@@ -81,7 +81,7 @@ export interface Staking2Interface extends utils.Interface {
       | "owner"
       | "pause"
       | "paused"
-      | "pendingMUSD"
+      | "pendingUSDT"
       | "poolInfo"
       | "poolLength"
       | "renounceOwnership"
@@ -104,9 +104,9 @@ export interface Staking2Interface extends utils.Interface {
     functionFragment: "BONUS_MULTIPLIER",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "MUSD", values?: undefined): string;
+  encodeFunctionData(functionFragment: "USDT", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "MUSDPerBlock",
+    functionFragment: "USDTPerBlock",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -152,7 +152,7 @@ export interface Staking2Interface extends utils.Interface {
   encodeFunctionData(functionFragment: "pause", values?: undefined): string;
   encodeFunctionData(functionFragment: "paused", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "pendingMUSD",
+    functionFragment: "pendingUSDT",
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -222,9 +222,9 @@ export interface Staking2Interface extends utils.Interface {
     functionFragment: "BONUS_MULTIPLIER",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "MUSD", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "USDT", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "MUSDPerBlock",
+    functionFragment: "USDTPerBlock",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "add", data: BytesLike): Result;
@@ -249,7 +249,7 @@ export interface Staking2Interface extends utils.Interface {
   decodeFunctionResult(functionFragment: "pause", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "pendingMUSD",
+    functionFragment: "pendingUSDT",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "poolInfo", data: BytesLike): Result;
@@ -430,9 +430,9 @@ export interface Staking2 extends BaseContract {
   functions: {
     BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    MUSD(overrides?: CallOverrides): Promise<[string]>;
+    USDT(overrides?: CallOverrides): Promise<[string]>;
 
-    MUSDPerBlock(overrides?: CallOverrides): Promise<[BigNumber]>;
+    USDTPerBlock(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     add(
       _allocPoint: PromiseOrValue<BigNumberish>,
@@ -463,8 +463,8 @@ export interface Staking2 extends BaseContract {
     ): Promise<[BigNumber]>;
 
     initialize(
-      _MUSD: PromiseOrValue<string>,
-      _MUSDPerBlock: PromiseOrValue<BigNumberish>,
+      _USDT: PromiseOrValue<string>,
+      _USDTPerBlock: PromiseOrValue<BigNumberish>,
       _startBlock: PromiseOrValue<BigNumberish>,
       _wallet: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -489,7 +489,7 @@ export interface Staking2 extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<[boolean]>;
 
-    pendingMUSD(
+    pendingUSDT(
       _pid: PromiseOrValue<BigNumberish>,
       _user: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -503,7 +503,7 @@ export interface Staking2 extends BaseContract {
         lpToken: string;
         allocPoint: BigNumber;
         lastRewardBlock: BigNumber;
-        accMUSDPerShare: BigNumber;
+        accUSDTPerShare: BigNumber;
       }
     >;
 
@@ -578,9 +578,9 @@ export interface Staking2 extends BaseContract {
 
   BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<BigNumber>;
 
-  MUSD(overrides?: CallOverrides): Promise<string>;
+  USDT(overrides?: CallOverrides): Promise<string>;
 
-  MUSDPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
+  USDTPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
 
   add(
     _allocPoint: PromiseOrValue<BigNumberish>,
@@ -611,8 +611,8 @@ export interface Staking2 extends BaseContract {
   ): Promise<BigNumber>;
 
   initialize(
-    _MUSD: PromiseOrValue<string>,
-    _MUSDPerBlock: PromiseOrValue<BigNumberish>,
+    _USDT: PromiseOrValue<string>,
+    _USDTPerBlock: PromiseOrValue<BigNumberish>,
     _startBlock: PromiseOrValue<BigNumberish>,
     _wallet: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -637,7 +637,7 @@ export interface Staking2 extends BaseContract {
 
   paused(overrides?: CallOverrides): Promise<boolean>;
 
-  pendingMUSD(
+  pendingUSDT(
     _pid: PromiseOrValue<BigNumberish>,
     _user: PromiseOrValue<string>,
     overrides?: CallOverrides
@@ -651,7 +651,7 @@ export interface Staking2 extends BaseContract {
       lpToken: string;
       allocPoint: BigNumber;
       lastRewardBlock: BigNumber;
-      accMUSDPerShare: BigNumber;
+      accUSDTPerShare: BigNumber;
     }
   >;
 
@@ -726,9 +726,9 @@ export interface Staking2 extends BaseContract {
   callStatic: {
     BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<BigNumber>;
 
-    MUSD(overrides?: CallOverrides): Promise<string>;
+    USDT(overrides?: CallOverrides): Promise<string>;
 
-    MUSDPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
+    USDTPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
 
     add(
       _allocPoint: PromiseOrValue<BigNumberish>,
@@ -757,8 +757,8 @@ export interface Staking2 extends BaseContract {
     ): Promise<BigNumber>;
 
     initialize(
-      _MUSD: PromiseOrValue<string>,
-      _MUSDPerBlock: PromiseOrValue<BigNumberish>,
+      _USDT: PromiseOrValue<string>,
+      _USDTPerBlock: PromiseOrValue<BigNumberish>,
       _startBlock: PromiseOrValue<BigNumberish>,
       _wallet: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -779,7 +779,7 @@ export interface Staking2 extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<boolean>;
 
-    pendingMUSD(
+    pendingUSDT(
       _pid: PromiseOrValue<BigNumberish>,
       _user: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -793,7 +793,7 @@ export interface Staking2 extends BaseContract {
         lpToken: string;
         allocPoint: BigNumber;
         lastRewardBlock: BigNumber;
-        accMUSDPerShare: BigNumber;
+        accUSDTPerShare: BigNumber;
       }
     >;
 
@@ -938,9 +938,9 @@ export interface Staking2 extends BaseContract {
   estimateGas: {
     BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<BigNumber>;
 
-    MUSD(overrides?: CallOverrides): Promise<BigNumber>;
+    USDT(overrides?: CallOverrides): Promise<BigNumber>;
 
-    MUSDPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
+    USDTPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
 
     add(
       _allocPoint: PromiseOrValue<BigNumberish>,
@@ -971,8 +971,8 @@ export interface Staking2 extends BaseContract {
     ): Promise<BigNumber>;
 
     initialize(
-      _MUSD: PromiseOrValue<string>,
-      _MUSDPerBlock: PromiseOrValue<BigNumberish>,
+      _USDT: PromiseOrValue<string>,
+      _USDTPerBlock: PromiseOrValue<BigNumberish>,
       _startBlock: PromiseOrValue<BigNumberish>,
       _wallet: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -997,7 +997,7 @@ export interface Staking2 extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<BigNumber>;
 
-    pendingMUSD(
+    pendingUSDT(
       _pid: PromiseOrValue<BigNumberish>,
       _user: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1078,9 +1078,9 @@ export interface Staking2 extends BaseContract {
   populateTransaction: {
     BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    MUSD(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    USDT(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    MUSDPerBlock(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    USDTPerBlock(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     add(
       _allocPoint: PromiseOrValue<BigNumberish>,
@@ -1111,8 +1111,8 @@ export interface Staking2 extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     initialize(
-      _MUSD: PromiseOrValue<string>,
-      _MUSDPerBlock: PromiseOrValue<BigNumberish>,
+      _USDT: PromiseOrValue<string>,
+      _USDTPerBlock: PromiseOrValue<BigNumberish>,
       _startBlock: PromiseOrValue<BigNumberish>,
       _wallet: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1137,7 +1137,7 @@ export interface Staking2 extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    pendingMUSD(
+    pendingUSDT(
       _pid: PromiseOrValue<BigNumberish>,
       _user: PromiseOrValue<string>,
       overrides?: CallOverrides

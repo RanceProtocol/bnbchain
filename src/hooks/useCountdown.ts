@@ -3,7 +3,7 @@ import { setInterval } from "timers/promises";
 import { getCurrentTimestamp } from "../utils/time";
 
 export const useCountdown = (endTimestamp: number) => {
-    const timeoutRef = useRef<ReturnType<typeof setInterval | any>>()
+    const timeoutRef = useRef<ReturnType<typeof setInterval | any>>();
     const [formatedTimeLeft, setFormatedTimeLeft] = useState<{
         weeks: number;
         days: number;
@@ -16,26 +16,20 @@ export const useCountdown = (endTimestamp: number) => {
         (async () => {
             const currentTimestamp = await getCurrentTimestamp();
             if (!currentTimestamp) return;
-            let seconds:number;
-            if(endTimestamp < currentTimestamp) {
+            let seconds: number;
+            if (endTimestamp < currentTimestamp) {
                 // insurance package has ended and currently in the 30 days grace
-                seconds = Math.max(((endTimestamp + ((60 * 60 * 24 * 30))) - currentTimestamp), 0);
+                seconds = Math.max(
+                    endTimestamp + 60 * 60 * 24 * 30 - currentTimestamp,
+                    0
+                );
             } else {
-                seconds = Math.max((endTimestamp - currentTimestamp), 0);
+                seconds = Math.max(endTimestamp - currentTimestamp, 0);
             }
             formatTimeLeft(seconds);
             setSecondsLeft(() => seconds);
-        })()
-    }, []);
-
-    useEffect(() => {
-        if (secondsLeft === undefined) return;
-        timeoutRef.current = setTimeout(getTimeRemainingAndUpdate, 1000 * 60);
-        return () => {
-            clearInterval(timeoutRef.current);
-        };
-    }, [secondsLeft]);
-    
+        })();
+    }, [endTimestamp]);
 
     const formatTimeLeft = (secondsLeft: number) => {
         const weeksLeft = Math.floor(secondsLeft! / 604800);
@@ -54,13 +48,20 @@ export const useCountdown = (endTimestamp: number) => {
         });
     };
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const getTimeRemainingAndUpdate = () => {
-       formatTimeLeft(secondsLeft!)
-       const newSecondsLeft = secondsLeft! - 60;
-        setSecondsLeft(Math.max(newSecondsLeft, 0))
-    }
+        formatTimeLeft(secondsLeft!);
+        const newSecondsLeft = secondsLeft! - 60;
+        setSecondsLeft(Math.max(newSecondsLeft, 0));
+    };
 
-
+    useEffect(() => {
+        if (secondsLeft === undefined) return;
+        timeoutRef.current = setTimeout(getTimeRemainingAndUpdate, 1000 * 60);
+        return () => {
+            clearInterval(timeoutRef.current);
+        };
+    }, [getTimeRemainingAndUpdate, secondsLeft]);
 
     return { formatedTimeLeft };
 };
