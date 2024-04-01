@@ -14,7 +14,7 @@ import { truncateString } from "../../utils/helpers";
 import ReactTooltip from "react-tooltip";
 import dynamic from "next/dynamic";
 
-const StakingModal = dynamic(() => import("../StakingModal"), {
+const StakingModal = dynamic(() => import("../StakingModal/index"), {
     ssr: false,
 });
 

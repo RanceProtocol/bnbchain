@@ -16,9 +16,7 @@ import { usePlenaWallet } from "plena-wallet-sdk";
 
 const useWallet = () => {
     const { activate, deactivate } = useWeb3React();
-    const { openModal, closeConnection, walletAddress } = usePlenaWallet();
-
-    console.log("walletAddress: ", walletAddress);
+    const { openModal } = usePlenaWallet();
 
     const _ethereumListener = async () =>
         new Promise<void>((resolve) =>

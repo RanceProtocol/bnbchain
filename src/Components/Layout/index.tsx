@@ -43,6 +43,8 @@ const Layout: FC<IProps> = ({ children }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    if (typeof window === "undefined") null;
+
     return (
         <Fragment>
             <div className={styles.root}>

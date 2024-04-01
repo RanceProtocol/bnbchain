@@ -17,6 +17,7 @@ import { truncateString } from "../utils/helpers";
 import Reactionloader from "../Components/SharedComponent/Reactionloader";
 import clsx from "clsx";
 import { usePlenaWallet } from "plena-wallet-sdk";
+import NoSSRWrapper from "../Components/NoSSRWrapper";
 
 const Referral: FC = () => {
     const { account, library, connector } = useWeb3React();
@@ -106,71 +107,77 @@ const Referral: FC = () => {
     };
 
     return (
-        <Fragment>
-            <div className={styles.container}>
-                <Head>
-                    <title>Rance Protocol - Referral</title>
-                </Head>
-                <main className={styles.main}>
-                    {!connectedAddress ? (
-                        <>
-                            <ReferralBanner />
-                            {/* this div is a workaround so that the component below to be the third grid iten */}
-                            <div></div>
-                            <div className={styles.message}>
-                                <p>Please connect your wallet</p>
-                            </div>
-                        </>
-                    ) : loadingreferralLink ? (
-                        <>
-                            <ReferralBanner />
-                            <div></div>
-                            <div className={styles.loading__icon__container}>
-                                <Reactionloader />
-                            </div>
-                        </>
-                    ) : referralLink ? (
-                        <>
-                            <ReferralBanner />
-                            <ReferralLink
-                                refLink={referralLink}
-                                copyReferralLinkHandler={copyReferralLink}
-                            />
-                            {loadingReferralRecord ? (
+        <NoSSRWrapper>
+            <Fragment>
+                <div className={styles.container}>
+                    <Head>
+                        <title>Rance Protocol - Referral</title>
+                    </Head>
+                    <main className={styles.main}>
+                        {!connectedAddress ? (
+                            <>
+                                <ReferralBanner />
+                                {/* this div is a workaround so that the component below to be the third grid iten */}
+                                <div></div>
+                                <div className={styles.message}>
+                                    <p>Please connect your wallet</p>
+                                </div>
+                            </>
+                        ) : loadingreferralLink ? (
+                            <>
+                                <ReferralBanner />
+                                <div></div>
                                 <div
-                                    className={clsx(
-                                        styles.loading__icon__container,
-                                        styles.record__table__loader
-                                    )}
+                                    className={styles.loading__icon__container}
                                 >
                                     <Reactionloader />
                                 </div>
-                            ) : !!referralRecord.length ? (
-                                <ReferralRecordTable
-                                    data={referralRecord}
+                            </>
+                        ) : referralLink ? (
+                            <>
+                                <ReferralBanner />
+                                <ReferralLink
+                                    refLink={referralLink}
+                                    copyReferralLinkHandler={copyReferralLink}
+                                />
+                                {loadingReferralRecord ? (
+                                    <div
+                                        className={clsx(
+                                            styles.loading__icon__container,
+                                            styles.record__table__loader
+                                        )}
+                                    >
+                                        <Reactionloader />
+                                    </div>
+                                ) : !!referralRecord.length ? (
+                                    <ReferralRecordTable
+                                        data={referralRecord}
+                                        claimReferralRewards={
+                                            claimReferralRewards
+                                        }
+                                    />
+                                ) : (
+                                    <NoCommisionsYet />
+                                )}
+                                <ReferralsSummary
+                                    referralRecord={referralRecord}
                                     claimReferralRewards={claimReferralRewards}
                                 />
-                            ) : (
-                                <NoCommisionsYet />
-                            )}
-                            <ReferralsSummary
-                                referralRecord={referralRecord}
-                                claimReferralRewards={claimReferralRewards}
-                            />
-                        </>
-                    ) : (
-                        <>
-                            <ReferralBanner />
-                            {/* this div is a workaround so that the component below to be the third grid iten */}
-                            <div></div>
-                            <GenerateReferralLink
-                                generateLinkHandler={genarateReferralLink}
-                            />
-                        </>
-                    )}
-                </main>
-            </div>
-        </Fragment>
+                            </>
+                        ) : (
+                            <>
+                                <ReferralBanner />
+                                {/* this div is a workaround so that the component below to be the third grid iten */}
+                                <div></div>
+                                <GenerateReferralLink
+                                    generateLinkHandler={genarateReferralLink}
+                                />
+                            </>
+                        )}
+                    </main>
+                </div>
+            </Fragment>
+        </NoSSRWrapper>
     );
 };
 
