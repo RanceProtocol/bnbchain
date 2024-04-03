@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import { FC, useMemo } from "react";
 import styles from "./styles.module.css";
 import {

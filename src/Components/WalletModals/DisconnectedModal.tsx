@@ -7,11 +7,12 @@ import { MoreIcon } from "../svgIcons";
 import { toggleWalletModal } from "../../appState/shared/action";
 import { useDispatch } from "react-redux";
 import { walletConfig } from "./config";
+import { walletStrings } from "../../wallet/constant";
 
 interface IProps {
     open: boolean;
     onClose: () => void;
-    connectWallet: (name: string) => void;
+    connectWallet: (name: string, isPlena?: boolean) => Promise<void>;
 }
 
 export const DisconnectedModal: FC<IProps> = ({
@@ -20,8 +21,8 @@ export const DisconnectedModal: FC<IProps> = ({
     connectWallet,
 }) => {
     const dispatch = useDispatch();
-    const connectWalletHandler = async (name: string) => {
-        await connectWallet(name);
+    const connectWalletHandler = async (name: string, isPlena?: boolean) => {
+        await connectWallet(name, isPlena);
         toggleWalletModal(dispatch);
     };
     const [showMore, setShowMore] = useState(false);
@@ -52,10 +53,13 @@ export const DisconnectedModal: FC<IProps> = ({
                             key={index}
                             className={styles.wallet__btn}
                             onClick={() =>
-                                connectWalletHandler(wallet.walletName)
+                                connectWalletHandler(
+                                    wallet.walletName,
+                                    wallet.walletName === walletStrings.plena
+                                )
                             }
                         >
-                            <Icon className={styles.wallet__icon} width="40" />
+                            <Icon className={styles.wallet__icon} width="52" />
                             <span className={styles.wallet__name}>
                                 {wallet.title}
                             </span>

@@ -1,9 +1,8 @@
 import styles from "./poolCard.module.css";
-import { FC, Fragment, useState } from "react";
+import { FC, Fragment, useMemo, useState } from "react";
 import Image from "next/image";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import clsx from "clsx";
-import StakingModal from "../StakingModal";
 import type { IStakingPool } from "../../modules/staking/domain/entities";
 import { BigNumber, utils } from "ethers";
 import { useWeb3React } from "@web3-react/core";
@@ -13,6 +12,12 @@ import CustomToast, { STATUS, TYPE } from "../CustomToast";
 import { toast } from "react-toastify";
 import { truncateString } from "../../utils/helpers";
 import ReactTooltip from "react-tooltip";
+import dynamic from "next/dynamic";
+import { usePlenaWallet } from "plena-wallet-sdk";
+
+const StakingModal = dynamic(() => import("../StakingModal/index"), {
+    ssr: false,
+});
 
 interface IProps extends IStakingPool {
     ranceBalance: BigNumber;
@@ -67,6 +72,16 @@ const PoolCard: FC<IProps> = (props) => {
         action: "staking" | "unstaking";
     }>({ open: false, action: "staking" });
     const { account } = useWeb3React();
+
+    const { walletAddress: plenaWalletAddress } = usePlenaWallet();
+
+    const connectedAddress = useMemo(() => {
+        if (account) {
+            return account;
+        } else if (plenaWalletAddress) {
+            return plenaWalletAddress;
+        } else return undefined;
+    }, [account, plenaWalletAddress]);
 
     const dispatch = useDispatch();
 
@@ -153,7 +168,7 @@ const PoolCard: FC<IProps> = (props) => {
                     />
                 </div>
 
-                {account && userEarned !== undefined && (
+                {connectedAddress && userEarned !== undefined && (
                     <div className={styles.user__details}>
                         <div className={styles.key__values}>
                             <span className={styles.key}>Earnings</span>
@@ -239,7 +254,7 @@ const PoolCard: FC<IProps> = (props) => {
                     </div>
                 </div>
 
-                {!account ? (
+                {!connectedAddress ? (
                     <button
                         className={clsx(styles.btn, styles.btn__solid)}
                         onClick={() => toggleWalletModal(dispatch)}
@@ -296,7 +311,7 @@ const PoolCard: FC<IProps> = (props) => {
                 clickable={true}
             />
 
-            {account && (
+            {connectedAddress && (
                 <StakingModal
                     open={modalState.open}
                     action={modalState.action}

@@ -1,12 +1,20 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useMemo, useState } from "react";
 import MyPackageCard from "./MyPackageCard";
 import styles from "./styles.module.css";
-import WithdrawInsuranceModal from "../WithdrawInsuranceModal";
 import SuccessModal from "../SuccessModal";
 import { useWeb3React } from "@web3-react/core";
 import { useInsuranceViewModel } from "../../modules/insurance/controllers/insuranceViewModel";
 import MyPackageCardSkeleton from "./myPackageCardSkeleton";
 import { insuranceState } from "../../modules/insurance/infrastructure/redux/state";
+import dynamic from "next/dynamic";
+import { usePlenaWallet } from "plena-wallet-sdk";
+
+const WithdrawInsuranceModal = dynamic(
+    () => import("../WithdrawInsuranceModal"),
+    {
+        ssr: false,
+    }
+);
 
 const MyPackages = () => {
     const [withdrawModalState, setWithdrawModalState] = useState<{
@@ -23,6 +31,16 @@ const MyPackages = () => {
 
     const { account, library } = useWeb3React();
 
+    const { walletAddress: plenaWalletAddress } = usePlenaWallet();
+
+    const connectedAddress = useMemo(() => {
+        if (account) {
+            return account;
+        } else if (plenaWalletAddress) {
+            return plenaWalletAddress;
+        } else return undefined;
+    }, [account, plenaWalletAddress]);
+
     const { intializeUserPackages, cancelInsurance, withdrawInsurance } =
         useInsuranceViewModel({
             address: account,
@@ -32,7 +50,7 @@ const MyPackages = () => {
     useEffect(() => {
         intializeUserPackages();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [account]);
+    }, [connectedAddress]);
 
     const state = insuranceState();
 
@@ -64,7 +82,7 @@ const MyPackages = () => {
     return (
         <Fragment>
             <div className={styles.root}>
-                {!account ? (
+                {!connectedAddress ? (
                     <p className={styles.message}>
                         Connect wallet to manage your insurance packages
                     </p>

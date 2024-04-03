@@ -1,15 +1,27 @@
 import { useWeb3React } from "@web3-react/core";
 import { BigNumber } from "ethers";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Erc20__factory } from "../typechain";
 import { watchEvent } from "../utils/events";
 import { getDefaultProvider } from "../wallet/utils";
 import useTransaction from "./useTransaction";
+import { usePlenaWallet } from "plena-wallet-sdk";
 
 const useToken = (address: string) => {
-    const { library, active, account } = useWeb3React();
+    const { library, account } = useWeb3React();
+    const { walletAddress: plenaWalletAddress } = usePlenaWallet();
+
+    const connectedAddress = useMemo(() => {
+        if (account) {
+            return account;
+        } else if (plenaWalletAddress) {
+            return plenaWalletAddress;
+        } else return undefined;
+    }, [account, plenaWalletAddress]);
     const [balance, setBalance] = useState(BigNumber.from(0));
-    const [allowances, setAllowance] = useState<{[key:string]:BigNumber}>({});
+    const [allowances, setAllowance] = useState<{ [key: string]: BigNumber }>(
+        {}
+    );
     const [symbol, setSymbol] = useState("");
     const [decimals, setDecimals] = useState(18);
 
@@ -42,12 +54,12 @@ const useToken = (address: string) => {
     };
 
     const getBalance = async () => {
-        if (!active || !account) {
-            throw new Error("Please connect your wallet");
+        if (!connectedAddress) {
+            console.error("Please connect your wallet");
         }
 
         try {
-            const result = await contract.balanceOf(account);
+            const result = await contract.balanceOf(connectedAddress);
             setBalance(result);
             return result;
         } catch (error: any) {
@@ -60,7 +72,7 @@ const useToken = (address: string) => {
         amount: string | BigNumber,
         callbacks?: { [key: string]: () => void }
     ): Promise<void> => {
-        if (!active || !account) {
+        if (!connectedAddress) {
             throw new Error("Please connect your wallet");
         }
         try {
@@ -73,11 +85,11 @@ const useToken = (address: string) => {
     };
 
     const getAllowance = async (spender: string) => {
-        if (!active || !account) {
+        if (!connectedAddress) {
             throw new Error("Please connect your wallet");
         }
         try {
-            const result = await contract.allowance(account, spender);
+            const result = await contract.allowance(connectedAddress, spender);
             setAllowance((allowances) => ({
                 ...allowances,
                 [spender]: result,
@@ -89,7 +101,7 @@ const useToken = (address: string) => {
     };
 
     useEffect(() => {
-        if (!active || !contract) return;
+        if (!contract) return;
         (async () => {
             await getDecimals();
             getBalance();
@@ -99,7 +111,7 @@ const useToken = (address: string) => {
         watchEvent(
             contract,
             "Transfer",
-            [account],
+            [connectedAddress],
             (from, to, value, event) => {
                 getBalance();
             }
@@ -107,7 +119,7 @@ const useToken = (address: string) => {
         watchEvent(
             contract,
             "Approval",
-            [account],
+            [connectedAddress],
             (owner, spender, value, event) => {
                 getAllowance(spender);
             }
@@ -115,18 +127,18 @@ const useToken = (address: string) => {
         watchEvent(
             contract,
             "Transfer",
-            [null, account],
+            [null, connectedAddress],
             (from, to, value, event) => {
                 getBalance();
             }
         );
 
         return () => {
-            if (!active || !contract) return;
+            if (!contract) return;
             contract.removeAllListeners();
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [account, address]);
+    }, [connectedAddress, address]);
 
     return {
         getSymbol,

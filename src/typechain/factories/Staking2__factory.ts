@@ -187,7 +187,7 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "MUSD",
+    name: "USDT",
     outputs: [
       {
         internalType: "contract IBEP20",
@@ -200,7 +200,7 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "MUSDPerBlock",
+    name: "USDTPerBlock",
     outputs: [
       {
         internalType: "uint256",
@@ -300,12 +300,12 @@ const _abi = [
     inputs: [
       {
         internalType: "contract IBEP20",
-        name: "_MUSD",
+        name: "_USDT",
         type: "address",
       },
       {
         internalType: "uint256",
-        name: "_MUSDPerBlock",
+        name: "_USDTPerBlock",
         type: "uint256",
       },
       {
@@ -403,7 +403,7 @@ const _abi = [
         type: "address",
       },
     ],
-    name: "pendingMUSD",
+    name: "pendingUSDT",
     outputs: [
       {
         internalType: "uint256",
@@ -441,7 +441,7 @@ const _abi = [
       },
       {
         internalType: "uint256",
-        name: "accMUSDPerShare",
+        name: "accUSDTPerShare",
         type: "uint256",
       },
     ],
