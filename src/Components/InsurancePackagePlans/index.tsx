@@ -23,7 +23,7 @@ const InsurancePackagePlans: FC<IProp> = () => {
 
     const router = useRouter();
 
-    const { account, library } = useWeb3React();
+    const { account } = useWeb3React();
     const { walletAddress: plenaWalletAddress } = usePlenaWallet();
 
     const connectedAddress = useMemo(() => {
@@ -34,10 +34,7 @@ const InsurancePackagePlans: FC<IProp> = () => {
         } else return undefined;
     }, [account, plenaWalletAddress]);
 
-    const { initializePackagePlans } = useInsuranceViewModel({
-        address: account,
-        provider: library,
-    });
+    const { initializePackagePlans } = useInsuranceViewModel();
 
     const state = insuranceState();
 
