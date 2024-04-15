@@ -57,7 +57,6 @@ const useToken = (address: string) => {
         if (!connectedAddress) {
             console.error("Please connect your wallet");
         }
-
         try {
             const result = await contract.balanceOf(connectedAddress);
             setBalance(result);
@@ -103,8 +102,11 @@ const useToken = (address: string) => {
     useEffect(() => {
         if (!contract) return;
         (async () => {
-            await getDecimals();
-            getBalance();
+            try {
+                await Promise.all([getDecimals(), getBalance()]);
+            } catch (error) {
+                console.error(error);
+            }
         })();
 
         //events
@@ -112,24 +114,36 @@ const useToken = (address: string) => {
             contract,
             "Transfer",
             [connectedAddress],
-            (from, to, value, event) => {
-                getBalance();
+            async (from, to, value, event) => {
+                try {
+                    await getBalance();
+                } catch (error) {
+                    console.error(error);
+                }
             }
         );
         watchEvent(
             contract,
             "Approval",
             [connectedAddress],
-            (owner, spender, value, event) => {
-                getAllowance(spender);
+            async (owner, spender, value, event) => {
+                try {
+                    await getAllowance(spender);
+                } catch (error) {
+                    console.error(error);
+                }
             }
         );
         watchEvent(
             contract,
             "Transfer",
             [null, connectedAddress],
-            (from, to, value, event) => {
-                getBalance();
+            async (from, to, value, event) => {
+                try {
+                    await getBalance();
+                } catch (error) {
+                    console.error(error);
+                }
             }
         );
 

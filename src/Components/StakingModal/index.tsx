@@ -55,7 +55,11 @@ const StakingModal: FC<IProps> = ({
 
     useEffect(() => {
         (async () => {
-            getAllowance(contractAddress);
+            try {
+                await getAllowance(contractAddress);
+            } catch (error) {
+                console.error("error", error);
+            }
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);

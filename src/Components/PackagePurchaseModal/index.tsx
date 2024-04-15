@@ -5,6 +5,7 @@ import React, {
     FC,
     useCallback,
     useEffect,
+    useMemo,
     useState,
 } from "react";
 import { isValidAmountValue, truncateString } from "../../utils/helpers";
@@ -22,6 +23,7 @@ import { useWeb3React } from "@web3-react/core";
 import { findBestRoute } from "../../utils/path";
 import { getDefaultProvider } from "../../wallet/utils";
 import Loading from "../SharedComponent/Loading";
+import { usePlenaWallet } from "plena-wallet-sdk";
 
 type addressType = keyof typeof ranceProtocol;
 
@@ -43,10 +45,11 @@ const PackagePurchaseModal: FC<IProps> = ({
     const { approve, getAllowance, getBalance, getDecimal, getSymbol } =
         useLazyToken();
     const { account, library } = useWeb3React();
-    const { insure } = useInsuranceViewModel({
-        address: account,
-        provider: library,
-    });
+    const { walletAddress: plenaWalletAddress } = usePlenaWallet();
+
+    const plenaIsConnected = !!plenaWalletAddress;
+
+    const { insure } = useInsuranceViewModel();
 
     const [formDetails, setFormDetails] = useState<{
         coin: string | undefined;
@@ -189,6 +192,8 @@ const PackagePurchaseModal: FC<IProps> = ({
                     allowance: response[3],
                 });
             } catch (error) {
+                console.log("error: ", error);
+
                 console.error(error);
                 const toastBody = CustomToast({
                     message:
@@ -198,8 +203,8 @@ const PackagePurchaseModal: FC<IProps> = ({
                 });
                 toast(toastBody);
             }
-        })(); // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [paymentToken?.value]);
+        })();
+    }, [getAllowance, getBalance, getDecimal, getSymbol, paymentToken?.value]);
 
     const handleCoinChange = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
@@ -590,7 +595,8 @@ const PackagePurchaseModal: FC<IProps> = ({
                         </span>
                     )}
 
-                {Number(total) > 0 &&
+                {!plenaIsConnected &&
+                    Number(total) > 0 &&
                     userSelectedPaymentTokenDetails.balance &&
                     userSelectedPaymentTokenDetails.decimal &&
                     userSelectedPaymentTokenDetails.allowance &&
@@ -628,12 +634,13 @@ const PackagePurchaseModal: FC<IProps> = ({
                             userSelectedPaymentTokenDetails.decimal
                         )
                     ) &&
-                    userSelectedPaymentTokenDetails.allowance.gte(
-                        utils.parseUnits(
-                            total,
-                            userSelectedPaymentTokenDetails.decimal
-                        )
-                    ) && (
+                    (plenaIsConnected ||
+                        userSelectedPaymentTokenDetails.allowance.gte(
+                            utils.parseUnits(
+                                total,
+                                userSelectedPaymentTokenDetails.decimal
+                            )
+                        )) && (
                         <button
                             type="button"
                             className={styles.Purchase__button}

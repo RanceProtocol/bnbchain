@@ -42,10 +42,7 @@ const MyPackages = () => {
     }, [account, plenaWalletAddress]);
 
     const { intializeUserPackages, cancelInsurance, withdrawInsurance } =
-        useInsuranceViewModel({
-            address: account,
-            provider: library,
-        });
+        useInsuranceViewModel();
 
     useEffect(() => {
         intializeUserPackages();
