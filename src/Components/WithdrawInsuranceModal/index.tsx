@@ -14,14 +14,23 @@ import { truncateString } from "../../utils/helpers";
 import useToken from "../../hooks/useToken";
 import { addressToCoinDetails } from "../../constants/data";
 import useLazyToken from "../../hooks/useLazyToken";
+import { usePlenaWallet } from "plena-wallet-sdk";
 
 interface IProps {
     state: { open: boolean; id: string | null };
     cancelInsurance: ({
         packageId,
+        insureCoinAddress,
+        insuredAmount,
+        ranceTokenAddress,
+        unsureFee,
         callbacks,
     }: {
         packageId: string;
+        insureCoinAddress: string;
+        insuredAmount: BigNumber;
+        ranceTokenAddress: string;
+        unsureFee: BigNumber;
         callbacks: { [key: string]: (errorMessage?: string) => void };
     }) => Promise<void>;
     withdrawInsurance: ({
@@ -49,10 +58,15 @@ const WithdrawInsuranceModal: FC<IProps> = ({
     const [sendingTx, setSendingTx] = useState(false);
     const [currentTimeStamp, setCurrentTimeStamp] = useState(0);
 
-    const RANCEToken = useToken(
+    const ranceTokenAddress =
         tokens[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof tokens]
-            .RANCE
-    );
+            .RANCE;
+
+    const RANCEToken = useToken(ranceTokenAddress);
+
+    const { walletAddress: plenaWalletAddress } = usePlenaWallet();
+    const plenaIsConnected = !!plenaWalletAddress;
+
     const insureCoin = useToken(
         userPackages.find((item) => item.packageId === id)?.insureCoin as string
     );
@@ -132,6 +146,17 @@ const WithdrawInsuranceModal: FC<IProps> = ({
     }, [id, userPackages]);
 
     const handleCancel = async () => {
+        if ((selectedPackage?.unsureFee as BigNumber).gt(RANCEToken.balance)) {
+            const toastBody = CustomToast({
+                message:
+                    "Cannot cancel Insurance package. Insufficient RANCE balance",
+                status: STATUS.ERROR,
+                type: TYPE.ERROR,
+            });
+
+            toast(toastBody);
+            return;
+        }
         let pendingToastId: number | string = "";
         const callbacks = {
             sent: () => {
@@ -168,7 +193,14 @@ const WithdrawInsuranceModal: FC<IProps> = ({
                 setSendingTx(false);
             },
         };
-        await cancelInsurance({ packageId: id as string, callbacks });
+        await cancelInsurance({
+            packageId: id as string,
+            callbacks,
+            insureCoinAddress: selectedPackage?.insureCoin as string,
+            insuredAmount: selectedPackage?.insureOutput as BigNumber,
+            ranceTokenAddress: ranceTokenAddress,
+            unsureFee: selectedPackage?.unsureFee as BigNumber,
+        });
     };
 
     const handleWithdraw = async () => {
@@ -326,6 +358,8 @@ const WithdrawInsuranceModal: FC<IProps> = ({
         }
     };
 
+    console.log("plenaIsConnected", plenaIsConnected);
+
     return (
         <ModalWrapper
             open={open}
@@ -429,8 +463,8 @@ const WithdrawInsuranceModal: FC<IProps> = ({
             </div>
             {currentTimeStamp !== 0 &&
                 currentTimeStamp > (selectedPackage?.endTimestamp as number) &&
-                insureCoinAllowance &&
-                (insureCoinAllowance.lt(
+                (insureCoinAllowance &&
+                insureCoinAllowance.lt(
                     selectedPackage?.insureOutput as BigNumber
                 ) ? (
                     <button
@@ -456,8 +490,9 @@ const WithdrawInsuranceModal: FC<IProps> = ({
 
             {currentTimeStamp !== 0 &&
                 (selectedPackage?.endTimestamp as number) >= currentTimeStamp &&
+                (!plenaIsConnected &&
                 RanceAllowance &&
-                (RanceAllowance.lt(selectedPackage?.unsureFee as BigNumber) ? (
+                RanceAllowance.lt(selectedPackage?.unsureFee as BigNumber) ? (
                     <button
                         className={clsx(styles.action__btn, styles.cancel__btn)}
                         onClick={handleApproveRance}
@@ -465,7 +500,8 @@ const WithdrawInsuranceModal: FC<IProps> = ({
                     >
                         Approve RANCE
                     </button>
-                ) : insureCoinAllowance &&
+                ) : !plenaIsConnected &&
+                  insureCoinAllowance &&
                   insureCoinAllowance.lt(
                       selectedPackage?.insureOutput as BigNumber
                   ) ? (
