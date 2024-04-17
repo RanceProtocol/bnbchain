@@ -8,6 +8,7 @@ export const generateReferralLink = async (
 ): Promise<any> => {
     try {
         const signature = await sign(message);
+
         const response = await apiClient.post("/api/referral/code/create", {
             message,
             signature,
