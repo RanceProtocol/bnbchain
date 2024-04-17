@@ -65,7 +65,6 @@ export const insureWithPlena = async (
     } = params;
     const RanceProtocolInterface = RanceProtocol__factory.createInterface();
     const ERC20Interface = Erc20__factory.createInterface();
-    console.log({ contractAddress, amount });
 
     const paymentTokenAdress =
         tokens[process.env.NEXT_PUBLIC_DAPP_ENVIRONMENT as keyof typeof tokens][
@@ -93,6 +92,13 @@ export const insureWithPlena = async (
         ]);
     }
 
+    console.log({
+        contractAddress,
+        amount: amount.toBigInt(),
+        paymentTokenAdress,
+        path,
+        insureCoin,
+    });
     const tx = {
         from: userAddress,
         data: [approveTxData, txData],
