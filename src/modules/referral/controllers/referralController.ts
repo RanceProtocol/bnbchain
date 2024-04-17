@@ -1,6 +1,6 @@
 import { Web3Provider } from "@ethersproject/providers";
 import { BigNumber } from "ethers";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { ranceProtocol } from "../../../constants/addresses";
 import { RanceProtocol__factory } from "../../../typechain";
@@ -21,6 +21,10 @@ import { toast } from "react-toastify";
 import useTransaction from "../../../hooks/useTransaction";
 import useSignature from "../../../hooks/useSignature";
 import { watchEvent } from "../../../utils/events";
+import { useWeb3React } from "@web3-react/core";
+import { usePlenaWallet } from "plena-wallet-sdk";
+import { signWithPlena } from "../../../utils";
+import { convertUtf8ToHex } from "@plenaconnect/utils";
 
 interface IProps {
     address: string | null | undefined;
@@ -32,10 +36,24 @@ type addressType = keyof typeof ranceProtocol;
 const dappEnv: addressType = process.env
     .NEXT_PUBLIC_DAPP_ENVIRONMENT as addressType;
 
-export const useReferralViewModel = (props: IProps) => {
-    const { address, provider, connector } = props;
+export const useReferralViewModel = () => {
+    const { account, library: provider, connector } = useWeb3React();
+
+    const {
+        walletAddress: plenaWalletAddress,
+        sendTransaction: sendTransactionWithPlena,
+    } = usePlenaWallet();
+
+    const address = useMemo(() => {
+        if (account) {
+            return account;
+        } else if (plenaWalletAddress) {
+            return plenaWalletAddress;
+        } else return undefined;
+    }, [account, plenaWalletAddress]);
     const dispatch = useDispatch();
     const { send } = useTransaction();
+
     const { sign } = useSignature({
         library: provider,
         connector,
@@ -63,15 +81,29 @@ export const useReferralViewModel = (props: IProps) => {
 
     const genarateReferralLink = useCallback(async (): Promise<void> => {
         if (!address) return;
-
         const message = `Welcome to RanceProtocol!\n\nClick to sign and generate a referral link with which you can earn reward\n\nThis request will not trigger a blockchain transaction or cost any gas fees.\n\nWallet address:\n${address}`;
-        await genarateReferralLinkAction(
-            address,
-            message,
-            sign,
-            apiClient
-        )(dispatch);
-    }, [address, dispatch, sign]);
+        if (plenaWalletAddress) {
+            // await genarateReferralLinkAction(
+            //     plenaWalletAddress,
+            //     convertUtf8ToHex(message),
+            //     signWithPlena(plenaWalletAddress, 56, sendTransactionWithPlena),
+            //     apiClient
+            // )(dispatch);
+            const toastBody = CustomToast({
+                message: "Referral coming soon for Plena wallet",
+                status: STATUS.PENDING,
+                type: TYPE.TRANSACTION,
+            });
+            toast(toastBody);
+        } else {
+            await genarateReferralLinkAction(
+                address,
+                message,
+                sign,
+                apiClient
+            )(dispatch);
+        }
+    }, [address, dispatch, plenaWalletAddress, sign]);
 
     const copyReferralLink = useCallback((link: string): void => {
         const copied = copyReferralLinkUsecase(link);

@@ -14,6 +14,7 @@
     },
     "dependencies": {
         "@ethersproject/providers": "^5.6.8",
+        "@plenaconnect/utils": "^1.0.0",
         "@reduxjs/toolkit": "^1.8.2",
         "@web3-react/abstract-connector": "^6.0.7",
         "@web3-react/core": "^6.1.9",

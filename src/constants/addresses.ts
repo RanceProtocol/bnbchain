@@ -18,7 +18,7 @@ export const tokens = {
     mainnet: {
         RANCE: "0x42081fece4bc26a65cccb3b352379e1f3663b435", // to be changed
         BUSD: "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56",
-        USDT: "0x141826bbA445c8972883A1FAA06e73c7286A2A07",
+        USDT: "0x55d398326f99059fF775485246999027B3197955",
     },
     staging: {
         RANCE: "0x42081fece4bc26a65cccb3b352379e1f3663b435",
