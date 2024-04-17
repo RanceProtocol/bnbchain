@@ -11,7 +11,6 @@ import Header from "../Header";
 import { DisconnectedModal, IConnectedModalProps } from "../WalletModals/";
 import "react-toastify/dist/ReactToastify.css";
 import styles from "./styles.module.css";
-import { useWeb3React } from "@web3-react/core";
 import { useReferralViewModel } from "../../modules/referral/controllers/referralController";
 import dynamic from "next/dynamic";
 
@@ -28,13 +27,8 @@ const Layout: FC<IProps> = ({ children }) => {
     const { accountModalOpened, walletModalOpened } = sharedStore;
     const dispatch = useDispatch();
     const { connectWallet, disconnectWallet } = useWallet();
-    const { account, library, connector } = useWeb3React();
 
-    const { getReferrerAddress } = useReferralViewModel({
-        address: account,
-        provider: library,
-        connector,
-    });
+    const { getReferrerAddress } = useReferralViewModel();
 
     useEffect(() => {
         (async () => {
