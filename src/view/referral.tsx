@@ -19,7 +19,7 @@ import clsx from "clsx";
 import { usePlenaWallet } from "plena-wallet-sdk";
 
 const Referral: FC = () => {
-    const { account, library, connector } = useWeb3React();
+    const { account } = useWeb3React();
 
     const { walletAddress: plenaWalletAddress } = usePlenaWallet();
 
@@ -43,11 +43,7 @@ const Referral: FC = () => {
         genarateReferralLink,
         copyReferralLink,
         claimReferralReward,
-    } = useReferralViewModel({
-        address: connectedAddress,
-        provider: library,
-        connector,
-    });
+    } = useReferralViewModel();
 
     useEffect(() => {
         (async () => {
