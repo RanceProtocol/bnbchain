@@ -358,8 +358,6 @@ const WithdrawInsuranceModal: FC<IProps> = ({
         }
     };
 
-    console.log("plenaIsConnected", plenaIsConnected);
-
     return (
         <ModalWrapper
             open={open}

@@ -21,9 +21,9 @@ import { toast } from "react-toastify";
 import { useInsuranceViewModel } from "../../modules/insurance/controllers/insuranceViewModel";
 import { useWeb3React } from "@web3-react/core";
 import { findBestRoute } from "../../utils/path";
-import { getDefaultProvider } from "../../wallet/utils";
 import Loading from "../SharedComponent/Loading";
 import { usePlenaWallet } from "plena-wallet-sdk";
+import { retriableStaticJsonRpcProvider } from "../../constants/provider";
 
 type addressType = keyof typeof ranceProtocol;
 
@@ -121,7 +121,7 @@ const PackagePurchaseModal: FC<IProps> = ({
                     fromTokenContractAddress: paymentToken!.value,
                     toTokenContractAddress: insurableCoins[coin as string],
                     amount: formDetails.amount,
-                    provider: library || getDefaultProvider(),
+                    provider: library || retriableStaticJsonRpcProvider,
                 });
                 setTradeDetails({ processing: false, ...trade });
             } catch (error) {
@@ -192,9 +192,7 @@ const PackagePurchaseModal: FC<IProps> = ({
                     allowance: response[3],
                 });
             } catch (error) {
-                console.log("error: ", error);
-
-                console.error(error);
+                console.error("error: ", error);
                 const toastBody = CustomToast({
                     message:
                         "Error getting payment token information! please reload",

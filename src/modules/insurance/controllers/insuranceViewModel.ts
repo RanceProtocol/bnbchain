@@ -1,10 +1,8 @@
-import { Web3Provider } from "@ethersproject/providers";
 import { BigNumber } from "ethers";
 import { useCallback, useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { ranceProtocol } from "../../../constants/addresses";
 import { RanceProtocol__factory } from "../../../typechain";
-import { getDefaultProvider } from "../../../wallet/utils";
 import {
     initializePackagePlans as initializePackagePlansAction,
     intializeUserPackages as intializeUserPackagesAction,
@@ -26,6 +24,7 @@ import { watchEvent } from "../../../utils/events";
 import useTransaction from "../../../hooks/useTransaction";
 import { useWeb3React } from "@web3-react/core";
 import { usePlenaWallet } from "plena-wallet-sdk";
+import { retriableStaticJsonRpcProvider } from "../../../constants/provider";
 
 type addressType = keyof typeof ranceProtocol;
 const dappEnv: addressType = process.env
@@ -51,13 +50,13 @@ export const useInsuranceViewModel = () => {
 
     const insuranceContract = RanceProtocol__factory.connect(
         ranceProtocol[dappEnv],
-        provider?.getSigner() || getDefaultProvider()
+        provider?.getSigner() || retriableStaticJsonRpcProvider
     );
 
     const initializePackagePlans = useCallback(async (): Promise<void> => {
         const insuranceContract = RanceProtocol__factory.connect(
             ranceProtocol[dappEnv],
-            provider?.getSigner() || getDefaultProvider()
+            provider?.getSigner() || retriableStaticJsonRpcProvider
         );
         await initializePackagePlansAction(insuranceContract)(dispatch);
     }, [provider, dispatch]);
@@ -65,7 +64,7 @@ export const useInsuranceViewModel = () => {
     const intializeUserPackages = useCallback(async (): Promise<void> => {
         const insuranceContract = RanceProtocol__factory.connect(
             ranceProtocol[dappEnv],
-            provider?.getSigner() || getDefaultProvider()
+            provider?.getSigner() || retriableStaticJsonRpcProvider
         );
         await intializeUserPackagesAction(insuranceContract, address)(dispatch);
     }, [address, provider, dispatch]);

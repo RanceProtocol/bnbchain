@@ -5,7 +5,6 @@ import {
     RanceProtocol,
     RanceProtocol__factory,
 } from "../../../typechain";
-import { getDefaultProvider } from "../../../wallet/utils";
 import { tokens } from "../../../constants/addresses";
 
 type IinsureParams = {
@@ -91,14 +90,6 @@ export const insureWithPlena = async (
             paymentToken,
         ]);
     }
-
-    console.log({
-        contractAddress,
-        amount: amount.toBigInt(),
-        paymentTokenAdress,
-        path,
-        insureCoin,
-    });
     const tx = {
         from: userAddress,
         data: [approveTxData, txData],
@@ -118,18 +109,18 @@ export const insureWithPlena = async (
                 transaction: tx,
             },
         });
-        console.log("insure res: ", res);
         if (res.success) {
-            const provider = getDefaultProvider();
-            const receipt = await provider.waitForTransaction(
-                res.content.transactionHash
-            );
+            // const provider = retriableStaticJsonRpcProvider;
+            // const receipt = await provider.waitForTransaction(
+            //     res.content.transactionHash
+            // );
 
-            if (receipt.status) {
-                return callbacks?.successfull();
-            } else {
-                return callbacks?.failed("Insurrance purchase failed!");
-            }
+            // if (receipt.status) {
+            //     return callbacks?.successfull();
+            // } else {
+            //     return callbacks?.failed("Insurrance purchase failed!");
+            // }
+            return callbacks?.successfull();
         }
 
         callbacks?.failed(res.error);

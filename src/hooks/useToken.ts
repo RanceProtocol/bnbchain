@@ -3,9 +3,9 @@ import { BigNumber } from "ethers";
 import { useEffect, useMemo, useState } from "react";
 import { Erc20__factory } from "../typechain";
 import { watchEvent } from "../utils/events";
-import { getDefaultProvider } from "../wallet/utils";
 import useTransaction from "./useTransaction";
 import { usePlenaWallet } from "plena-wallet-sdk";
+import { retriableStaticJsonRpcProvider } from "../constants/provider";
 
 const useToken = (address: string) => {
     const { library, account } = useWeb3React();
@@ -27,7 +27,7 @@ const useToken = (address: string) => {
 
     const contract = Erc20__factory.connect(
         address,
-        library?.getSigner() || getDefaultProvider()
+        library?.getSigner() || retriableStaticJsonRpcProvider
     );
     const { send } = useTransaction();
 

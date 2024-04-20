@@ -16,7 +16,6 @@ export const getCoinPriceDataSinceInsured = async (
     );
 
     if (!res?.data?.prices || res?.data?.prices.length < 2) {
-        console.log("no price change data data yet");
         return { priceChange: "0%", sparklineData: new Array(2).fill(0) };
     }
     const difference =
