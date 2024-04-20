@@ -15,6 +15,7 @@ export const getUserPackages = async (
         const packagesLength = await contract.getUserPackagesLength(
             userAddress
         );
+
         const packages: IRanceProtocol.PackageStructOutput[] =
             await contract.getAllUserPackages(userAddress, 0, packagesLength);
 
@@ -33,10 +34,8 @@ export const getUserPackages = async (
                 structOutputToObject(item)
         );
 
-        const blockNumber = await contract.provider.getBlockNumber();
         const { timestamp: currentTimestamp } =
-            await contract.provider.getBlock(blockNumber);
-
+            await contract.provider.getBlock("finalized");
         const userPackages = formatedObject.map(
             (item: any, index: number): IInsurancePackage => {
                 return {

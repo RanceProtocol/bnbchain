@@ -1,10 +1,10 @@
 import { useWeb3React } from "@web3-react/core";
 import { BigNumber } from "ethers";
-import React, { useCallback, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { Erc20__factory } from "../typechain";
-import { getDefaultProvider } from "../wallet/utils";
 import useTransaction from "./useTransaction";
 import { usePlenaWallet } from "plena-wallet-sdk";
+import { retriableStaticJsonRpcProvider } from "../constants/provider";
 
 const useLazyToken = () => {
     const { library, active, account } = useWeb3React();
@@ -26,7 +26,7 @@ const useLazyToken = () => {
         (tokenAddress: string) => {
             return Erc20__factory.connect(
                 tokenAddress,
-                library?.getSigner() || getDefaultProvider()
+                library?.getSigner() || retriableStaticJsonRpcProvider
             );
         },
         [library]
@@ -139,7 +139,6 @@ const useLazyToken = () => {
                         transaction: tx,
                     },
                 });
-                console.log("approval res: ", res);
                 if (res.success) {
                     return callbacks?.successfull();
                 }

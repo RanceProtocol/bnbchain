@@ -8,7 +8,6 @@ export const verifySignature = (params: IVerifySignatureParams): boolean => {
     try {
         const { message, signature, signerAddress } = params;
         const signer = utils.verifyMessage(message, signature);
-        console.log("signer", signer);
 
         return signer.toLowerCase() === signerAddress.toLowerCase();
     } catch (error) {

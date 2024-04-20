@@ -45,6 +45,7 @@ export const intializeUserPackages =
 
         try {
             const data = await getUserPackages(contract, userAddress);
+
             dispatch({
                 type: actionTypes.GET__USER__PACKAGES__SUCCESS,
                 payload: data,

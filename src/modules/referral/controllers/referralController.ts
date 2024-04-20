@@ -1,10 +1,8 @@
 import { Web3Provider } from "@ethersproject/providers";
-import { BigNumber } from "ethers";
 import { useCallback, useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { ranceProtocol } from "../../../constants/addresses";
 import { RanceProtocol__factory } from "../../../typechain";
-import { getDefaultProvider } from "../../../wallet/utils";
 import {
     getReferralLink as getReferralLinkAction,
     getReferralRecord as getReferralRecordAction,
@@ -23,8 +21,7 @@ import useSignature from "../../../hooks/useSignature";
 import { watchEvent } from "../../../utils/events";
 import { useWeb3React } from "@web3-react/core";
 import { usePlenaWallet } from "plena-wallet-sdk";
-import { signWithPlena } from "../../../utils";
-import { convertUtf8ToHex } from "@plenaconnect/utils";
+import { retriableStaticJsonRpcProvider } from "../../../constants/provider";
 
 interface IProps {
     address: string | null | undefined;
@@ -62,7 +59,7 @@ export const useReferralViewModel = () => {
 
     const insuranceContract = RanceProtocol__factory.connect(
         ranceProtocol[dappEnv],
-        provider?.getSigner() || getDefaultProvider()
+        provider?.getSigner() || retriableStaticJsonRpcProvider
     );
 
     const initialize = useCallback(async (): Promise<void> => {

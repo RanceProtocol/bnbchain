@@ -5,7 +5,6 @@ import {
     RanceProtocol,
     RanceProtocol__factory,
 } from "../../../typechain";
-import { getDefaultProvider } from "../../../wallet/utils";
 
 type ICancelParams = {
     contract: RanceProtocol;
@@ -83,7 +82,6 @@ export const cancelInsuranceWithPlena = async (
                 transaction: tx,
             },
         });
-        console.log("cancel res: ", res);
         if (res.success) {
             if (res.content.error) {
                 return callbacks?.failed(
