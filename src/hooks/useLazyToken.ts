@@ -4,7 +4,7 @@ import { useCallback, useMemo } from "react";
 import { Erc20__factory } from "../typechain";
 import useTransaction from "./useTransaction";
 import { usePlenaWallet } from "plena-wallet-sdk";
-import { retriableStaticJsonRpcProvider } from "../constants/provider";
+import { resilientJsonRpcProvider } from "../constants/provider";
 
 const useLazyToken = () => {
     const { library, active, account } = useWeb3React();
@@ -26,7 +26,7 @@ const useLazyToken = () => {
         (tokenAddress: string) => {
             return Erc20__factory.connect(
                 tokenAddress,
-                library?.getSigner() || retriableStaticJsonRpcProvider
+                library?.getSigner() || resilientJsonRpcProvider
             );
         },
         [library]

@@ -21,7 +21,7 @@ import useSignature from "../../../hooks/useSignature";
 import { watchEvent } from "../../../utils/events";
 import { useWeb3React } from "@web3-react/core";
 import { usePlenaWallet } from "plena-wallet-sdk";
-import { retriableStaticJsonRpcProvider } from "../../../constants/provider";
+import { resilientJsonRpcProvider } from "../../../constants/provider";
 
 interface IProps {
     address: string | null | undefined;
@@ -59,7 +59,7 @@ export const useReferralViewModel = () => {
 
     const insuranceContract = RanceProtocol__factory.connect(
         ranceProtocol[dappEnv],
-        provider?.getSigner() || retriableStaticJsonRpcProvider
+        provider?.getSigner() || resilientJsonRpcProvider
     );
 
     const initialize = useCallback(async (): Promise<void> => {
