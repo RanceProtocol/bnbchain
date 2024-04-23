@@ -1,95 +1,123 @@
-import { providers } from "ethers";
+import { StaticJsonRpcProvider } from "@ethersproject/providers";
 import { RPC_LIST_MAP } from "./rpcUrls";
 
-export class RetriableStaticJsonRpcProvider extends providers.StaticJsonRpcProvider {
-    providerList: providers.StaticJsonRpcProvider[];
-    currentIndex = 0;
+/**
+ * ResilientRpcProvider
+ *
+ * A modified version of StaticJsonRpcProvider that handles failover between multiple RPC endpoints
+ */
+export class ResilientRpcProvider extends StaticJsonRpcProvider {
+    /**
+     * Array of providers to be used for retries
+     */
+    providers: StaticJsonRpcProvider[];
+
+    /**
+     * Index of the currently active provider in the providers array.
+     */
+    activeProviderIndex: number;
+
+    /**
+     * Error thrown by the last failed provider
+     */
     error: any;
 
-    constructor(rpcs: string[], chainId: number) {
-        super({ url: rpcs[0] }, chainId);
+    /**
+     * Flag indicating if logging is enabled.
+     * If true, logs will be output to the console when failover occurs.
+     */
+    loggingEnabled: boolean;
 
-        this.providerList = rpcs.map(
-            (url) => new providers.StaticJsonRpcProvider({ url }, chainId)
+    /**
+     * @param rpcUrls Array of RPC urls to be used to initialize providers
+     * @param chainId Chain Id of the network
+     * @param loggingEnabled Flag indicating if logging is enabled.
+     */
+    constructor(rpcUrls: string[], chainId: number, loggingEnabled = false) {
+        // Initialize the super class with the first RPC url.
+        super(rpcUrls[0], chainId);
+
+        // Create an array of providers off of the rpcUrls
+        this.providers = rpcUrls.map(
+            (url) => new StaticJsonRpcProvider(url, chainId)
         );
-    }
 
-    async send(
-        method: string,
-        params: Array<any>,
-        retries?: number
-    ): Promise<any> {
-        let _retries = retries || 0;
+        // Start off as -1 and will be incremented to 0 just before the first call is made
+        this.activeProviderIndex = -1;
 
-        /**
-         * validate retries before continue
-         * base case of recursivity (throw if already try all rpcs)
-         */
-        this.validateRetries(_retries);
-
-        try {
-            // select properly provider
-            const provider = this.selectProvider();
-
-            // send rpc call
-            const result = await provider.send(method, params);
-
-            return result;
-        } catch (error) {
-            // store error internally
-            this.error = error;
-
-            // increase retries
-            _retries = _retries + 1;
-
-            console.debug(
-                "provider " +
-                    this.providerList[this.currentIndex].connection.url +
-                    " Failed. Trying the next provider"
-            );
-
-            return this.send(method, params, _retries);
-        }
-    }
-
-    private selectProvider() {
-        // last rpc from the list
-        if (this.currentIndex === this.providerList.length) {
-            // set currentIndex to the seconds element
-            this.currentIndex = 1;
-            return this.providerList[0];
-        }
-
-        // select current provider
-        const provider = this.providerList[this.currentIndex];
-        // increase counter
-        this.currentIndex = this.currentIndex + 1;
-
-        return provider;
+        this.loggingEnabled = loggingEnabled;
     }
 
     /**
-     * validate that retries is equal to the length of rpc
-     * to ensure rpc are called at least one time
+     * Overrides the send method of the super class to provide retry functionality
      *
-     * if that's the case, and we fail in all the calls
-     * then throw the internal saved error
+     * This send function is the highlight of this class.
+     * It takes advantage of the parent class's send method, but provides retry
+     * functionality in case of failures.
+     *
+     * If the retryCount is equal to the number of providers, it means that all providers have failed.
+     * In that case, it will throw the last error it encountered.
+     *
+     * @param method RPC method to execute
+     * @param params Parameters of the RPC method
+     * @param retryCount Number of times the call had been retried (default: 0)
+     * @returns The result of the RPC method
      */
-    private validateRetries(retries: number) {
-        if (retries === this.providerList.length) {
+    async send(
+        method: string,
+        params: Array<any>,
+        retryCount = 0
+    ): Promise<any> {
+        this.validateRetryAttempt(retryCount);
+
+        try {
+            const provider = this.getNextProvider();
+            return await provider.send(method, params);
+        } catch (error) {
+            this.error = error;
+
+            if (this.loggingEnabled) {
+                console.debug(
+                    `provider ${
+                        this.providers[this.activeProviderIndex].connection.url
+                    } Failed. Trying the next provider in the list`
+                );
+            }
+
+            return this.send(method, params, retryCount + 1);
+        }
+    }
+
+    /**
+     * Gets the next provider in the list of providers
+     *
+     * @returns The next provider
+     */
+    private getNextProvider(): StaticJsonRpcProvider {
+        this.activeProviderIndex =
+            (this.activeProviderIndex + 1) % this.providers.length;
+        return this.providers[this.activeProviderIndex];
+    }
+
+    /**
+     * Validates the retry count and throws the last error saved if the retryCount equals or exceeds the number of providers.
+     *
+     * @param {number} retryCount - The number of times the request had been retried
+     */
+    private validateRetryAttempt(retryCount: number): void {
+        if (retryCount >= this.providers.length) {
             const error = this.error;
             this.error = undefined;
             throw new Error(error);
         }
+        return void 0;
     }
 }
 
-export const getRetriableStaticJsonRpcProvider = (
-    rpcs: string[],
-    chainId: number
-) => new RetriableStaticJsonRpcProvider(rpcs, chainId);
+export const getResilientRpcProvider = (rpcs: string[], chainId: number) =>
+    new ResilientRpcProvider(rpcs, chainId);
 
-export const retriableStaticJsonRpcProvider = getRetriableStaticJsonRpcProvider(
+export const resilientJsonRpcProvider = getResilientRpcProvider(
     RPC_LIST_MAP[56],
     56
 );

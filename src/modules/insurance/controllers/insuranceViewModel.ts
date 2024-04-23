@@ -24,7 +24,7 @@ import { watchEvent } from "../../../utils/events";
 import useTransaction from "../../../hooks/useTransaction";
 import { useWeb3React } from "@web3-react/core";
 import { usePlenaWallet } from "plena-wallet-sdk";
-import { retriableStaticJsonRpcProvider } from "../../../constants/provider";
+import { resilientJsonRpcProvider } from "../../../constants/provider";
 
 type addressType = keyof typeof ranceProtocol;
 const dappEnv: addressType = process.env
@@ -50,13 +50,13 @@ export const useInsuranceViewModel = () => {
 
     const insuranceContract = RanceProtocol__factory.connect(
         ranceProtocol[dappEnv],
-        provider?.getSigner() || retriableStaticJsonRpcProvider
+        provider?.getSigner() || resilientJsonRpcProvider
     );
 
     const initializePackagePlans = useCallback(async (): Promise<void> => {
         const insuranceContract = RanceProtocol__factory.connect(
             ranceProtocol[dappEnv],
-            provider?.getSigner() || retriableStaticJsonRpcProvider
+            provider?.getSigner() || resilientJsonRpcProvider
         );
         await initializePackagePlansAction(insuranceContract)(dispatch);
     }, [provider, dispatch]);
@@ -64,7 +64,7 @@ export const useInsuranceViewModel = () => {
     const intializeUserPackages = useCallback(async (): Promise<void> => {
         const insuranceContract = RanceProtocol__factory.connect(
             ranceProtocol[dappEnv],
-            provider?.getSigner() || retriableStaticJsonRpcProvider
+            provider?.getSigner() || resilientJsonRpcProvider
         );
         await intializeUserPackagesAction(insuranceContract, address)(dispatch);
     }, [address, provider, dispatch]);

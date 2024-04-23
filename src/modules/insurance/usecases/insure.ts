@@ -110,7 +110,7 @@ export const insureWithPlena = async (
             },
         });
         if (res.success) {
-            // const provider = retriableStaticJsonRpcProvider;
+            // const provider = resilientJsonRpcProvider;
             // const receipt = await provider.waitForTransaction(
             //     res.content.transactionHash
             // );

@@ -23,7 +23,7 @@ import { useWeb3React } from "@web3-react/core";
 import { findBestRoute } from "../../utils/path";
 import Loading from "../SharedComponent/Loading";
 import { usePlenaWallet } from "plena-wallet-sdk";
-import { retriableStaticJsonRpcProvider } from "../../constants/provider";
+import { resilientJsonRpcProvider } from "../../constants/provider";
 
 type addressType = keyof typeof ranceProtocol;
 
@@ -121,7 +121,7 @@ const PackagePurchaseModal: FC<IProps> = ({
                     fromTokenContractAddress: paymentToken!.value,
                     toTokenContractAddress: insurableCoins[coin as string],
                     amount: formDetails.amount,
-                    provider: library || retriableStaticJsonRpcProvider,
+                    provider: library || resilientJsonRpcProvider,
                 });
                 setTradeDetails({ processing: false, ...trade });
             } catch (error) {

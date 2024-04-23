@@ -1,8 +1,8 @@
-import { retriableStaticJsonRpcProvider } from "../constants/provider";
+import { resilientJsonRpcProvider } from "../constants/provider";
 
 export const getCurrentTimestamp = async (): Promise<number | undefined> => {
     try {
-        const { timestamp } = await retriableStaticJsonRpcProvider.getBlock(
+        const { timestamp } = await resilientJsonRpcProvider.getBlock(
             "finalized"
         );
         return timestamp;

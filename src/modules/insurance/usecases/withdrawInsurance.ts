@@ -1,4 +1,4 @@
-import { retriableStaticJsonRpcProvider } from "../../../constants/provider";
+import { resilientJsonRpcProvider } from "../../../constants/provider";
 import { SendParams } from "../../../hooks/useTransaction";
 import { RanceProtocol, RanceProtocol__factory } from "../../../typechain";
 
@@ -59,7 +59,7 @@ export const withdrawInsuranceWithPlena = async (
             },
         });
         if (res.success) {
-            const provider = retriableStaticJsonRpcProvider;
+            const provider = resilientJsonRpcProvider;
             const receipt = await provider.waitForTransaction(
                 res.content.transactionHash
             );

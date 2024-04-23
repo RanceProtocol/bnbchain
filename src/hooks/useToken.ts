@@ -5,7 +5,7 @@ import { Erc20__factory } from "../typechain";
 import { watchEvent } from "../utils/events";
 import useTransaction from "./useTransaction";
 import { usePlenaWallet } from "plena-wallet-sdk";
-import { retriableStaticJsonRpcProvider } from "../constants/provider";
+import { resilientJsonRpcProvider } from "../constants/provider";
 
 const useToken = (address: string) => {
     const { library, account } = useWeb3React();
@@ -27,7 +27,7 @@ const useToken = (address: string) => {
 
     const contract = Erc20__factory.connect(
         address,
-        library?.getSigner() || retriableStaticJsonRpcProvider
+        library?.getSigner() || resilientJsonRpcProvider
     );
     const { send } = useTransaction();
 
